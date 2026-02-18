@@ -1,18 +1,19 @@
 
 'use client';
 
-import React, { useEffect, useState, startTransition } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSymbolsStore } from '@/store/useSymbolsStore';
 import { SymbolCard } from '@/components/SymbolCard';
 import { Pagination } from '@/components/Pagination';
 import { Input } from '@latexia/ui/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@latexia/ui/components/ui/select';
-import { Loader2, Search, LayoutGrid, List as ListIcon, Table as TableIcon, Copy, Check } from 'lucide-react';
+import { Loader2, Search, LayoutGrid, List as ListIcon, Table as TableIcon, Copy, Check, Eye } from 'lucide-react';
 import { Button } from '@latexia/ui/components/ui/button';
 import { Badge } from '@latexia/ui/components/ui/badge';
 import { cn } from '@latexia/ui/lib/utils';
 import { HighlightText } from '@/components/HighlightText';
 import { toast } from '@/hooks/use-toast';
+import { SymbolDetailDialog } from '@/components/SymbolDetailDialog';
 
 // Minimal debounce hook
 function useDebounceValue<T>(value: T, delay: number): T {
@@ -59,6 +60,10 @@ export default function SymbolsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'table'>('grid');
   const [pageSize, setPageSize] = useState<number>(60);
   const [copiedId, setCopiedId] = useState<number | null>(null);
+  
+  // Detail Dialog State
+  const [selectedSymbol, setSelectedSymbol] = useState<any | null>(null);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   // Fetch when params change
   useEffect(() => {
@@ -80,15 +85,29 @@ export default function SymbolsPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleCopy = (text: string, id: number) => {
+  const handleCopy = (text: string, id: number, e?: React.MouseEvent) => {
+    e?.stopPropagation();
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     toast.success(`已复制: ${text}`);
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+  const openDetail = (symbol: any) => {
+    setSelectedSymbol(symbol);
+    setDetailOpen(true);
+  };
+
   return (
     <div className="container mx-auto py-8 min-h-screen">
+      {/* Detail Dialog */}
+      <SymbolDetailDialog 
+        symbol={selectedSymbol} 
+        open={detailOpen} 
+        onOpenChange={setDetailOpen}
+        searchQuery={debouncedSearch}
+      />
+
       {/* Header Section */}
       <div className="mb-8 space-y-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-6">
@@ -185,7 +204,12 @@ export default function SymbolsPage() {
             {viewMode === 'grid' && (
                 <div className="grid gap-3 grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10">
                     {symbols.map(symbol => (
-                        <SymbolCard key={symbol.id} symbol={symbol} searchQuery={debouncedSearch} />
+                        <SymbolCard 
+                            key={symbol.id} 
+                            symbol={symbol} 
+                            searchQuery={debouncedSearch} 
+                            onClick={() => openDetail(symbol)}
+                        />
                     ))}
                 </div>
             )}
@@ -194,7 +218,11 @@ export default function SymbolsPage() {
             {viewMode === 'list' && (
                 <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                      {symbols.map(symbol => (
-                         <div key={symbol.id} className="flex items-center gap-4 p-3 bg-card border rounded-lg hover:border-primary/50 transition-colors group relative">
+                         <div 
+                            key={symbol.id} 
+                            className="flex items-center gap-4 p-3 bg-card border rounded-lg hover:border-primary/50 transition-colors group relative cursor-pointer"
+                            onClick={() => openDetail(symbol)}
+                        >
                             <div className="w-12 h-12 flex items-center justify-center bg-muted/50 rounded-md text-2xl font-serif">
                                 {symbol.unicode || '?'}
                             </div>
@@ -216,7 +244,7 @@ export default function SymbolsPage() {
                                 variant="ghost" 
                                 size="icon" 
                                 className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity" 
-                                onClick={() => handleCopy(symbol.latexCode, symbol.id)}
+                                onClick={(e) => handleCopy(symbol.latexCode, symbol.id, e)}
                             >
                                 {copiedId === symbol.id ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
                             </Button>
@@ -236,12 +264,12 @@ export default function SymbolsPage() {
                                 <th className="p-3">名称</th>
                                 <th className="p-3 hidden md:table-cell">分类</th>
                                 <th className="p-3 hidden md:table-cell w-1/3">描述</th>
-                                <th className="p-3 w-16 text-center">操作</th>
+                                <th className="p-3 w-20 text-center">操作</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y">
                             {symbols.map(symbol => (
-                                <tr key={symbol.id} className="hover:bg-muted/30 transition-colors group">
+                                <tr key={symbol.id} className="hover:bg-muted/30 transition-colors group cursor-pointer" onClick={() => openDetail(symbol)}>
                                     <td className="p-3 text-center text-xl font-serif">{symbol.unicode || '?'}</td>
                                     <td className="p-3">
                                         <code className="bg-muted px-1.5 py-0.5 rounded text-primary select-all">
@@ -257,15 +285,25 @@ export default function SymbolsPage() {
                                     <td className="p-3 hidden md:table-cell text-muted-foreground truncate max-w-xs" title={symbol.description || ''}>
                                         <HighlightText text={symbol.description || ''} highlight={debouncedSearch} />
                                     </td>
-                                    <td className="p-3 text-center">
-                                         <Button 
-                                            variant="ghost" 
-                                            size="icon" 
-                                            className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity" 
-                                            onClick={() => handleCopy(symbol.latexCode, symbol.id)}
-                                        >
-                                            {copiedId === symbol.id ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
-                                        </Button>
+                                    <td className="p-3 text-center" onClick={(e) => e.stopPropagation()}>
+                                        <div className="flex justify-center gap-1">
+                                            <Button 
+                                                variant="ghost" 
+                                                size="icon" 
+                                                className="h-8 w-8 text-muted-foreground hover:text-foreground" 
+                                                onClick={() => openDetail(symbol)}
+                                            >
+                                                <Eye className="h-4 w-4" />
+                                            </Button>
+                                            <Button 
+                                                variant="ghost" 
+                                                size="icon" 
+                                                className="h-8 w-8 text-muted-foreground hover:text-foreground" 
+                                                onClick={() => handleCopy(symbol.latexCode, symbol.id)}
+                                            >
+                                                {copiedId === symbol.id ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                                            </Button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

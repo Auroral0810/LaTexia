@@ -7,7 +7,7 @@ import { BlockMath } from 'react-katex';
 import { Card, CardContent, CardFooter, CardHeader } from '@latexia/ui/components/ui/card';
 import { Badge } from '@latexia/ui/components/ui/badge';
 import { Button } from '@latexia/ui/components/ui/button';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, Maximize2 } from 'lucide-react';
 import { cn } from '@latexia/ui/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';
 import { HighlightText } from './HighlightText';
@@ -26,9 +26,10 @@ interface LatexSymbol {
 interface SymbolCardProps {
   symbol: LatexSymbol;
   searchQuery?: string;
+  onClick?: () => void;
 }
 
-export const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, searchQuery = '' }) => {
+export const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, searchQuery = '', onClick }) => {
   const [copied, setCopied] = React.useState(false);
 
   const displayContent = symbol.unicode ? (
@@ -37,7 +38,8 @@ export const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, searchQuery = ''
      <BlockMath math={symbol.latexCode} />
   );
 
-  const handleCopy = () => {
+  const handleCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
     navigator.clipboard.writeText(symbol.latexCode);
     setCopied(true);
     toast.success(`已复制: ${symbol.latexCode}`);
@@ -45,31 +47,27 @@ export const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, searchQuery = ''
   };
 
   return (
-    <Card className="hover:border-primary/50 transition-all duration-300 hover:shadow-md group flex flex-col justify-between h-full bg-card/50 backdrop-blur-sm">
+    <Card 
+        className="hover:border-primary/50 transition-all duration-300 hover:shadow-md group flex flex-col justify-between h-full bg-card/50 backdrop-blur-sm cursor-pointer relative"
+        onClick={onClick}
+    >
       <CardHeader className="p-2 flex flex-row justify-between items-start space-y-0 relative">
          <Badge variant="outline" className="text-[9px] uppercase text-muted-foreground bg-muted/50 px-1 py-0 h-5">
           {symbol.category.slice(0, 3)}
         </Badge>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button 
+        <div className="flex items-center gap-1 absolute right-1 top-1">
+             <Button 
                 variant="ghost" 
                 size="icon" 
                 className={cn(
-                  "h-6 w-6 transition-opacity absolute right-1 top-1",
+                  "h-6 w-6 transition-opacity",
                   copied ? "opacity-100 text-green-500" : "opacity-0 group-hover:opacity-100"
                 )}
                 onClick={handleCopy}
               >
                 {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
               </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">
-              <p className="text-xs">{copied ? '已复制' : '复制代码'}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        </div>
       </CardHeader>
       
       <CardContent className="p-2 flex flex-col items-center justify-center min-h-[60px] grow">
