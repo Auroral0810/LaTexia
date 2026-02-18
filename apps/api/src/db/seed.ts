@@ -65,14 +65,40 @@ async function main() {
     }
 
     // 4. 创建 LaTeX 符号
-    console.log('🔣 Creating symbols...');
-    await db.insert(latexSymbols).values([
-      { name: 'Alpha', latexCode: '\\alpha', category: 'greek', sortOrder: 1 },
-      { name: 'Beta', latexCode: '\\beta', category: 'greek', sortOrder: 2 },
-      { name: 'Gamma', latexCode: '\\gamma', category: 'greek', sortOrder: 3 },
-      { name: 'Sum', latexCode: '\\sum', category: 'math', sortOrder: 4 },
-      { name: 'Integral', latexCode: '\\int', category: 'math', sortOrder: 5 },
-    ]).onConflictDoNothing();
+    console.log('🔣 Creating symbols from merged-symbols.json...');
+    const fs = await import('fs');
+    const path = await import('path');
+    const symbolsPath = path.join(__dirname, '../../../../scripts/merged-symbols.json');
+    
+    if (fs.existsSync(symbolsPath)) {
+      const symbolsRaw = fs.readFileSync(symbolsPath, 'utf-8');
+      const symbolsMap = JSON.parse(symbolsRaw);
+      
+      const symbolEntries = Object.entries(symbolsMap).map(([latex, data]: [string, any], index) => ({
+        name: data.name,
+        latexCode: latex,
+        category: data.category,
+        description: data.description || '',
+        example: data.example || '',
+        sortOrder: index + 1,
+      }));
+
+      // 批量插入，Drizzle 会自动处理分块如果数据量太大
+      // 也可以手动分块插入（例如每 500 条一组）
+      const chunk = (arr: any[], size: number) =>
+        Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+          arr.slice(i * size, i * size + size)
+        );
+
+      const symbolChunks = chunk(symbolEntries, 500);
+      for (const [i, symbolChunk] of symbolChunks.entries()) {
+        console.log(`  - Inserting chunk ${i + 1}/${symbolChunks.length}...`);
+        await db.insert(latexSymbols).values(symbolChunk).onConflictDoNothing();
+      }
+      console.log(`✅ successfully seeded ${symbolEntries.length} symbols.`);
+    } else {
+      console.warn('⚠️ merged-symbols.json not found, skipping symbols seed.');
+    }
 
     // 5. 创建教学章节
     console.log('📚 Creating learn chapters...');
