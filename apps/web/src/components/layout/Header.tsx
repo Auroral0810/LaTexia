@@ -8,6 +8,21 @@ export function Header() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+
+  const languages = [
+    { code: 'zh-CN', label: '简体中文' },
+    { code: 'zh-TW', label: '繁体中文' },
+    { code: 'en', label: 'English' },
+    { code: 'ja', label: '日本語' },
+    { code: 'ru', label: 'Русский' },
+    { code: 'fr', label: 'Français' },
+    { code: 'ko', label: '한국어' },
+    { code: 'de', label: 'Deutsch' },
+    { code: 'la', label: 'Latina' },
+    { code: 'nl', label: 'Nederlands' },
+    { code: 'th', label: 'ไทย' },
+  ];
 
   useEffect(() => setMounted(true), []);
 
@@ -29,14 +44,15 @@ export function Header() {
 
         {/* 桌面端导航 */}
         <nav className="hidden md:flex items-center space-x-1">
-          {[
-            { href: '/', label: '首页' },
-            { href: '/practice', label: '练习' },
-            { href: '/learn', label: '教学' },
-            { href: '/symbols', label: '符号' },
-            { href: '/leaderboard', label: '排行榜' },
-            { href: '/about', label: '关于' },
-          ].map((item) => (
+            {[
+              { href: '/', label: '首页' },
+              { href: '/practice', label: '练习' },
+              { href: '/learn', label: '教学' },
+              { href: '/symbols', label: '符号' },
+              { href: '/tools', label: '资源' },
+              { href: '/leaderboard', label: '排行榜' },
+              { href: '/about', label: '关于' },
+            ].map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -61,6 +77,46 @@ export function Header() {
               <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
             </svg>
           </a>
+
+          {/* i18n 切换器 */}
+          <div className="relative">
+            <button
+              className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors flex items-center justify-center"
+              aria-label="切换语言"
+              onClick={() => setLangMenuOpen(!langMenuOpen)}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 3.03v.568c0 .334.148.65.405.864l1.13.933a.562.562 0 0 1 .19.433v.505c0 .19-.147.348-.332.365a58.384 58.384 0 0 1-6.14.367 1.042 1.042 0 0 0-.616.232l-2.103 1.577a.562.562 0 0 0-.19.433v.448a.562.562 0 0 1-.19.433l-1.13.933a.844.844 0 0 0-.288.653v.33c0 .32.115.63.325.87l.772.879a.562.562 0 0 1 .15.374v.85c0 .285.117.559.325.755l.772.732a.562.562 0 0 0 .384.155h.353c.237 0 .459-.107.607-.291l.756-.936a.562.562 0 0 1 .436-.21h.33a.562.562 0 0 0 .433-.19l.933-1.13a.844.844 0 0 1 .653-.288h.33c.334 0 .65.148.864.405l.933 1.13c.123.15.19.336.19.527v.505c0 .31-.25.563-.56.563H12.75v.568c0 .243.218.423.457.375a7.51 7.51 0 0 0 2.257-11.41.455.455 0 0 0-.61-.09l-.495.37a.562.562 0 0 1-.678 0l-.496-.37a.456.456 0 0 0-.61.09l-.161.218a.562.562 0 0 1-.607.22l-1.01-.252a.456.456 0 0 0-.411.082L9.75 7.426a.562.562 0 0 1-.41-.12L8.25 6.3a.457.457 0 0 0-.61.12l-.21.28a.562.562 0 0 1-.61.22l-1.01-.252a.456.456 0 0 0-.54.673l.162.218a.562.562 0 0 1 0 .678l-.162.218a.456.456 0 0 0 .54.673l1.01-.252a.562.562 0 0 1 .61.22l.21.28a.457.457 0 0 0 .61.12l1.09-.727a.562.562 0 0 1 .411-.082l1.01.252a.562.562 0 0 1 .607-.22l.161-.218a.456.456 0 0 0 .09-.61l.496-.37a.562.562 0 0 1 .678 0l.495.37a.455.455 0 0 0 .61-.09 7.502 7.502 0 0 0-1.258-10957c-.24-.14-.543.04-.543.32z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+              </svg>
+            </button>
+
+            {langMenuOpen && (
+              <>
+                <div 
+                  className="fixed inset-0 z-40" 
+                  onClick={() => setLangMenuOpen(false)} 
+                />
+                <div className="absolute right-0 mt-2 w-48 rounded-2xl border border-border/50 bg-card p-2 shadow-2xl z-50 animate-in fade-in zoom-in duration-200 glass">
+                  <div className="grid grid-cols-1 gap-1">
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        className="flex items-center justify-between px-3 py-2 text-sm font-medium rounded-xl text-muted-foreground transition-all hover:text-foreground hover:bg-accent hover:translate-x-1"
+                        onClick={() => {
+                          console.log(`Setting language to: ${lang.code}`);
+                          setLangMenuOpen(false);
+                        }}
+                      >
+                        {lang.label}
+                        <span className="text-[10px] opacity-40 uppercase font-bold">{lang.code}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
 
           {/* 主题切换 */}
           {mounted && (
@@ -125,6 +181,7 @@ export function Header() {
               { href: '/practice', label: '练习' },
               { href: '/learn', label: '教学' },
               { href: '/symbols', label: '符号' },
+              { href: '/tools', label: '资源' },
               { href: '/leaderboard', label: '排行榜' },
               { href: '/about', label: '关于' },
             ].map((item) => (
