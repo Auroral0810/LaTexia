@@ -275,18 +275,18 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* --- 5. Testimonials (Redesigned) --- */}
-        <section className="py-24 lg:py-32 bg-slate-50 dark:bg-black/20 relative overflow-hidden">
-           {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#444 1px, transparent 1px)', backgroundSize: '32px 32px' }}></div>
+        {/* --- 5. Testimonials (Unified Style) --- */}
+        <section className="py-24 lg:py-32 relative overflow-hidden">
+          {/* Subtle background connection */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background -z-10"></div>
           
-          <div className="container relative z-10">
+          <div className="container">
             <div className="text-center max-w-2xl mx-auto mb-16">
               <h2 className="font-heading text-3xl font-bold sm:text-4xl mb-4">
                 深受学术界与开发者信赖
               </h2>
               <p className="text-lg text-muted-foreground">
-                来自全球顶尖高校与科技公司的用户评价
+                加入全球数万名使用 Latexia 提升效率的创作者行列
               </p>
             </div>
 
@@ -296,27 +296,28 @@ export default function HomePage() {
                   name: 'Dr. Zhang', 
                   role: '数学系教授 @ Tsinghua Univ.', 
                   content: '终于有一个能让学生快速上手的 LaTeX 平台了。界面非常现代，实时预览功能极大地降低了教学成本。',
-                  avatarColor: 'bg-blue-500'
+                  initial: 'Z',
+                  gradient: 'from-blue-500 to-cyan-500'
                 },
                 { 
                   name: 'Li Ming', 
                   role: '计算机科学博士生', 
                   content: '公式速查功能帮了大忙，写论文时再也不用翻厚厚的 PDF 手册了。智能纠错也挽救了我的毕业论文！',
-                  avatarColor: 'bg-emerald-500' 
+                  initial: 'L',
+                  gradient: 'from-emerald-500 to-teal-500' 
                 },
                 { 
                   name: 'Sarah Jenkins', 
                   role: '技术文档工程师', 
                   content: '练习模式非常有创意，把枯燥的语法点变成了有趣的小挑战。这是这一代人学习排版工具的最佳方式。',
-                  avatarColor: 'bg-orange-500'
+                  initial: 'S',
+                  gradient: 'from-orange-500 to-amber-500'
                 }
               ].map((item, i) => (
-                <div key={i} className="group relative bg-background border border-border rounded-2xl p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                  <div className="absolute top-6 right-8 text-6xl text-primary/10 font-serif leading-none select-none">”</div>
-                  
-                  <div className="flex items-center gap-4 mb-6 relative z-10">
-                    <div className={`w-12 h-12 rounded-full ${item.avatarColor} text-white flex items-center justify-center font-bold text-lg shadow-md`}>
-                      {item.name.charAt(0)}
+                <div key={i} className="group relative bg-card border border-border/50 rounded-2xl p-8 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.gradient} text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-primary/10`}>
+                      {item.initial}
                     </div>
                     <div>
                       <div className="font-bold text-foreground">{item.name}</div>
@@ -324,8 +325,8 @@ export default function HomePage() {
                     </div>
                   </div>
                   
-                  <p className="text-muted-foreground leading-relaxed relative z-10">
-                    {item.content}
+                  <p className="text-muted-foreground leading-relaxed">
+                    "{item.content}"
                   </p>
                 </div>
               ))}
@@ -333,49 +334,39 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* --- 6. Final CTA (Redesigned) --- */}
-        <section className="relative py-32 overflow-hidden m-4 lg:m-8 rounded-3xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary via-teal-600 to-blue-700">
-             {/* Dynamic Background Shapes */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-30">
-               <div className="absolute -top-24 -left-24 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl animate-pulse" style={{ animationDuration: '4s' }}></div>
-               <div className="absolute top-1/2 right-0 w-80 h-80 bg-blue-300 rounded-full mix-blend-overlay filter blur-3xl animate-pulse" style={{ animationDelay: '1s', animationDuration: '5s' }}></div>
-               <div className="absolute -bottom-32 left-1/2 w-96 h-96 bg-teal-300 rounded-full mix-blend-overlay filter blur-3xl animate-pulse" style={{ animationDelay: '2s', animationDuration: '6s' }}></div>
-            </div>
-            {/* Grid Pattern */}
-            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+        {/* --- 6. Final CTA (Hero Echo) --- */}
+        <section className="relative py-32 overflow-hidden border-t border-border/40">
+           {/* Background Blurs - Echoing the Hero Section */}
+          <div className="absolute inset-0 -z-10 pointer-events-none">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary/10 rounded-full blur-[120px] opacity-60"></div>
           </div>
-          
-          <div className="container relative z-10 text-center text-white">
-            <h2 className="text-4xl md:text-6xl font-heading font-bold mb-8 drop-shadow-sm">
-              准备好重新定义<br/>你的学术写作体验了吗？
+
+          <div className="container relative z-10 text-center">
+             <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 mb-8">
+                <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse mr-2"></span>
+                <span className="text-xs font-medium text-primary">Limited Time Offer</span>
+              </div>
+
+            <h2 className="font-heading text-4xl md:text-6xl font-bold mb-8 tracking-tight">
+              准备好<span className="text-gradient bg-gradient-to-r from-primary to-teal-500">重新定义</span><br/>
+              你的学术写作体验了吗？
             </h2>
-            <p className="text-blue-50 text-xl mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-              加入数千名研究者、学生和工程师的行列，<br className="hidden sm:block"/>
-              体验更智能、更优雅的 LaTeX 写作方式。
+            <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+              无需信用卡，无需繁琐配置。打开浏览器，<br className="hidden sm:block"/>
+              立即开始您的高效 LaTeX 之旅。
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-              <Link href="/register" className="group relative h-14 px-8 rounded-full bg-white text-primary font-bold text-lg flex items-center justify-center overflow-hidden shadow-2xl transition-all hover:scale-105 active:scale-95">
-                <span className="relative z-10 flex items-center gap-2">
-                  立即免费注册 
-                  <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <Link href="/register" className="h-14 px-10 rounded-xl bg-primary text-primary-foreground font-bold text-lg flex items-center justify-center shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all">
+                立即免费注册
               </Link>
               
-              <a href="https://github.com/Auroral0810/LaTexia" target="_blank" className="h-14 px-8 rounded-full border border-white/30 bg-white/10 text-white font-medium text-lg flex items-center justify-center hover:bg-white/20 hover:border-white/50 transition-all backdrop-blur-md">
+              <a href="https://github.com/Auroral0810/LaTexia" target="_blank" className="h-14 px-10 rounded-xl border border-input bg-background hover:bg-accent hover:text-accent-foreground text-foreground font-medium text-lg flex items-center justify-center transition-all">
                 <span className="flex items-center gap-2">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" /></svg>
                   GitHub Star
                 </span>
               </a>
-            </div>
-            
-            <div className="mt-10 flex flex-wrap justify-center gap-6 text-sm text-blue-100/60 font-medium tracking-wide uppercase">
-              <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> 无需信用卡</span>
-              <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> 永久免费计划</span>
-              <span className="flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> 随时导出源码</span>
             </div>
           </div>
         </section>
