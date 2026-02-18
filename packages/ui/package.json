@@ -1,0 +1,1 @@
+{ "name": "@latexia/ui", "version": "1.0.0", "private": true, "main": "./src/index.tsx", "types": "./src/index.tsx", "dependencies": { "react": "^18.0.0" } }

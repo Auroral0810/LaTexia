@@ -1,0 +1,54 @@
+# 依赖
+node_modules/
+.pnpm-store/
+
+# 构建产物
+.next/
+dist/
+out/
+build/
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Turbo
+.turbo/
+
+# TypeScript
+*.tsbuildinfo
+
+# 测试
+coverage/
+
+# Docker
+infra/nginx/ssl/
+
+# MinIO 数据
+minio-data/
+
+# Drizzle
+apps/api/src/db/migrations/*.sql
+!apps/api/src/db/migrations/.gitkeep

@@ -1,0 +1,27 @@
+{
+  "name": "latexia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "在线 LaTeX 学习与练习平台",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check",
+    "clean": "turbo clean",
+    "dev:web": "turbo dev --filter=@latexia/web",
+    "dev:api": "turbo dev --filter=@latexia/api",
+    "build:web": "turbo build --filter=@latexia/web",
+    "build:api": "turbo build --filter=@latexia/api",
+    "db:generate": "turbo db:generate --filter=@latexia/api",
+    "db:migrate": "turbo db:migrate --filter=@latexia/api",
+    "db:seed": "turbo db:seed --filter=@latexia/api"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "turbo": "^2.1.0"
+  }
+}
