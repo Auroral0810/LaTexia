@@ -1,7 +1,9 @@
+
 import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
 import QueryProvider from '@/components/providers/query-provider';
 import '@/styles/globals.css';
+import { ToastContainer } from '@/components/ui/ToastContainer';
 
 export const metadata: Metadata = {
   title: {
@@ -26,6 +28,7 @@ export default function RootLayout({
         <QueryProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
+            <ToastContainer />
           </ThemeProvider>
         </QueryProvider>
       </body>
