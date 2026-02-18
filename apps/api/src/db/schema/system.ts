@@ -141,6 +141,8 @@ export const latexSymbols = pgTable('latex_symbols', {
   name: varchar('name', { length: 100 }).notNull(),
   // LaTeX 代码（如：\alpha）
   latexCode: varchar('latex_code', { length: 200 }).notNull(),
+  // Unicode 字符
+  unicode: varchar('unicode', { length: 50 }),
   // 分类：math / greek / arrow / matrix / physics / other
   category: varchar('category', { length: 50 }).notNull(),
   // 符号说明

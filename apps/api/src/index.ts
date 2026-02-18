@@ -6,6 +6,7 @@ import { db } from './db';
 import { users } from './db/schema/users';
 
 import toolsRouter from './modules/tools/tools.routes';
+import symbolsRouter from './modules/symbols/symbols.routes';
 
 const app = new Hono();
 
@@ -15,6 +16,7 @@ app.use('*', cors());
 
 // 路由注册
 app.route('/api/tools', toolsRouter);
+app.route('/api/symbols', symbolsRouter);
 
 // 健康检查
 app.get('/', (c) => {
