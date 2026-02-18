@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 interface Resource {
@@ -21,10 +22,24 @@ async function fetchTools(): Promise<Resource[]> {
 }
 
 export default function ToolsPage() {
+  const [activeTab, setActiveTab] = React.useState('全部');
   const { data: resources, isLoading, error } = useQuery({
     queryKey: ['tools', 'all'],
     queryFn: fetchTools,
   });
+
+  const filteredResources = React.useMemo(() => {
+    if (!resources) return [];
+    if (activeTab === '全部') return resources;
+    const map: Record<string, string> = {
+      '系统教程': 'tutorial',
+      '参考手册': 'reference',
+      '实用工具': 'tool',
+      '技术社区': 'community'
+    };
+    const target = map[activeTab];
+    return resources.filter(r => r.category === target);
+  }, [resources, activeTab]);
 
   if (isLoading) {
     return (
@@ -68,8 +83,9 @@ export default function ToolsPage() {
         {['全部', '系统教程', '参考手册', '实用工具', '技术社区'].map((tab) => (
           <button
             key={tab}
+            onClick={() => setActiveTab(tab)}
             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-              tab === '全部'
+              activeTab === tab
                 ? 'bg-primary text-primary-foreground shadow-md'
                 : 'bg-muted text-muted-foreground hover:bg-accent hover:text-foreground'
             }`}
@@ -81,7 +97,7 @@ export default function ToolsPage() {
 
       {/* 资源网格 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {resources?.map((res) => (
+        {filteredResources?.map((res) => (
           <a
             key={res.id}
             href={res.url}
