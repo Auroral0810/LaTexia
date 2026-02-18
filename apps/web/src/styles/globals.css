@@ -9,49 +9,79 @@
 @layer base {
   /* ---- 浅色模式 Token ---- */
   :root {
-    --color-primary: #6366f1;
+    --color-primary: #0d9488;
     --color-primary-foreground: #ffffff;
+    --color-accent: #f0fdfa;
+    --color-accent-foreground: #0f766e;
     --color-success: #22c55e;
     --color-danger: #ef4444;
     --color-warning: #f59e0b;
+    --color-destructive: #dc2626;
+    --color-destructive-foreground: #ffffff;
 
     --color-background: #ffffff;
     --color-foreground: #0f172a;
-    --color-muted: #f8fafc;
+    --color-muted: #f1f5f9;
     --color-muted-foreground: #64748b;
     --color-card: #ffffff;
     --color-card-foreground: #0f172a;
     --color-border: #e2e8f0;
+    --color-input: #e2e8f0;
+    --color-ring: #0d9488;
+
+    --color-secondary: #f1f5f9;
+    --color-secondary-foreground: #0f172a;
+    --color-popover: #ffffff;
+    --color-popover-foreground: #0f172a;
   }
 
   /* ---- 深色模式 Token ---- */
   .dark {
-    --color-primary: #818cf8;
-    --color-primary-foreground: #0f172a;
+    --color-primary: #2dd4bf;
+    --color-primary-foreground: #042f2e;
+    --color-accent: #042f2e;
+    --color-accent-foreground: #99f6e4;
     --color-success: #4ade80;
     --color-danger: #f87171;
     --color-warning: #fbbf24;
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: #ffffff;
 
-    --color-background: #0a0a0b;
+    --color-background: #0c0c0d;
     --color-foreground: #f8fafc;
-    --color-muted: #111113;
-    --color-muted-foreground: #94a3b8;
-    --color-card: #111113;
+    --color-muted: #18181b;
+    --color-muted-foreground: #a1a1aa;
+    --color-card: #18181b;
     --color-card-foreground: #f8fafc;
-    --color-border: #1e293b;
+    --color-border: #27272a;
+    --color-input: #27272a;
+    --color-ring: #2dd4bf;
+
+    --color-secondary: #27272a;
+    --color-secondary-foreground: #f8fafc;
+    --color-popover: #18181b;
+    --color-popover-foreground: #f8fafc;
   }
 
   /* ---- 全局基础样式 ---- */
+  * {
+    @apply border-border;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: "Inter", system-ui, sans-serif;
+    font-family:
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 
   /* ---- 代码字体 ---- */
   code,
   pre,
   .font-mono {
-    font-family: "JetBrains Mono", Menlo, monospace;
+    font-family: "JetBrains Mono", "Fira Code", Menlo, monospace;
   }
 }
 
@@ -63,5 +93,118 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* ---- 文本渐变 ---- */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+  }
+
+  /* ---- 玻璃态 ---- */
+  .glass {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.72);
+  }
+  .dark .glass {
+    background-color: rgba(12, 12, 13, 0.72);
+  }
+}
+
+/* ---- 全局动画 ---- */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 }
