@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
-import * as schema from './schema/users'; // 暂时只导出 users
+import * as schema from './schema';
 import dotenv from 'dotenv';
 import path from 'path';
 

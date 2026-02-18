@@ -10,7 +10,7 @@ if (!process.env.DATABASE_URL) {
 }
 
 export default {
-  schema: './src/db/schema/users.ts',
+  schema: './src/db/schema/index.ts',
   out: './src/db/migrations',
   driver: 'pg',
   dbCredentials: {
