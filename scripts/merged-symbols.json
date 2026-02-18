@@ -11,7 +11,7 @@
     "name": "1",
     "category": "basic",
     "description": "数字 1",
-    "example": "乘法恒等元：$a \\cdot 1 = a$。"
+    "example": "乘法恒等元：$a \\\\cdot 1 = a$。"
   },
   "2": {
     "unicode": "2",
@@ -25,7 +25,7 @@
     "name": "3",
     "category": "basic",
     "description": "数字 3",
-    "example": "立方根示例：$\\sqrt[3]{x}$。"
+    "example": "立方根示例：$\\\\sqrt[3]{x}$。"
   },
   "4": {
     "unicode": "4",
@@ -46,7 +46,7 @@
     "name": "6",
     "category": "basic",
     "description": "数字 6",
-    "example": "组合数示例：$\\binom{6}{2}$。"
+    "example": "组合数示例：$\\\\binom{6}{2}$。"
   },
   "7": {
     "unicode": "7",
@@ -67,63 +67,63 @@
     "name": "9",
     "category": "basic",
     "description": "数字 9",
-    "example": "数字 9：$\\sqrt{81} = 9$。"
+    "example": "数字 9：$\\\\sqrt{81} = 9$。"
   },
   "!": {
     "unicode": "!",
     "name": "!",
     "category": "punctuation",
     "description": "感叹号 / 阶乘符号",
-    "example": "用于表示阶乘：$n! = 1 \\cdot 2 \\cdot \\ldots \\cdot n$。"
+    "example": "用于表示阶乘：$n! = 1 \\\\cdot 2 \\\\cdot \\\\ldots \\\\cdot n$。"
   },
   "\\#": {
     "unicode": "#",
     "name": "#",
     "category": "basic",
     "description": "井号 / 宏参数符",
-    "example": "在定义宏时使用：`\\newcommand{\\foo}[1]{#1}`。直接显示源字符需使用 `\\#`。"
+    "example": "在定义宏时使用：`\\\\newcommand{\\\\foo}[1]{#1}`。直接显示源字符需使用 `\\\\#`。"
   },
   "\\$": {
     "unicode": "$",
     "name": "$",
     "category": "delimiter",
     "description": "美元符号 / 公式定界符",
-    "example": "用于进入数学模式：$x+y$ 为行内公式。显示美元符号需使用 `\\$`。"
+    "example": "用于进入数学模式：$x+y$ 为行内公式。显示美元符号需使用 `\\\\$`。"
   },
   "\\%": {
     "unicode": "%",
     "name": "%",
     "category": "punctuation",
     "description": "百分号 / 注释符",
-    "example": "LaTeX 中 % 用于单行注释。显示百分号需使用 `\\%`。"
+    "example": "LaTeX 中 % 用于单行注释。显示百分号需使用 `\\\\%`。"
   },
   "\\&": {
     "unicode": "&",
     "name": "&",
     "category": "punctuation",
     "description": "和符号 / 对齐符",
-    "example": "用于表格或对齐环境（如 align）：`a & = b`。显示和符号需使用 `\\&`。"
+    "example": "用于表格或对齐环境（如 align）：`a & = b`。显示和符号需使用 `\\\\&`。"
   },
   "(": {
     "unicode": "(",
     "name": "(",
     "category": "delimiter",
     "description": "左圆括号",
-    "example": "基本用法：$(a+b)$；适应高度用法：`\\left( \\frac{1}{x} \\right)`。"
+    "example": "基本用法：$(a+b)$；适应高度用法：`\\\\left( \\\\frac{1}{x} \\\\right)`。"
   },
   ")": {
     "unicode": ")",
     "name": ")",
     "category": "delimiter",
     "description": "右圆括号",
-    "example": "基本用法：$(a+b)$；适应高度用法：`\\right)`。"
+    "example": "基本用法：$(a+b)$；适应高度用法：`\\\\right)`。"
   },
   "*": {
     "unicode": "*",
     "name": "*",
     "category": "operator",
     "description": "星号 / 乘号",
-    "example": "$a * b$ 或在算式中使用 $a \\ast b$。"
+    "example": "$a * b$ 或在算式中使用 $a \\\\ast b$。"
   },
   "+": {
     "unicode": "+",
@@ -137,7 +137,7 @@
     "name": ",",
     "category": "punctuation",
     "description": "逗号 / 列表分隔符",
-    "example": "在集合或坐标中使用：$P(x, y)$ 或 $\\{a, b, c\\}$。"
+    "example": "在集合或坐标中使用：$P(x, y)$ 或 $\\\\{a, b, c\\\\}$。"
   },
   ".": {
     "unicode": ".",
@@ -158,14 +158,14 @@
     "name": ":",
     "category": "punctuation",
     "description": "冒号 / 映射说明符",
-    "example": "定义函数映射：$f: A \\to B$。"
+    "example": "定义函数映射：$f: A \\\\to B$。"
   },
   ";": {
     "unicode": ";",
     "name": ";",
     "category": "punctuation",
     "description": "分号",
-    "example": "用于分隔参数或条件：$f(x; \\theta)$。"
+    "example": "用于分隔参数或条件：$f(x; \\\\theta)$。"
   },
   "<": {
     "unicode": "<",
@@ -207,7 +207,7 @@
     "name": "A",
     "category": "basic",
     "description": "基础拉丁字母 A",
-    "example": "用于表示点、矩阵或变量：$A = \\{x \\mid x > 0\\}$。"
+    "example": "用于表示点、矩阵或变量：$A = \\\\{x \\\\mid x > 0\\\\}$。"
   },
   "B": {
     "unicode": "𝐵",
@@ -221,14 +221,14 @@
     "name": "C",
     "category": "basic",
     "description": "基础拉丁字母 C",
-    "example": "常表示复数集 $\\mathbb{C}$ 或平滑空间 $C^k$。"
+    "example": "常表示复数集 $\\\\mathbb{C}$ 或平滑空间 $C^k$。"
   },
   "D": {
     "unicode": "𝐷",
     "name": "D",
     "category": "basic",
     "description": "基础拉丁字母 D",
-    "example": "用于微积分算子：$\\frac{d}{dx} f(x)$ 或定义域 $D$。"
+    "example": "用于微积分算子：$\\\\frac{d}{dx} f(x)$ 或定义域 $D$。"
   },
   "E": {
     "unicode": "𝐸",
@@ -305,7 +305,7 @@
     "name": "O",
     "category": "basic",
     "description": "基础拉丁字母 O",
-    "example": "用于大 O 渐进记号：$O(n \\log n)$。"
+    "example": "用于大 O 渐进记号：$O(n \\\\log n)$。"
   },
   "P": {
     "unicode": "𝑃",
@@ -319,14 +319,14 @@
     "name": "Q",
     "category": "basic",
     "description": "基础拉丁字母 Q",
-    "example": "表示电荷或有理数集 $\\mathbb{Q}$。"
+    "example": "表示电荷或有理数集 $\\\\mathbb{Q}$。"
   },
   "R": {
     "unicode": "𝑅",
     "name": "R",
     "category": "basic",
     "description": "基础拉丁字母 R",
-    "example": "表示实数集 $\\mathbb{R}$ 或半径。"
+    "example": "表示实数集 $\\\\mathbb{R}$ 或半径。"
   },
   "S": {
     "unicode": "𝑆",
@@ -347,7 +347,7 @@
     "name": "U",
     "category": "basic",
     "description": "基础拉丁字母 U",
-    "example": "表示并集 $A \\cup B$ 或势能。"
+    "example": "表示并集 $A \\\\cup B$ 或势能。"
   },
   "V": {
     "unicode": "𝑉",
@@ -368,7 +368,7 @@
     "name": "X",
     "category": "basic",
     "description": "基础拉丁字母 X",
-    "example": "常用的自变量或随机变量：$X \\sim N(0,1)$。"
+    "example": "常用的自变量或随机变量：$X \\\\sim N(0,1)$。"
   },
   "Y": {
     "unicode": "𝑌",
@@ -382,7 +382,7 @@
     "name": "Z",
     "category": "basic",
     "description": "基础拉丁字母 Z",
-    "example": "表示整数集 $\\mathbb{Z}$。"
+    "example": "表示整数集 $\\\\mathbb{Z}$。"
   },
   "\\lbrack": {
     "unicode": "[",
@@ -396,7 +396,7 @@
     "name": "backslash",
     "category": "punctuation",
     "description": "反斜杠",
-    "example": "用于集合差集：$A \\setminus B$；在文本中显示反斜杠使用 `\\textbackslash`。"
+    "example": "用于集合差集：$A \\\\setminus B$；在文本中显示反斜杠使用 `\\\\textbackslash`。"
   },
   "\\rbrack": {
     "unicode": "]",
@@ -1047,105 +1047,105 @@
     "name": "Omega",
     "category": "greek",
     "description": "大写希腊字母 Omega",
-    "example": "表示电阻单位欧姆 ($\u03a9$) 或样本空间 $\\Omega$。"
+    "example": "表示电阻单位欧姆 ($Ω$) 或样本空间 $\\Omega$。"
   },
   "\\alpha": {
     "unicode": "α",
     "name": "alpha",
     "category": "greek",
     "description": "小写希腊字母 Alpha",
-    "example": "常表示角度、热膨胀系数或系数：$\\cos \\alpha$。"
+    "example": "常表示角度、热膨胀系数或系数：$\\\\cos \\\\alpha$。"
   },
   "\\beta": {
     "unicode": "β",
     "name": "beta",
     "category": "greek",
     "description": "小写希腊字母 Beta",
-    "example": "表示系数或角度：$\\beta = 0.5$。"
+    "example": "表示系数或角度：$\\\\beta = 0.5$。"
   },
   "\\gamma": {
     "unicode": "γ",
     "name": "gamma",
     "category": "greek",
     "description": "小写希腊字母 Gamma",
-    "example": "表示欧拉常数、洛伦兹因子或角度：$\\gamma = \\frac{1}{\\sqrt{1-v^2/c^2}}$。"
+    "example": "表示欧拉常数、洛伦兹因子或角度：$\\\\gamma = \\\\frac{1}{\\\\sqrt{1-v^2/c^2}}$。"
   },
   "\\delta": {
     "unicode": "δ",
     "name": "delta",
     "category": "greek",
     "description": "小写希腊字母 Delta",
-    "example": "表示微小增量、变分或克罗内克函数：$\\delta_{ij}$。"
+    "example": "表示微小增量、变分或克罗内克函数：$\\\\delta_{ij}$。"
   },
   "\\upepsilon": {
     "unicode": "ε",
     "name": "upepsilon",
     "category": "greek",
     "description": "直立小写希腊字母 Epsilon",
-    "example": "数学或物理常数 $\\epsilon$。"
+    "example": "数学或物理常数 $\\\\epsilon$。"
   },
   "\\zeta": {
     "unicode": "ζ",
     "name": "zeta",
     "category": "greek",
     "description": "小写希腊字母 Zeta",
-    "example": "黎曼 Zeta 函数：$\\zeta(s)$。"
+    "example": "黎曼 Zeta 函数：$\\\\zeta(s)$。"
   },
   "\\eta": {
     "unicode": "η",
     "name": "eta",
     "category": "greek",
     "description": "小写希腊字母 Eta",
-    "example": "表示效率、粘度或度规张量 $\\eta_{\\mu\\nu}$。"
+    "example": "表示效率、粘度或度规张量 $\\\\eta_{\\\\mu\\\\nu}$。"
   },
   "\\theta": {
     "unicode": "θ",
     "name": "theta",
     "category": "greek",
     "description": "小写希腊字母 Theta",
-    "example": "常用的角度表示：$x = r \\cos \\theta$。"
+    "example": "常用的角度表示：$x = r \\\\cos \\\\theta$。"
   },
   "\\iota": {
     "unicode": "ι",
     "name": "iota",
     "category": "greek",
     "description": "小写希腊字母 Iota",
-    "example": "数学变量 $\\iota$。"
+    "example": "数学变量 $\\\\iota$。"
   },
   "\\kappa": {
     "unicode": "κ",
     "name": "kappa",
     "category": "greek",
     "description": "小写希腊字母 Kappa",
-    "example": "表示曲率或导温系数：$\\kappa = 1/R$。"
+    "example": "表示曲率或导温系数：$\\\\kappa = 1/R$。"
   },
   "\\lambda": {
     "unicode": "λ",
     "name": "lambda",
     "category": "greek",
     "description": "小写希腊字母 Lambda",
-    "example": "波长或特征值：$c = \\lambda f$。"
+    "example": "波长或特征值：$c = \\\\lambda f$。"
   },
   "\\mu": {
     "unicode": "μ",
     "name": "mu",
     "category": "greek",
     "description": "小写希腊字母 Mu",
-    "example": "均值、微米前缀或导磁率：$\\mu = 4\\pi \\times 10^{-7}$。"
+    "example": "均值、微米前缀或导磁率：$\\\\mu = 4\\\\pi \\\\times 10^{-7}$。"
   },
   "\\nu": {
     "unicode": "ν",
     "name": "nu",
     "category": "greek",
     "description": "小写希腊字母 Nu",
-    "example": "频率或波数：$E = h\\nu$。"
+    "example": "频率或波数：$E = h\\\\nu$。"
   },
   "\\xi": {
     "unicode": "ξ",
     "name": "xi",
     "category": "greek",
     "description": "小写希腊字母 Xi",
-    "example": "随机变量或坐标变换变量 $\\xi$。"
+    "example": "随机变量或坐标变换变量 $\\\\xi$。"
   },
   "\\upomicron": {
     "unicode": "ο",
@@ -1159,14 +1159,14 @@
     "name": "pi",
     "category": "greek",
     "description": "圆周率 Pi",
-    "example": "常数：$\\pi \\approx 3.14159$。"
+    "example": "常数：$\\\\pi \\\\approx 3.14159$。"
   },
   "\\rho": {
     "unicode": "ρ",
     "name": "rho",
     "category": "greek",
     "description": "小写希腊字母 Rho",
-    "example": "密度或电阻率：$\\rho = m/V$。"
+    "example": "密度或电阻率：$\\\\rho = m/V$。"
   },
   "\\varsigma": {
     "unicode": "ς",
@@ -1180,42 +1180,42 @@
     "name": "sigma",
     "category": "greek",
     "description": "小写希腊字母 Sigma",
-    "example": "标准差或正应力：$P(x) = \\frac{1}{\\sigma \\sqrt{2\\pi}} \\exp(\\dots)$。"
+    "example": "标准差或正应力：$P(x) = \\\\frac{1}{\\\\sigma \\\\sqrt{2\\\\pi}} \\\\exp(\\\\dots)$。"
   },
   "\\tau": {
     "unicode": "τ",
     "name": "tau",
     "category": "greek",
     "description": "小写希腊字母 Tau",
-    "example": "时间常数或切应力：$\\tau = RC$。"
+    "example": "时间常数或切应力：$\\\\tau = RC$。"
   },
   "\\varphi": {
     "unicode": "φ",
     "name": "varphi",
     "category": "greek",
     "description": "小写希腊字母 Phi (变体)",
-    "example": "常用于表示相位、角度或黄金分割率 $\\varphi = \\frac{1+\\sqrt{5}}{2}$。"
+    "example": "常用于表示相位、角度或黄金分割率 $\\\\varphi = \\\\frac{1+\\\\sqrt{5}}{2}$。"
   },
   "\\chi": {
     "unicode": "χ",
     "name": "chi",
     "category": "greek",
     "description": "小写希腊字母 Chi",
-    "example": "卡方分布：$\\chi^2$ 分布或磁化率。"
+    "example": "卡方分布：$\\\\chi^2$ 分布或磁化率。"
   },
   "\\psi": {
     "unicode": "ψ",
     "name": "psi",
     "category": "greek",
     "description": "小写希腊字母 Psi",
-    "example": "表示流函数或波函数 $\\psi$。"
+    "example": "表示流函数或波函数 $\\\\psi$。"
   },
   "\\omega": {
     "unicode": "ω",
     "name": "omega",
     "category": "greek",
     "description": "小写希腊字母 Omega",
-    "example": "角速度或频率：$\\omega = 2\\pi f$。"
+    "example": "角速度或频率：$\\\\omega = 2\\\\pi f$。"
   },
   "\\upvarbeta": {
     "unicode": "ϐ",
@@ -1229,14 +1229,14 @@
     "name": "vartheta",
     "category": "greek",
     "description": "小写希腊字母 Theta (变体)",
-    "example": "数学变量或角度变换 $\\vartheta$。"
+    "example": "数学变量或角度变换 $\\\\vartheta$。"
   },
   "\\phi": {
     "unicode": "ϕ",
     "name": "phi",
     "category": "greek",
     "description": "小写希腊字母 Phi",
-    "example": "表示球面坐标的角度或通量：$\\phi$。"
+    "example": "表示球面坐标的角度或通量：$\\\\phi$。"
   },
   "\\varpi": {
     "unicode": "ϖ",
@@ -1285,7 +1285,7 @@
     "name": "digamma",
     "category": "greek",
     "description": "古希腊字母 Digamma 小写",
-    "example": "表示 Digamma 函数 $\\psi(x)$ 的别名形式。"
+    "example": "表示 Digamma 函数 $\\\\psi(x)$ 的别名形式。"
   },
   "\\Koppa": {
     "unicode": "Ϟ",
@@ -1362,7 +1362,7 @@
     "name": "quad",
     "category": "basic",
     "description": "宽空格 (1em)",
-    "example": "用于公式间的间距：$x+y=1 \\quad y=1-x$。"
+    "example": "用于公式间的间距：$x+y=1 \\\\quad y=1-x$。"
   },
   "\\horizbar": {
     "unicode": "―",
@@ -1376,7 +1376,7 @@
     "name": "|",
     "category": "delimiter",
     "description": "双竖线 / 范数符号",
-    "example": "表示范数：$\\| \\mathbf{x} \\|$。"
+    "example": "表示范数：$\\\\| \\\\mathbf{x} \\\\|$。"
   },
   "\\twolowline": {
     "unicode": "‗",
@@ -1418,7 +1418,7 @@
     "name": "ldots",
     "category": "punctuation",
     "description": "省略号 (底端)",
-    "example": "用于序列省略：$x_1, x_2, \\ldots, x_n$。"
+    "example": "用于序列省略：$x_1, x_2, \\\\ldots, x_n$。"
   },
   "\\prime": {
     "unicode": "′",
@@ -1523,14 +1523,14 @@
     "name": ":",
     "category": "punctuation",
     "description": "等宽空格 (Medium space)",
-    "example": "间距微调：$a\\:b$。"
+    "example": "间距微调：$a\\\\:b$。"
   },
   "\\euro": {
     "unicode": "€",
     "name": "euro",
     "category": "currency",
     "description": "欧元符号",
-    "example": "货币表示：$100\\mathrm{\\euro}$。"
+    "example": "货币表示：$100\\\\mathrm{\\\\euro}$。"
   },
   "\\lvec": {
     "unicode": "x⃐",
@@ -1796,21 +1796,21 @@
     "name": "mathbbR",
     "category": "math",
     "description": "空心字母 R (实数集)",
-    "example": "表示实数集合：$x \\in \\mathbb{R}$。"
+    "example": "表示实数集合：$x \\\\in \\\\mathbb{R}$。"
   },
   "\\mathbb{Z}": {
     "unicode": "ℤ",
     "name": "mathbbZ",
     "category": "math",
     "description": "空心字母 Z (整数集)",
-    "example": "表示整数集合：$z \\in \\mathbb{Z}$。"
+    "example": "表示整数集合：$z \\\\in \\\\mathbb{Z}$。"
   },
   "\\tcohm": {
     "unicode": "Ω",
     "name": "tcohm",
     "category": "physics",
     "description": "电阻单位欧姆",
-    "example": "电阻值表示：$10\\, \\Omega$。"
+    "example": "电阻值表示：$10\\\\, \\\\Omega$。"
   },
   "\\mho": {
     "unicode": "℧",
@@ -1838,847 +1838,847 @@
     "name": "Angstroem",
     "category": "physics",
     "description": "埃格斯特朗 (长度单位)",
-    "example": "原子尺度单位：$1\\mathrm{\\AA} = 10^{-10} m$。"
+    "example": "原子尺度单位：$1\\\\mathrm{\\\\AA} = 10^{-10} m$。"
   },
   "\\mathcal{B}": {
     "unicode": "ℬ",
     "name": "mathcalB",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "手写体大写 B",
+    "example": "用于表示波莱尔集 $\\\\mathcal{B}$ 或基底。"
   },
   "\\mathfrak{C}": {
     "unicode": "ℭ",
     "name": "mathfrakC",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "德文尖角体大写 C",
+    "example": "特定的代数或分析记号。"
   },
   "\\mathcal{e}": {
     "unicode": "ℯ",
     "name": "mathcale",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "手写体小写 e",
+    "example": "数学变量或函数记号。"
   },
   "\\mathcal{E}": {
     "unicode": "ℰ",
     "name": "mathcalE",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "手写体大写 E",
+    "example": "常用作电动势或期望值 $E$ 的手写变体。"
   },
   "\\mathcal{F}": {
     "unicode": "ℱ",
     "name": "mathcalF",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "手写体大写 F (傅里叶变换)",
+    "example": "表示傅里叶变换：$\\\\mathcal{F}\\\\{f(t)\\\\}$。"
   },
   "\\Finv": {
     "unicode": "Ⅎ",
     "name": "Finv",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反向大写 F (逆傅里叶/算子)",
+    "example": "特定数学领域的自定义算子。"
   },
   "\\mathcal{M}": {
     "unicode": "ℳ",
     "name": "mathcalM",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "手写体大写 M",
+    "example": "数学空间或流形 $\\\\mathcal{M}$。"
   },
   "\\mathcal{o}": {
     "unicode": "ℴ",
     "name": "mathcalo",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "手写体小写 o",
+    "example": "渐进记号的小 o 手写形式。"
   },
   "\\aleph": {
     "unicode": "ℵ",
     "name": "aleph",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "希伯来字母 Aleph (基数)",
+    "example": "表示无穷集合的势：$\\aleph_0$ 表示自然数集的势。"
   },
   "\\beth": {
     "unicode": "ℶ",
     "name": "beth",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "希伯来字母 Beth",
+    "example": "基数表示：$\\beth_1$。"
   },
   "\\gimel": {
     "unicode": "ℷ",
     "name": "gimel",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "希伯来字母 Gimel",
+    "example": "基数表示。"
   },
   "\\daleth": {
     "unicode": "ℸ",
     "name": "daleth",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "希伯来字母 Daleth",
+    "example": "基数表示。"
   },
   "\\mathbb{\\pi}": {
     "unicode": "ℼ",
     "name": "mathbb\\pi",
     "category": "greek",
-    "description": "",
-    "example": ""
+    "description": "空心小写希腊字母 Pi",
+    "example": "特殊数学语境中的符号。"
   },
   "\\mathbb{\\gamma}": {
     "unicode": "ℽ",
     "name": "mathbb\\gamma",
     "category": "greek",
-    "description": "",
-    "example": ""
+    "description": "空心小写希腊字母 Gamma",
+    "example": "特殊数学语境中的符号。"
   },
   "\\mathbb{\\Gamma}": {
     "unicode": "ℾ",
     "name": "mathbb\\Gamma",
     "category": "greek",
-    "description": "",
-    "example": ""
+    "description": "空心大写希腊字母 Gamma",
+    "example": "特殊数学语境中的符号。"
   },
   "\\mathbb{\\Pi}": {
     "unicode": "ℿ",
     "name": "mathbb\\Pi",
     "category": "greek",
-    "description": "",
-    "example": ""
+    "description": "空心大写希腊字母 Pi",
+    "example": "特殊数学语境中的符号。"
   },
   "\\mathbb{\\Sigma}": {
     "unicode": "⅀",
     "name": "mathbb\\Sigma",
     "category": "greek",
-    "description": "",
-    "example": ""
+    "description": "空心大写希腊字母 Sigma",
+    "example": "特殊数学语境中的符号。"
   },
   "\\Game": {
     "unicode": "⅁",
     "name": "Game",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "博弈论算子 (Game)",
+    "example": "用于博弈论或特殊数学逻辑。"
   },
   "\\sansLturned": {
     "unicode": "⅂",
     "name": "sansLturned",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "无衬线倒置 L",
+    "example": "特定语义标记。"
   },
   "\\sansLmirrored": {
     "unicode": "⅃",
     "name": "sansLmirrored",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "无衬线镜像 L",
+    "example": "特定语义标记。"
   },
   "\\Yup": {
     "unicode": "⅄",
     "name": "Yup",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "Yup 符号 (倒置 Sans Y)",
+    "example": "特殊学术记号。"
   },
   "\\CapitalDifferentialD": {
     "unicode": "ⅅ",
     "name": "CapitalDifferentialD",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "直立大写微商 D",
+    "example": "全微分或特定数学定义：$\\\\mathrm{D}y$。"
   },
   "\\DifferentialD": {
     "unicode": "ⅆ",
     "name": "DifferentialD",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "直立小写微分 d",
+    "example": "积分或微分变量：$\\\\int f(x) \\\\mathrm{d}x$。"
   },
   "\\ExponetialE": {
     "unicode": "ⅇ",
     "name": "ExponetialE",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "直立指数 e",
+    "example": "自然对数底数：$\\\\mathrm{e}^{x}$。"
   },
   "\\ComplexI": {
     "unicode": "ⅈ",
     "name": "ComplexI",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "直立虚数单位 i",
+    "example": "虚数表示：$\\\\mathrm{i}^2 = -1$。"
   },
   "\\ComplexJ": {
     "unicode": "ⅉ",
     "name": "ComplexJ",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "直立虚数单位 j",
+    "example": "工程学中表示虚数。"
   },
   "\\PropertyLine": {
     "unicode": "⅊",
     "name": "PropertyLine",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "财产线符号",
+    "example": "制图或特殊文本符号。"
   },
   "\\invamp": {
     "unicode": "⅋",
     "name": "invamp",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "倒置和符号",
+    "example": "线性逻辑中的相关算子 (Par)。"
   },
   "\\leftarrow": {
     "unicode": "←",
     "name": "leftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左向箭头",
+    "example": "$x \\\\leftarrow y$ 表示赋值或方向。"
   },
   "\\uparrow": {
     "unicode": "↑",
     "name": "uparrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "上向箭头",
+    "example": "表示收敛或方向：$a_n \\\\uparrow a$。"
   },
   "\\rightarrow": {
     "unicode": "→",
     "name": "rightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右向箭头",
+    "example": "表示映射或极限：$x \\\\to \\\\infty$。"
   },
   "\\to": {
     "unicode": "→",
     "name": "to",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "倾向于 / 映射至 (右向箭头)",
+    "example": "表示函数定义或极限：$f: A \\\\to B$。"
   },
   "\\downarrow": {
     "unicode": "↓",
     "name": "downarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "下向箭头",
+    "example": "表示下降收敛：$a_n \\\\downarrow a$。"
   },
   "\\leftrightarrow": {
     "unicode": "↔",
     "name": "leftrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左右双向箭头",
+    "example": "表示等价或双向关系：$A \\\\leftrightarrow B$。"
   },
   "\\updownarrow": {
     "unicode": "↕",
     "name": "updownarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "上下双向箭头",
+    "example": "垂直双向关系。"
   },
   "\\nwarrow": {
     "unicode": "↖",
     "name": "nwarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "西北向 (左上) 箭头",
+    "example": "矩阵对角线方向表示。"
   },
   "\\nearrow": {
     "unicode": "↗",
     "name": "nearrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "东北向 (右上) 箭头",
+    "example": "矩阵对角线方向表示。"
   },
   "\\searrow": {
     "unicode": "↘",
     "name": "searrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "东南向 (右下) 箭头",
+    "example": "矩阵对角线方向表示。"
   },
   "\\swarrow": {
     "unicode": "↙",
     "name": "swarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "西南向 (左下) 箭头",
+    "example": "矩阵对角线方向表示。"
   },
   "\\nleftarrow": {
     "unicode": "↚",
     "name": "nleftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "否定左向箭头",
+    "example": "表示没有左向映射或关系。"
   },
   "\\nrightarrow": {
     "unicode": "↛",
     "name": "nrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "否定右向箭头",
+    "example": "表示不推导或不映射。"
   },
   "\\leftwavearrow": {
     "unicode": "↜",
     "name": "leftwavearrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左向波浪箭头",
+    "example": "特殊映射关系。"
   },
   "\\rightwavearrow": {
     "unicode": "↝",
     "name": "rightwavearrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右向波浪箭头",
+    "example": "特殊映射关系。"
   },
   "\\twoheadleftarrow": {
     "unicode": "↞",
     "name": "twoheadleftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双头左向箭头",
+    "example": "表示满射（Surjection）关系。"
   },
   "\\twoheaduparrow": {
     "unicode": "↟",
     "name": "twoheaduparrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双头上向箭头",
+    "example": "特殊垂直关系。"
   },
   "\\twoheadrightarrow": {
     "unicode": "↠",
     "name": "twoheadrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双头右向箭头",
+    "example": "表示满射关系：$f: A \\twoheadrightarrow B$。"
   },
   "\\twoheaddownarrow": {
     "unicode": "↡",
     "name": "twoheaddownarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双头下向箭头",
+    "example": "特殊垂直关系。"
   },
   "\\leftarrowtail": {
     "unicode": "↢",
     "name": "leftarrowtail",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带尾左向箭头",
+    "example": "表示单射（Injection）关系。"
   },
   "\\rightarrowtail": {
     "unicode": "↣",
     "name": "rightarrowtail",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带尾右向箭头",
+    "example": "表示单射关系：$f: A \\rightarrowtail B$。"
   },
   "\\mapsfrom": {
     "unicode": "↤",
     "name": "mapsfrom",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "反向映射箭头",
+    "example": "表示映射的逆向关系。"
   },
   "\\MapsUp": {
     "unicode": "↥",
     "name": "MapsUp",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "上向映射箭头",
+    "example": "垂直映射表示。"
   },
   "\\mapsto": {
     "unicode": "↦",
     "name": "mapsto",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "映射至箭头",
+    "example": "定义元素级映射：$x \\mapsto x^2$。"
   },
   "\\MapsDown": {
     "unicode": "↧",
     "name": "MapsDown",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "下向映射箭头",
+    "example": "垂直映射表示。"
   },
   "\\updownarrowbar": {
     "unicode": "↨",
     "name": "updownarrowbar",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带横杠上下双向箭头",
+    "example": "特殊数学标记。"
   },
   "\\hookleftarrow": {
     "unicode": "↩",
     "name": "hookleftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左向钩子箭头",
+    "example": "表示包含或迁入映射（Inclusion）。"
   },
   "\\hookrightarrow": {
     "unicode": "↪",
     "name": "hookrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右向钩子箭头",
+    "example": "表示包含映射：$i: A \\hookrightarrow B$。"
   },
   "\\looparrowleft": {
     "unicode": "↫",
     "name": "looparrowleft",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左向自环箭头",
+    "example": "表示自映射或循环。"
   },
   "\\looparrowright": {
     "unicode": "↬",
     "name": "looparrowright",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右向自环箭头",
+    "example": "表示自映射。"
   },
   "\\leftrightsquigarrow": {
     "unicode": "↭",
     "name": "leftrightsquigarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左右双向波浪箭头",
+    "example": "表示对应关系。"
   },
   "\\nleftrightarrow": {
     "unicode": "↮",
     "name": "nleftrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "否定左右双向箭头",
+    "example": "表示不相等或不对应。"
   },
   "\\lightning": {
     "unicode": "↯",
     "name": "lightning",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "闪电符号 / 矛盾符号",
+    "example": "逻辑中表示矛盾：$\\lightning$。"
   },
   "\\Lsh": {
     "unicode": "↰",
     "name": "Lsh",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "L 型左上箭头",
+    "example": "特殊流转或矩阵路径标记。"
   },
   "\\Rsh": {
     "unicode": "↱",
     "name": "Rsh",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "L 型右上箭头",
+    "example": "特殊路径标记。"
   },
   "\\dlsh": {
     "unicode": "↲",
     "name": "dlsh",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "L 型左下箭头",
+    "example": "特殊路径标记。"
   },
   "\\drsh": {
     "unicode": "↳",
     "name": "drsh",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "L 型右下箭头",
+    "example": "特殊路径标记。"
   },
   "\\linefeed": {
     "unicode": "↴",
     "name": "linefeed",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "换行指示箭头",
+    "example": "指示流程或排版。"
   },
   "\\carriagereturn": {
     "unicode": "↵",
     "name": "carriagereturn",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "回车符号",
+    "example": "排版或文本指示。"
   },
   "\\curvearrowleft": {
     "unicode": "↶",
     "name": "curvearrowleft",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左向曲线箭头",
+    "example": "旋转或循环表示。"
   },
   "\\curvearrowright": {
     "unicode": "↷",
     "name": "curvearrowright",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右向曲线箭头",
+    "example": "旋转或循环方向。"
   },
   "\\barovernorthwestarrow": {
     "unicode": "↸",
     "name": "barovernorthwestarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带杠西北向箭头",
+    "example": "特定数学标记。"
   },
   "\\barleftarrowrightarrowba": {
     "unicode": "↹",
     "name": "barleftarrowrightarrowba",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带杠左右箭头 (Tab 键符号)",
+    "example": "流程或界面交互表示。"
   },
   "\\circlearrowleft": {
     "unicode": "↺",
     "name": "circlearrowleft",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左向环形箭头",
+    "example": "表示逆时针旋转或循环。"
   },
   "\\circlearrowright": {
     "unicode": "↻",
     "name": "circlearrowright",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右向环形箭头",
+    "example": "表示顺时针旋转或循环。"
   },
   "\\leftharpoonup": {
     "unicode": "↼",
     "name": "leftharpoonup",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "左向半箭头 (上钩)",
+    "example": "用于表示向量分量或化学平衡。"
   },
   "\\leftharpoondown": {
     "unicode": "↽",
     "name": "leftharpoondown",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左向半箭头 (下钩)",
+    "example": "化学可逆反应表示。"
   },
   "\\upharpoonright": {
     "unicode": "↾",
     "name": "upharpoonright",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "上向半箭头 (右钩)",
+    "example": "垂直方向的半箭头。"
   },
   "\\upharpoonleft": {
     "unicode": "↿",
     "name": "upharpoonleft",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "上向半箭头 (左钩)",
+    "example": "垂直方向的半箭头。"
   },
   "\\rightharpoonup": {
     "unicode": "⇀",
     "name": "rightharpoonup",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "右向半箭头 (上钩)",
+    "example": "化学反应表示中的单向半箭头。"
   },
   "\\rightharpoondown": {
     "unicode": "⇁",
     "name": "rightharpoondown",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右向半箭头 (下钩)",
+    "example": "$A \\rightleftharpoons B$ 的组成部分。"
   },
   "\\downharpoonright": {
     "unicode": "⇂",
     "name": "downharpoonright",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "下向半箭头 (右钩)",
+    "example": "垂直方向的半箭头。"
   },
   "\\downharpoonleft": {
     "unicode": "⇃",
     "name": "downharpoonleft",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "下向半箭头 (左钩)",
+    "example": "垂直方向的半箭头。"
   },
   "\\rightleftarrows": {
     "unicode": "⇄",
     "name": "rightleftarrows",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "上右下左平行箭头",
+    "example": "表示双向过程或交换。"
   },
   "\\updownarrows": {
     "unicode": "⇅",
     "name": "updownarrows",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左上右下平行箭头",
+    "example": "垂直方向的交换过程。"
   },
   "\\leftrightarrows": {
     "unicode": "⇆",
     "name": "leftrightarrows",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "上左下右平行箭头",
+    "example": "表示相互交换。"
   },
   "\\leftleftarrows": {
     "unicode": "⇇",
     "name": "leftleftarrows",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双左向平行箭头",
+    "example": "表示多个左向映射。"
   },
   "\\upuparrows": {
     "unicode": "⇈",
     "name": "upuparrows",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双上向平行箭头",
+    "example": "强烈的上升趋势。"
   },
   "\\rightrightarrows": {
     "unicode": "⇉",
     "name": "rightrightarrows",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双右向平行箭头",
+    "example": "多个右向映射。"
   },
   "\\downdownarrows": {
     "unicode": "⇊",
     "name": "downdownarrows",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双下向平行箭头",
+    "example": "强烈的下降趋势。"
   },
   "\\leftrightharpoons": {
     "unicode": "⇋",
     "name": "leftrightharpoons",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左上右下半箭头 (平衡符号)",
+    "example": "表示化学平衡：$A \\\\leftrightharpoons B$。"
   },
   "\\rightleftharpoons": {
     "unicode": "⇌",
     "name": "rightleftharpoons",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右上左下半箭头 (平衡符号)",
+    "example": "用于表示化学反应的可逆性。"
   },
   "\\nLeftarrow": {
     "unicode": "⇍",
     "name": "nLeftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "否定左双线箭头",
+    "example": "逻辑上不被由右推导出的标记。"
   },
   "\\nLeftrightarrow": {
     "unicode": "⇎",
     "name": "nLeftrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "否定左右双向双线箭头",
+    "example": "表示不互为充要条件：$A \\\\nLeftrightarrow B$。"
   },
   "\\nRightarrow": {
     "unicode": "⇏",
     "name": "nRightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "否定右双线箭头",
+    "example": "逻辑不蕴含标记：$A \\\\nRightarrow B$。"
   },
   "\\Leftarrow": {
     "unicode": "⇐",
     "name": "Leftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左双线箭头",
+    "example": "逻辑推导方向：$A \\\\Leftarrow B$ 表示 B 蕴含 A。"
   },
   "\\Uparrow": {
     "unicode": "⇑",
     "name": "Uparrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "上双线箭头",
+    "example": "强调或特定数学分支的方向指示。"
   },
   "\\Rightarrow": {
     "unicode": "⇒",
     "name": "Rightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右双线箭头 (蕴含)",
+    "example": "表示逻辑蕴含：$P \\\\Rightarrow Q$。"
   },
   "\\Downarrow": {
     "unicode": "⇓",
     "name": "Downarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "下双线箭头",
+    "example": "强调或特定逻辑层次指示。"
   },
   "\\Leftrightarrow": {
     "unicode": "⇔",
     "name": "Leftrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左右双向双线箭头 (充要条件)",
+    "example": "表示充要条件：$A \\\\Leftrightarrow B$。"
   },
   "\\Updownarrow": {
     "unicode": "⇕",
     "name": "Updownarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "上下双向双线箭头",
+    "example": "垂直双向逻辑关系。"
   },
   "\\Nwarrow": {
     "unicode": "⇖",
     "name": "Nwarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "西北向双线箭头",
+    "example": "矩阵对角线强调。"
   },
   "\\Nearrow": {
     "unicode": "⇗",
     "name": "Nearrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "东北向双线箭头",
+    "example": "矩阵对角线强调。"
   },
   "\\Searrow": {
     "unicode": "⇘",
     "name": "Searrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "东南向双线箭头",
+    "example": "矩阵对角线强调。"
   },
   "\\Swarrow": {
     "unicode": "⇙",
     "name": "Swarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "西南向双线箭头",
+    "example": "矩阵对角线强调。"
   },
   "\\Lleftarrow": {
     "unicode": "⇚",
     "name": "Lleftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "三线左向箭头",
+    "example": "强逻辑推导方向。"
   },
   "\\Rrightarrow": {
     "unicode": "⇛",
     "name": "Rrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "三线右向箭头",
+    "example": "强逻辑推导或映射。"
   },
   "\\leftsquigarrow": {
     "unicode": "⇜",
     "name": "leftsquigarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左向碎形/波浪箭头",
+    "example": "特殊映射或对应。"
   },
   "\\rightsquigarrow": {
     "unicode": "⇝",
     "name": "rightsquigarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右向碎形/波浪箭头",
+    "example": "表示收敛到或映射关系。"
   },
   "\\nHuparrow": {
     "unicode": "⇞",
     "name": "nHuparrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带横杠上双线箭头",
+    "example": "禁止或受限的方向。"
   },
   "\\nHdownarrow": {
     "unicode": "⇟",
     "name": "nHdownarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带横杠下双线箭头",
+    "example": "禁止或受限的方向。"
   },
   "\\dashleftarrow": {
     "unicode": "⇠",
     "name": "dashleftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左向虚线箭头",
+    "example": "表示不确定的映射或辅助方向。"
   },
   "\\updasharrow": {
     "unicode": "⇡",
     "name": "updasharrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "上向虚线箭头",
+    "example": "表示趋势或辅助线。"
   },
   "\\dashrightarrow": {
     "unicode": "⇢",
     "name": "dashrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右向虚线箭头",
+    "example": "常见描述函数图象中的虚位移或趋向。"
   },
   "\\downdasharrow": {
     "unicode": "⇣",
     "name": "downdasharrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "下向虚线箭头",
+    "example": "表示下降趋势。"
   },
   "\\LeftArrowBar": {
     "unicode": "⇤",
     "name": "LeftArrowBar",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带杠左向箭头",
+    "example": "流程终止或端点标记。"
   },
   "\\RightArrowBar": {
     "unicode": "⇥",
     "name": "RightArrowBar",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带杠右向箭头",
+    "example": "流程终止或端点标记。"
   },
   "\\leftwhitearrow": {
     "unicode": "⇦",
     "name": "leftwhitearrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "宽白左向箭头",
+    "example": "强视觉指示。"
   },
   "\\upwhitearrow": {
     "unicode": "⇧",
     "name": "upwhitearrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "宽白上向箭头 (Shift 键符号)",
+    "example": "界面指示或方向强调。"
   },
   "\\rightwhitearrow": {
     "unicode": "⇨",
     "name": "rightwhitearrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "宽白右向箭头",
+    "example": "强视觉指示。"
   },
   "\\downwhitearrow": {
     "unicode": "⇩",
     "name": "downwhitearrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "宽白下向箭头",
+    "example": "强视觉指示。"
   },
   "\\whitearrowupfrombar": {
     "unicode": "⇪",
     "name": "whitearrowupfrombar",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带底杠宽白上向箭头 (CapsLock 键符号)",
+    "example": "排版或界面交互图标。"
   },
   "\\mathord": {
     "unicode": "⍹",
@@ -2697,23 +2697,23 @@
   "\\downuparrows": {
     "unicode": "⇵",
     "name": "downuparrows",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "左下右上平行箭头",
+    "example": "垂直交换关系。"
   },
   "\\rightthreearrows": {
     "unicode": "⇶",
     "name": "rightthreearrows",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "三右向平行箭头",
+    "example": "极强的流向指示。"
   },
   "\\nvleftarrow": {
     "unicode": "⇷",
     "name": "nvleftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带短划线否定左箭头",
+    "example": "表示不存在左向映射。"
   },
   "\\pfun": {
     "unicode": "⇸",
@@ -2726,15 +2726,15 @@
     "unicode": "⇹",
     "name": "nvleftrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带短划线否定左右箭头",
+    "example": "表示不存在相互映射。"
   },
   "\\nVleftarrow": {
     "unicode": "⇺",
     "name": "nVleftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带双短划线否定左箭头",
+    "example": "否定表示。"
   },
   "\\ffun": {
     "unicode": "⇻",
@@ -2747,1436 +2747,1436 @@
     "unicode": "⇼",
     "name": "nVleftrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带双短划线否定左右箭头",
+    "example": "否定表示。"
   },
   "\\leftarrowtriangle": {
     "unicode": "⇽",
     "name": "leftarrowtriangle",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带三角形箭头 (左向)",
+    "example": "特定数学理论中的映射符号。"
   },
   "\\rightarrowtriangle": {
     "unicode": "⇾",
     "name": "rightarrowtriangle",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带三角形箭头 (右向)",
+    "example": "特定数学理论中的映射符号。"
   },
   "\\leftrightarrowtriangle": {
     "unicode": "⇿",
     "name": "leftrightarrowtriangle",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "带三角形左右双向箭头",
+    "example": "特殊逻辑等价表示。"
   },
   "\\forall": {
     "unicode": "∀",
     "name": "forall",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "全称量词 (任意)",
+    "example": "表示对集合内所有元素成立：$\\forall x \\in S, P(x)$。"
   },
   "\\complement": {
     "unicode": "∁",
     "name": "complement",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "补集符号",
+    "example": "表示全集与 A 的差集：$\\complement A$。"
   },
   "\\partial": {
     "unicode": "𝜕",
     "name": "partial",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "偏导数符号",
+    "example": "多变量函数的偏导：$\\frac{\\partial f}{\\partial x}$。"
   },
   "\\exists": {
     "unicode": "∃",
     "name": "exists",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "存在量词",
+    "example": "表示存在某个元素成立：$\\exists x \\in S \\text{ s.t. } Q(x)$。"
   },
   "\\nexists": {
     "unicode": "∄",
     "name": "nexists",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不存在量词",
+    "example": "表示不存在满足条件的元素：$\\nexists x, x^2 < 0$。"
   },
   "\\varnothing": {
     "unicode": "∅",
     "name": "varnothing",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "空集符号 (变体)",
+    "example": "表示不含任何元素的集合：$A \\cap B = \\varnothing$。"
   },
   "\\emptyset": {
     "unicode": "∅",
     "name": "emptyset",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "空集符号",
+    "example": "$x \\in \\emptyset$ 永假。"
   },
   "\\increment": {
     "unicode": "∆",
     "name": "increment",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "增量 / 差分算子 (Delta)",
+    "example": "表示数值变化：$\\Delta y / \\Delta x$。"
   },
   "\\nabla": {
     "unicode": "∇",
     "name": "nabla",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "向量算子 (Nabla / 梯度)",
+    "example": "函数的梯度：$\\nabla f$ 或散度：$\\nabla \\cdot \\mathbf{u}$。"
   },
   "\\in": {
     "unicode": "∈",
     "name": "in",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "属于号 (Set membership)",
+    "example": "元素属于集合：$x \\in A$。"
   },
   "\\notin": {
     "unicode": "∉",
     "name": "notin",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不属于号",
+    "example": "元素不属于集合：$y \\notin B$。"
   },
   "\\smallin": {
     "unicode": "∊",
     "name": "smallin",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小号属于号",
+    "example": "特定排版语境下的属于关系。"
   },
   "\\ni": {
     "unicode": "∋",
     "name": "ni",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "包含于号 (反向属于)",
+    "example": "集合包含元素：$A \\ni x$。"
   },
   "\\nni": {
     "unicode": "∌",
     "name": "nni",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不包含于号 (反向不属于)",
+    "example": "$A \\nni y$ 表示集合 A 不包含元素 y。"
   },
   "\\smallni": {
     "unicode": "∍",
     "name": "smallni",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小号包含于号",
+    "example": "特定排版中的包含关系。"
   },
   "\\QED": {
     "unicode": "∎",
     "name": "QED",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "证毕符号 (Quod Erat Demonstrandum)",
+    "example": "置于证明末尾，表示证明结束。"
   },
   "\\prod": {
     "unicode": "∏",
     "name": "prod",
-    "category": "math",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "连乘算子",
+    "example": "表示序列的积：$\\prod_{i=1}^n x_i$。"
   },
   "\\coprod": {
     "unicode": "∐",
     "name": "coprod",
-    "category": "math",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "余积算子 / 反向连乘",
+    "example": "用于范畴论中的余积表示。"
   },
   "\\sum": {
     "unicode": "∑",
     "name": "sum",
-    "category": "math",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "连加算子 (求和符号)",
+    "example": "表示序列的和：$\\\\sum_{i=0}^\\\\infty ar^i$。"
   },
   "-": {
     "unicode": "−",
     "name": "-",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "减号 / 负号",
+    "example": "算术减法：$5 - 3 = 2$ 或表示负数：$-1$。"
   },
   "\\mp": {
     "unicode": "∓",
     "name": "mp",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "减加号",
+    "example": "常与 $\\pm$ 配合使用，表示与前者相反的符号。"
   },
   "\\dotplus": {
     "unicode": "∔",
     "name": "dotplus",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "点加号",
+    "example": "特定代数运算中的加法变体。"
   },
   "\\slash": {
     "unicode": "∕",
     "name": "slash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "除号斜杠",
+    "example": "表示除法或比例：$a \\slash b$。"
   },
   "\\smallsetminus": {
     "unicode": "∖",
     "name": "smallsetminus",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "集合并/差号",
+    "example": "表示集合的差：$S \\setminus \\{0\\}$。"
   },
   "\\ast": {
     "unicode": "∗",
     "name": "ast",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "星号算子",
+    "example": "用于卷积运算 $f \\ast g$ 或特殊乘法。"
   },
   "\\circ": {
     "unicode": "∘",
     "name": "circ",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "复合算子",
+    "example": "函数复合：$(f \\circ g)(x)$。"
   },
   "\\bullet": {
     "unicode": "∙",
     "name": "bullet",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "粗圆点算子",
+    "example": "表示点积或列表项目。"
   },
   "\\sqrt": {
     "unicode": "√",
     "name": "sqrt",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "平方根符号",
+    "example": "求平方根：$\\sqrt{x^2+y^2}$。"
   },
   "\\sqrt[3]": {
     "unicode": "∛",
     "name": "sqrt[3]",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "立方根符号",
+    "example": "计算立方根：$\\sqrt[3]{27}=3$。"
   },
   "\\sqrt[4]": {
     "unicode": "∜",
     "name": "sqrt[4]",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "四次方根符号",
+    "example": "计算四次方根：$\\sqrt[4]{16}=2$。"
   },
   "\\propto": {
     "unicode": "∝",
     "name": "propto",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "正比于号",
+    "example": "表示成正比关系：$F \\propto a$。"
   },
   "\\infty": {
     "unicode": "∞",
     "name": "infty",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "无穷大符号",
+    "example": "表示无限：$n \\to \\infty$。"
   },
   "\\rightangle": {
     "unicode": "∟",
     "name": "rightangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "直角符号",
+    "example": "几何中表示 90 度角。"
   },
   "\\angle": {
     "unicode": "∠",
     "name": "angle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "角符号",
+    "example": "几何中表示角度：$\\angle ABC$。"
   },
   "\\measuredangle": {
     "unicode": "∡",
     "name": "measuredangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "有向角符号",
+    "example": "几何测量的角度表示。"
   },
   "\\sphericalangle": {
     "unicode": "∢",
     "name": "sphericalangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "球角符号",
+    "example": "表示立体角或球面几何中的角。"
   },
   "\\mid": {
     "unicode": "∣",
     "name": "mid",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "垂直线算子 (整除/条件)",
+    "example": "表示整除 $a|b$ 或条件概率 $P(A|B)$。"
   },
   "\\nmid": {
     "unicode": "∤",
     "name": "nmid",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不整除号",
+    "example": "表示 $a$ 不整除 $b$，$a \\nmid b$。"
   },
   "\\parallel": {
     "unicode": "∥",
     "name": "parallel",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "平行号",
+    "example": "表示两条直线平行：$L_1 \\parallel L_2$。"
   },
   "\\nparallel": {
     "unicode": "∦",
     "name": "nparallel",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不平行号",
+    "example": "表示直线不平行。"
   },
   "\\wedge": {
     "unicode": "∧",
     "name": "wedge",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "逻辑与 / 楔积",
+    "example": "逻辑连接：$P \\wedge Q$ 或外代数中的楔积。"
   },
   "\\vee": {
     "unicode": "∨",
     "name": "vee",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "逻辑或",
+    "example": "逻辑连接：$P \\vee Q$。"
   },
   "\\land": {
     "unicode": "∧",
     "name": "land",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "逻辑与 (Land)",
+    "example": "等价于 $\\wedge$。"
   },
   "\\lor": {
     "unicode": "∨",
     "name": "lor",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "逻辑或 (Lor)",
+    "example": "等价于 $\\vee$。"
   },
   "\\cap": {
     "unicode": "∩",
     "name": "cap",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "集合交集",
+    "example": "表示两个集合的公共部分：$A \\cap B$。"
   },
   "\\cup": {
     "unicode": "∪",
     "name": "cup",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "集合并集",
+    "example": "表示两个集合的合并：$A \\cup B$。"
   },
   "\\int": {
     "unicode": "∫",
     "name": "int",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "积分号",
+    "example": "定积分或不定积分：$\\int_a^b f(x) \\mathrm{d}x$。"
   },
   "\\iint": {
     "unicode": "∬",
     "name": "iint",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "二重积分",
+    "example": "表示在平面区域上的积分：$\\iint_D f(x,y) \\mathrm{d}A$。"
   },
   "\\iiint": {
     "unicode": "∭",
     "name": "iiint",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "三重积分",
+    "example": "空间区域上的积分：$\\iiint_V f(x,y,z) \\mathrm{d}V$。"
   },
   "\\oint": {
     "unicode": "∮",
     "name": "oint",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "曲线积分 (环路积分)",
+    "example": "表示沿闭合路径积分：$\\oint_C L \\cdot \\mathrm{d}s$。"
   },
   "\\oiint": {
     "unicode": "∯",
     "name": "oiint",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "闭合曲面积分",
+    "example": "计算闭合曲面的流量。"
   },
   "\\oiiint": {
     "unicode": "∰",
     "name": "oiiint",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "闭合体积分 (变体)",
+    "example": "特殊数学语境下的围道积分。"
   },
   "\\intclockwise": {
     "unicode": "∱",
     "name": "intclockwise",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "顺时针积分",
+    "example": "表示方向特定的积分。"
   },
   "\\varointclockwise": {
     "unicode": "∲",
     "name": "varointclockwise",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "顺时针闭合积分",
+    "example": "特定的围道积分。"
   },
   "\\ointctrclockwise": {
     "unicode": "∳",
     "name": "ointctrclockwise",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "逆时针闭合积分",
+    "example": "标准围道积分方向。"
   },
   "\\therefore": {
     "unicode": "∴",
     "name": "therefore",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "所以 / 因此",
+    "example": "用于逻辑推导的结论：$\\therefore x=1$。"
   },
   "\\because": {
     "unicode": "∵",
     "name": "because",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "因为",
+    "example": "用于解释原因：$\\because a^2+b^2=c^2$。"
   },
   "\\Proportion": {
     "unicode": "∷",
     "name": "Proportion",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "成比例符号",
+    "example": "用于数学比例关系表示。"
   },
   "\\dotminus": {
     "unicode": "∸",
     "name": "dotminus",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "截断减法 / 算术减 (Monus)",
+    "example": "特定算术系统下的减法。"
   },
   "\\eqcolon": {
     "unicode": "≕",
     "name": "eqcolon",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "定义为 (左侧被右侧定义)",
+    "example": "$A \\eqcolon B$ 表示 B 定义了 A。"
   },
   "\\dotsminusdots": {
     "unicode": "∺",
     "name": "dotsminusdots",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "几何比例 / 对应标记",
+    "example": "特定的数学映射记号。"
   },
   "\\kernelcontraction": {
     "unicode": "∻",
     "name": "kernelcontraction",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "算子核压缩",
+    "example": "用于积分方程理论中的算子表示。"
   },
   "\\sim": {
     "unicode": "∼",
     "name": "sim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "相似 / 约等于",
+    "example": "表示两个三角形相似：$\\triangle ABC \\\\sim \\\\triangle DEF$。"
   },
   "\\backsim": {
     "unicode": "∽",
     "name": "backsim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反向相似符号",
+    "example": "用于某些代数结构中的关系表示。"
   },
   "\\invlazys": {
     "unicode": "∾",
     "name": "invlazys",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反转的“懒惰 S”",
+    "example": "表示某种对称或反向关系。"
   },
   "\\AC": {
     "unicode": "∿",
     "name": "AC",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "physics",
+    "description": "交流电 (AC) 符号",
+    "example": "在电路图中表示交流：$V \\\\sim 220V$。"
   },
   "\\wr": {
     "unicode": "≀",
     "name": "wr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "花冠积 (Wreath Product)",
+    "example": "群论中的构造：$G \\\\wr H$。"
   },
   "\\nsim": {
     "unicode": "≁",
     "name": "nsim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不相似",
+    "example": "表示两个图形不相似。"
   },
   "\\eqsim": {
     "unicode": "≂",
     "name": "eqsim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "等于且相似",
+    "example": "用于某些特定数学逻辑中。"
   },
   "\\simeq": {
     "unicode": "≃",
     "name": "simeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "全等 / 约等于",
+    "example": "用于表示同构或近似：$A \\\\simeq B$。"
   },
   "\\nsimeq": {
     "unicode": "≄",
     "name": "nsimeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不全等 / 不约等于",
+    "example": "表示不满足近似关系。"
   },
   "\\cong": {
     "unicode": "≅",
     "name": "cong",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "全等 / 同构",
+    "example": "表示三角形全等：$\\\\triangle ABC \\\\cong \\\\triangle DEF$。"
   },
   "\\simneqq": {
     "unicode": "≆",
     "name": "simneqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "相似但不等于",
+    "example": "特定集合论或逻辑关系中的符号。"
   },
   "\\ncong": {
     "unicode": "≇",
     "name": "ncong",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "不全等 / 不同构",
+    "example": "表示结构不一致。"
   },
   "\\approx": {
     "unicode": "≈",
     "name": "approx",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "近似 / 约等于",
+    "example": "用于数值计算：$\\\\pi \\\\approx 3.14$。"
   },
   "\\napprox": {
     "unicode": "≉",
     "name": "napprox",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "不近似",
+    "example": "表示数值差异较大。"
   },
   "\\approxeq": {
     "unicode": "≊",
     "name": "approxeq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "近似且等于",
+    "example": "表示高度相似且在误差内相等。"
   },
   "\\approxident": {
     "unicode": "≋",
     "name": "approxident",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "三连近似 (Identical to)",
+    "example": "表示两个结构完全相同。"
   },
   "\\backcong": {
     "unicode": "≌",
     "name": "backcong",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "反向全等",
+    "example": "用于对应映射关系。"
   },
   "\\asymp": {
     "unicode": "≍",
     "name": "asymp",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "渐近于",
+    "example": "表示序列的渐近行为：$a_n \\\\asymp b_n$。"
   },
   "\\Bumpeq": {
     "unicode": "≎",
     "name": "Bumpeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双凸等号 (Bumpy Equation)",
+    "example": "用于某些特定代数关系。"
   },
   "\\bumpeq": {
     "unicode": "≏",
     "name": "bumpeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "单凸等号",
+    "example": "表示微弱的相似性关系。"
   },
   "\\doteq": {
     "unicode": "≐",
     "name": "doteq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "点等号 / 极限等于",
+    "example": "表示极限值相等：$f(n) \\\\doteq 1$。"
   },
   "\\Doteq": {
     "unicode": "≑",
     "name": "Doteq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双点等号 (Geometrically equal)",
+    "example": "几何意义上的相等。"
   },
   "\\fallingdotseq": {
     "unicode": "≒",
     "name": "fallingdotseq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "递减点等号 (Approximately equal)",
+    "example": "常在亚洲某些地区表示约等于。"
   },
   "\\risingdotseq": {
     "unicode": "≓",
     "name": "risingdotseq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "递增点等号",
+    "example": "特定逻辑或计算关系中的等号变体。"
   },
   "\\coloneq": {
     "unicode": "≔",
     "name": "coloneq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "冒号等号 (定义为)",
+    "example": "用于编程或数学定义：$x \\\\coloneq 5$。"
   },
   "\\eqcirc": {
     "unicode": "≖",
     "name": "eqcirc",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带顶圈的等号",
+    "example": "用于特殊数学结构的标记。"
   },
   "\\circeq": {
     "unicode": "≗",
     "name": "circeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带内圈的等号",
+    "example": "特定几何或逻辑记号。"
   },
   "\\arceq": {
     "unicode": "≘",
     "name": "arceq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圆弧等号 (对应关系)",
+    "example": "表示几何上的对应。"
   },
   "\\corresponds": {
     "unicode": "≙",
     "name": "corresponds",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "对应于 (Estimates)",
+    "example": "表示物理量或估计值的对应。"
   },
   "\\veeeq": {
     "unicode": "≚",
     "name": "veeeq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "带 V 字等号",
+    "example": "格理论或逻辑中的特定关系。"
   },
   "\\stareq": {
     "unicode": "≛",
     "name": "stareq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带星号等号",
+    "example": "用于特殊定义的等价关系。"
   },
   "\\triangleq": {
     "unicode": "≜",
     "name": "triangleq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "三角形等号 (定义为)",
+    "example": "表示公理或定义的相等：$P \\\\triangleq Q$。"
   },
   "\\eqdef": {
     "unicode": "≝",
     "name": "eqdef",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "定义为 (Definition)",
+    "example": "用于数学形式化定义：$A \\\\eqdef B$。"
   },
   "\\measeq": {
     "unicode": "≞",
     "name": "measeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "度量等号",
+    "example": "表示测量值相等。"
   },
   "\\questeq": {
     "unicode": "≟",
     "name": "questeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "疑问等号 (是否等于)",
+    "example": "用于表示待验证的等式。"
   },
   "\\neq": {
     "unicode": "≠",
     "name": "neq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "不等于",
+    "example": "基本数学关系：$1 \\\\neq 2$。"
   },
   "\\not\\eq": {
     "unicode": "≠",
     "name": "not\\eq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不等于 (组合符号)",
+    "example": "另一种表示不等于的方式。"
   },
   "\\equiv": {
     "unicode": "≡",
     "name": "equiv",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "恒等于 / 同余",
+    "example": "用于数论或逻辑：$x \\\\equiv 3 \\\\pmod{5}$。"
   },
   "\\nequiv": {
     "unicode": "≢",
     "name": "nequiv",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "不恒等 / 不同余",
+    "example": "表示不存在同余关系。"
   },
   "\\Equiv": {
     "unicode": "≣",
     "name": "Equiv",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "四连等号",
+    "example": "极强的恒等或精确定义关系。"
   },
   "\\leq": {
     "unicode": "≤",
     "name": "leq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "小于等于",
+    "example": "不等式基础：$x \\\\leq 10$。"
   },
   "\\geq": {
     "unicode": "≥",
     "name": "geq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "大于等于",
+    "example": "不等式基础：$y \\\\geq 0$。"
   },
   "\\leqq": {
     "unicode": "≦",
     "name": "leqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "小于等于 (带双横杠)",
+    "example": "另一种常见的不等号变体。"
   },
   "\\geqq": {
     "unicode": "≧",
     "name": "geqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "大于等于 (带双横杠)",
+    "example": "另一种常见的不等号变体。"
   },
   "\\lneqq": {
     "unicode": "≨",
     "name": "lneqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "小于但不等于",
+    "example": "强调严格小于的关系。"
   },
   "\\gneqq": {
     "unicode": "≩",
     "name": "gneqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "大于但不等于",
+    "example": "强调严格大于的关系。"
   },
   "\\ll": {
     "unicode": "≪",
     "name": "ll",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "远小于",
+    "example": "表示数量级差异：$1 \\\\ll 10^6$。"
   },
   "\\gg": {
     "unicode": "≫",
     "name": "gg",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "远大于",
+    "example": "表示数量级差异：$10^6 \\\\gg 1$。"
   },
   "\\between": {
     "unicode": "≬",
     "name": "between",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "介于...之间",
+    "example": "表示某个值处于两个界限中。"
   },
   "\\notasymp": {
     "unicode": "≭",
     "name": "notasymp",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不渐近于",
+    "example": "表示增长速率不具有渐近一致性。"
   },
   "\\nless": {
     "unicode": "≮",
     "name": "nless",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不小于",
+    "example": "不等式否认：$\\\\nless$。"
   },
   "\\ngtr": {
     "unicode": "≯",
     "name": "ngtr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不大于",
+    "example": "不等式否认：$\\\\ngtr$。"
   },
   "\\nleq": {
     "unicode": "≰",
     "name": "nleq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "不小于等于",
+    "example": "表示 $x > y$ 的另一种语义。"
   },
   "\\ngeq": {
     "unicode": "≱",
     "name": "ngeq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "不大于等于",
+    "example": "表示 $x < y$ 的另一种语义。"
   },
   "\\lesssim": {
     "unicode": "≲",
     "name": "lesssim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小于且近似",
+    "example": "用于带误差的比较。"
   },
   "\\gtrsim": {
     "unicode": "≳",
     "name": "gtrsim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于且近似",
+    "example": "用于带误差的比较。"
   },
   "\\NotLessTilde": {
     "unicode": "≴",
     "name": "NotLessTilde",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不小于且不近似",
+    "example": "极严苛的比较否认。"
   },
   "\\NotGreaterTilde": {
     "unicode": "≵",
     "name": "NotGreaterTilde",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不大于且不近似",
+    "example": "极严苛的比较否认。"
   },
   "\\lessgtr": {
     "unicode": "≶",
     "name": "lessgtr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小于或大于",
+    "example": "用于偏序关系中的比较。"
   },
   "\\gtrless": {
     "unicode": "≷",
     "name": "gtrless",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于或小于",
+    "example": "用于偏序关系中的比较。"
   },
   "\\nlessgtr": {
     "unicode": "≸",
     "name": "nlessgtr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "既不小于也不大于",
+    "example": "不可比较的偏序关系。"
   },
   "\\NotGreaterLess": {
     "unicode": "≹",
     "name": "NotGreaterLess",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "既不大于也不小于",
+    "example": "不可比较的偏序关系。"
   },
   "\\prec": {
     "unicode": "≺",
     "name": "prec",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "前驱 (Precedes)",
+    "example": "序关系：$a \\\\prec b$ 表示 a 在 b 之前。"
   },
   "\\succ": {
     "unicode": "≻",
     "name": "succ",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "后继 (Succeeds)",
+    "example": "序关系：$b \\\\succ a$ 表示 b 在 a 之后。"
   },
   "\\preccurlyeq": {
     "unicode": "≼",
     "name": "preccurlyeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "前驱或等于",
+    "example": "$a \\\\preccurlyeq b$ 表示 a 在 b 之前或与 b 相等。"
   },
   "\\succcurlyeq": {
     "unicode": "≽",
     "name": "succcurlyeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "后继或等于",
+    "example": "$b \\\\succcurlyeq a$ 表示 b 在 a 之后或与 a 相等。"
   },
   "\\precsim": {
     "unicode": "≾",
     "name": "precsim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "前驱且近似",
+    "example": "带近似的序关系。"
   },
   "\\succsim": {
     "unicode": "≿",
     "name": "succsim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "后继且近似",
+    "example": "带近似的序关系。"
   },
   "\\nprec": {
     "unicode": "⊀",
     "name": "nprec",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不前驱",
+    "example": "序关系的否认。"
   },
   "\\nsucc": {
     "unicode": "⊁",
     "name": "nsucc",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不后继",
+    "example": "序关系的否认。"
   },
   "\\subset": {
     "unicode": "⊂",
     "name": "subset",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "子集 (真子集)",
+    "example": "集合论基础：$A \\\\subset B$ 表示 A 是 B 的真子集。"
   },
   "\\supset": {
     "unicode": "⊃",
     "name": "supset",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "超集 (真超集)",
+    "example": "$B \\\\supset A$ 表示 B 是 A 的真超集。"
   },
   "\\nsubset": {
     "unicode": "⊄",
     "name": "nsubset",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "非子集",
+    "example": "表示集合不包含关系。"
   },
   "\\nsupset": {
     "unicode": "⊅",
     "name": "nsupset",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "非超集",
+    "example": "表示集合不包含关系。"
   },
   "\\subseteq": {
     "unicode": "⊆",
     "name": "subseteq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "子集或等于",
+    "example": "$A \\\\subseteq B$ 表示 A 是 B 的子集（含相等）。"
   },
   "\\supseteq": {
     "unicode": "⊇",
     "name": "supseteq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "超集或等于",
+    "example": "$B \\\\supseteq A$ 表示 B 包含 A（含相等）。"
   },
   "\\nsubseteq": {
     "unicode": "⊈",
     "name": "nsubseteq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "非子集或等于",
+    "example": "表示不满足子集关系。"
   },
   "\\nsupseteq": {
     "unicode": "⊉",
     "name": "nsupseteq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "非超集或等于",
+    "example": "表示不满足超集关系。"
   },
   "\\subsetneq": {
     "unicode": "⊊",
     "name": "subsetneq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "真子集且不等于",
+    "example": "严格的真子集关系。"
   },
   "\\supsetneq": {
     "unicode": "⊋",
     "name": "supsetneq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "真超集且不等于",
+    "example": "严格的真超集关系。"
   },
   "\\cupleftarrow": {
     "unicode": "⊌",
     "name": "cupleftarrow",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "左箭头并集",
+    "example": "集合论中的特殊并集运算。"
   },
   "\\cupdot": {
     "unicode": "⊍",
     "name": "cupdot",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "点并集 (不相交并)",
+    "example": "多重集合的并：$A \\\\cupdot B$。"
   },
   "\\uplus": {
     "unicode": "⊎",
     "name": "uplus",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不相交并集 (Disjoint Union)",
+    "example": "$A \\\\uplus B$ 表示 A 和 B 的不相交并集。"
   },
   "\\sqsubset": {
     "unicode": "⊏",
     "name": "sqsubset",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "方形子集",
+    "example": "偏序关系中的子集变体。"
   },
   "\\sqsupset": {
     "unicode": "⊐",
     "name": "sqsupset",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "方形超集",
+    "example": "偏序关系中的超集变体。"
   },
   "\\sqsubseteq": {
     "unicode": "⊑",
     "name": "sqsubseteq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "方形子集或等于",
+    "example": "格理论中的偏序关系：$a \\\\sqsubseteq b$。"
   },
   "\\sqsupseteq": {
     "unicode": "⊒",
     "name": "sqsupseteq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "方形超集或等于",
+    "example": "格理论中的偏序关系：$b \\\\sqsupseteq a$。"
   },
   "\\sqcap": {
     "unicode": "⊓",
     "name": "sqcap",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "方形交集 (最大下界)",
+    "example": "格理论中的交运算：$a \\\\sqcap b$。"
   },
   "\\sqcup": {
     "unicode": "⊔",
     "name": "sqcup",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "方形并集 (最小上界)",
+    "example": "格理论中的并运算：$a \\\\sqcup b$。"
   },
   "\\oplus": {
     "unicode": "⊕",
     "name": "oplus",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "圈加 / 直和",
+    "example": "向量空间直和：$V \\\\oplus W$；异或运算。"
   },
   "\\ominus": {
     "unicode": "⊖",
     "name": "ominus",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈减",
+    "example": "集合差或对称差运算。"
   },
   "\\otimes": {
     "unicode": "⊗",
     "name": "otimes",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "圈乘 / 张量积",
+    "example": "张量积：$V \\\\otimes W$；Kronecker 积。"
   },
   "\\oslash": {
     "unicode": "⊘",
     "name": "oslash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈斜线 / 圈除",
+    "example": "特殊代数运算符。"
   },
   "\\odot": {
     "unicode": "⊙",
     "name": "odot",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "圈点 / 点积",
+    "example": "Hadamard 积：$A \\\\odot B$。"
   },
   "\\circledcirc": {
     "unicode": "⊚",
     "name": "circledcirc",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双圈 (函数复合)",
+    "example": "表示函数复合或特殊运算。"
   },
   "\\circledast": {
     "unicode": "⊛",
     "name": "circledast",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈星号",
+    "example": "特殊代数运算符或卷积。"
   },
   "\\circledequal": {
     "unicode": "⊜",
     "name": "circledequal",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈等号",
+    "example": "特殊等价关系标记。"
   },
   "\\circleddash": {
     "unicode": "⊝",
     "name": "circleddash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈短横",
+    "example": "特殊算术运算。"
   },
   "\\boxplus": {
     "unicode": "⊞",
     "name": "boxplus",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "方框加号",
+    "example": "Minkowski 和或特殊运算。"
   },
   "\\boxminus": {
     "unicode": "⊟",
     "name": "boxminus",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "方框减号",
+    "example": "Minkowski 差或特殊运算。"
   },
   "\\boxtimes": {
     "unicode": "⊠",
     "name": "boxtimes",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "方框乘号",
+    "example": "外积或张量积的方框形式。"
   },
   "\\boxdot": {
     "unicode": "⊡",
     "name": "boxdot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "方框点",
+    "example": "特殊点积运算。"
   },
   "\\vdash": {
     "unicode": "⊢",
     "name": "vdash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "可证 / 推导 (Turnstile)",
+    "example": "逻辑推导：$\\\\Gamma \\\\vdash \\\\phi$ 表示从 $\\\\Gamma$ 能证明 $\\\\phi$。"
   },
   "\\dashv": {
     "unicode": "⊣",
     "name": "dashv",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反向可证 (Reverse Turnstile)",
+    "example": "表示反向的推导关系。"
   },
   "\\top": {
     "unicode": "⊤",
     "name": "top",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "顶部元素 / 永真 (Top)",
+    "example": "逻辑中的永真命题：$\\\\top$。"
   },
   "\\bot": {
     "unicode": "⊥",
     "name": "bot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "底部元素 / 永假 / 垂直 (Bottom)",
+    "example": "逻辑中的永假命题或垂直关系：$a \\\\bot b$。"
   },
   "\\assert": {
     "unicode": "⊦",
     "name": "assert",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "断言 (Assertion)",
+    "example": "逻辑中的断言。"
   },
   "\\models": {
     "unicode": "⊧",
     "name": "models",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "模型 / 满足 (Models)",
+    "example": "$M \\\\models \\\\phi$ 表示 M 是 $\\\\phi$ 的一个模型。"
   },
   "\\vDash": {
     "unicode": "⊨",
     "name": "vDash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "语义后承 / 可满足 (Double Turnstile)",
+    "example": "$\\\\Gamma \\\\vDash \\\\phi$ 表示 $\\\\phi$ 是 $\\\\Gamma$ 的语义后承。"
   },
   "\\Vdash": {
     "unicode": "⊩",
     "name": "Vdash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双线可证 (Forces)",
+    "example": "用于强迫法或特殊逻辑。"
   },
   "\\Vvdash": {
     "unicode": "⊪",
     "name": "Vvdash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "三线可证",
+    "example": "特殊逻辑推导关系。"
   },
   "\\VDash": {
     "unicode": "⊫",
     "name": "VDash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双线可满足",
+    "example": "特殊逻辑运算符。"
   },
   "\\nvdash": {
     "unicode": "⊬",
     "name": "nvdash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不可证",
+    "example": "表示无法从前提推导出结论。"
   },
   "\\nvDash": {
     "unicode": "⊭",
     "name": "nvDash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不可满足",
+    "example": "表示不是语义后承。"
   },
   "\\nVdash": {
     "unicode": "⊮",
     "name": "nVdash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不双线可证",
+    "example": "逻辑推导的否认。"
   },
   "\\nVDash": {
     "unicode": "⊯",
     "name": "nVDash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不双线可满足",
+    "example": "逻辑满足关系的否认。"
   },
   "\\prurel": {
     "unicode": "⊰",
     "name": "prurel",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "前驱关系",
+    "example": "特殊序关系。"
   },
   "\\scurel": {
     "unicode": "⊱",
     "name": "scurel",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "后继关系",
+    "example": "特殊序关系。"
   },
   "\\vartriangleleft": {
     "unicode": "⊲",
     "name": "vartriangleleft",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "左三角形 (正规子群)",
+    "example": "群论：$N \\\\vartriangleleft G$ 表示 N 是 G 的正规子群。"
   },
   "\\vartriangleright": {
     "unicode": "⊳",
     "name": "vartriangleright",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "右三角形 (反向正规)",
+    "example": "群论中的反向正规关系。"
   },
   "\\trianglelefteq": {
     "unicode": "⊴",
     "name": "trianglelefteq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "左三角形或等于",
+    "example": "正规子群或相等：$N \\\\trianglelefteq G$。"
   },
   "\\trianglerighteq": {
     "unicode": "⊵",
     "name": "trianglerighteq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "右三角形或等于",
+    "example": "反向正规或相等。"
   },
   "\\multimapdotbothA": {
     "unicode": "⊶",
     "name": "multimapdotbothA",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "原像 (Original of)",
+    "example": "特殊映射关系。"
   },
   "\\multimapdotbothB": {
     "unicode": "⊷",
     "name": "multimapdotbothB",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "像 (Image of)",
+    "example": "特殊映射关系。"
   },
   "\\multimap": {
     "unicode": "⊸",
     "name": "multimap",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "多重映射 (Multimap / Linear implication)",
+    "example": "线性逻辑中的线性蕴涵：$A \\\\multimap B$。"
   },
   "\\hermitmatrix": {
     "unicode": "⊹",
     "name": "hermitmatrix",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "Hermite 矩阵标记",
+    "example": "用于线性代数中的 Hermite 矩阵。"
   },
   "\\intercal": {
     "unicode": "⊺",
     "name": "intercal",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "矩阵转置 (Intercalate)",
+    "example": "表示矩阵转置：$A^\\\\intercal$。"
   },
   "\\veebar": {
     "unicode": "⊻",
     "name": "veebar",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "异或 (XOR)",
+    "example": "逻辑运算：$p \\\\veebar q$。"
   },
   "\\barwedge": {
     "unicode": "⊼",
     "name": "barwedge",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "与非 (NAND)",
+    "example": "逻辑运算：$p \\\\barwedge q$。"
   },
   "\\barvee": {
     "unicode": "⊽",
     "name": "barvee",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "或非 (NOR)",
+    "example": "逻辑运算：$p \\\\barvee q$。"
   },
   "\\measuredrightangle": {
     "unicode": "⊾",
     "name": "measuredrightangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "度量直角",
+    "example": "几何中表示标注度数的直角。"
   },
   "\\varlrtriangle": {
     "unicode": "⊿",
     "name": "varlrtriangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "直角三角形",
+    "example": "几何中表示直角三角形。"
   },
   "\\bigwedge": {
     "unicode": "⋀",
     "name": "bigwedge",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "大合取 / 全称与 (Big AND)",
+    "example": "表示全部为真：$\\\\bigwedge_{i=1}^n p_i$。"
   },
   "\\bigvee": {
     "unicode": "⋁",
     "name": "bigvee",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "大析取 / 全称或 (Big OR)",
+    "example": "表示存在为真：$\\\\bigvee_{i=1}^n p_i$。"
   },
   "\\bigcap": {
     "unicode": "⋂",
     "name": "bigcap",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "大交集 (Big Intersection)",
+    "example": "多个集合的交：$\\\\bigcap_{i=1}^n A_i$。"
   },
   "\\bigcup": {
     "unicode": "⋃",
     "name": "bigcup",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "大并集 (Big Union)",
+    "example": "多个集合的并：$\\\\bigcup_{i=1}^n A_i$。"
   },
   "\\diamond": {
     "unicode": "⋄",
     "name": "diamond",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "菱形 / 钻石 (Diamond)",
+    "example": "逻辑中的可能性算子或组合符号。"
   },
   "\\cdot": {
     "unicode": "⋅",
     "name": "cdot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "点乘 / 中心点",
+    "example": "标量乘法：$a \\\\cdot b$。"
   },
   "\\star": {
     "unicode": "⋆",
     "name": "star",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "星号算子",
+    "example": "卷积或特殊乘法：$f \\\\star g$。"
   },
   "\\divideontimes": {
     "unicode": "⋇",
@@ -4223,9 +4223,9 @@
   "\\backsimeq": {
     "unicode": "⋍",
     "name": "backsimeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反向约等于",
+    "example": "反向的近似等价关系。"
   },
   "\\curlyvee": {
     "unicode": "⋎",
@@ -4259,15 +4259,15 @@
     "unicode": "⋒",
     "name": "Cap",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "双线交集",
+    "example": "多重集合的交运算。"
   },
   "\\Cup": {
     "unicode": "⋓",
     "name": "Cup",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "双线并集",
+    "example": "多重集合的并运算。"
   },
   "\\pitchfork": {
     "unicode": "⋔",
@@ -4286,44 +4286,44 @@
   "\\lessdot": {
     "unicode": "⋖",
     "name": "lessdot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带点小于",
+    "example": "偏序中的小于变体。"
   },
   "\\gtrdot": {
     "unicode": "⋗",
     "name": "gtrdot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带点大于",
+    "example": "偏序中的大于变体。"
   },
   "\\lll": {
     "unicode": "⋘",
     "name": "lll",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "远远小于 (Very Much Less Than)",
+    "example": "表示极大的数量级差异。"
   },
   "\\ggg": {
     "unicode": "⋙",
     "name": "ggg",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "远远大于 (Very Much Greater Than)",
+    "example": "表示极大的数量级差异。"
   },
   "\\lesseqgtr": {
     "unicode": "⋚",
     "name": "lesseqgtr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小于、等于或大于",
+    "example": "全序关系中的三向比较。"
   },
   "\\gtreqless": {
     "unicode": "⋛",
     "name": "gtreqless",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于、等于或小于",
+    "example": "全序关系中的三向比较。"
   },
   "\\eqless": {
     "unicode": "⋜",
@@ -4335,51 +4335,51 @@
   "\\eqgtr": {
     "unicode": "⋝",
     "name": "eqgtr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "等于或大于",
+    "example": "较少用的等号与不等号的组合。"
   },
   "\\curlyeqprec": {
     "unicode": "⋞",
     "name": "curlyeqprec",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "卷曲等于前驱",
+    "example": "序关系的卷曲变体。"
   },
   "\\curlyeqsucc": {
     "unicode": "⋟",
     "name": "curlyeqsucc",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "卷曲等于后继",
+    "example": "序关系的卷曲变体。"
   },
   "\\npreceq": {
     "unicode": "⋠",
     "name": "npreceq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不前驱或等于",
+    "example": "序关系否认。"
   },
   "\\nsucceq": {
     "unicode": "⋡",
     "name": "nsucceq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不后继或等于",
+    "example": "序关系否认。"
   },
   "\\nsqsubseteq": {
     "unicode": "⋢",
     "name": "nsqsubseteq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "非方形子集或等于",
+    "example": "格理论中的否认。"
   },
   "\\nsqsupseteq": {
     "unicode": "⋣",
     "name": "nsqsupseteq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "非方形超集或等于",
+    "example": "格理论中的否认。"
   },
   "\\sqsubsetneq": {
     "unicode": "⋤",
@@ -4398,170 +4398,170 @@
   "\\lnsim": {
     "unicode": "⋦",
     "name": "lnsim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小于但不近似",
+    "example": "严格不等式变体。"
   },
   "\\gnsim": {
     "unicode": "⋧",
     "name": "gnsim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于但不近似",
+    "example": "严格不等式变体。"
   },
   "\\precnsim": {
     "unicode": "⋨",
     "name": "precnsim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "前驱但不近似",
+    "example": "序关系变体。"
   },
   "\\succnsim": {
     "unicode": "⋩",
     "name": "succnsim",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "后继但不近似",
+    "example": "序关系变体。"
   },
   "\\ntriangleleft": {
     "unicode": "⋪",
     "name": "ntriangleleft",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "非左三角形 (非正规子群)",
+    "example": "群论中的否认。"
   },
   "\\ntriangleright": {
     "unicode": "⋫",
     "name": "ntriangleright",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "非右三角形",
+    "example": "群论中的否认。"
   },
   "\\ntrianglelefteq": {
     "unicode": "⋬",
     "name": "ntrianglelefteq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "非左三角形或等于",
+    "example": "正规子群关系的否认。"
   },
   "\\ntrianglerighteq": {
     "unicode": "⋭",
     "name": "ntrianglerighteq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "非右三角形或等于",
+    "example": "正规子群关系的否认。"
   },
   "\\vdots": {
     "unicode": "⋮",
     "name": "vdots",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "竖省略号",
+    "example": "矩阵中的垂直省略：$\\\\vdots$。"
   },
   "\\cdots": {
     "unicode": "⋯",
     "name": "cdots",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "横省略号 (居中)",
+    "example": "序列中的省略：$1, 2, \\\\cdots, n$。"
   },
   "\\iddots": {
     "unicode": "⋰",
     "name": "iddots",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反对角省略号 (上升)",
+    "example": "矩阵中的上升省略。"
   },
   "\\ddots": {
     "unicode": "⋱",
     "name": "ddots",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "对角省略号 (Diagonal)",
+    "example": "矩阵中的对角省略：$\\\\ddots$。"
   },
   "\\disin": {
     "unicode": "⋲",
     "name": "disin",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带长横杠的属于",
+    "example": "集合论的属于变体。"
   },
   "\\varisins": {
     "unicode": "⋳",
     "name": "varisins",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带横杠的属于变体",
+    "example": "集合论的属于变体。"
   },
   "\\isins": {
     "unicode": "⋴",
     "name": "isins",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小型属于变体",
+    "example": "集合论的属于变体。"
   },
   "\\isindot": {
     "unicode": "⋵",
     "name": "isindot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带点的属于",
+    "example": "集合论的属于变体。"
   },
   "\\barin": {
     "unicode": "⋶",
     "name": "barin",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带横线属于",
+    "example": "集合论的属于变体。"
   },
   "\\isinobar": {
     "unicode": "⋷",
     "name": "isinobar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带横杠圈的属于",
+    "example": "集合论的属于变体。"
   },
   "\\isinvb": {
     "unicode": "⋸",
     "name": "isinvb",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带下标的属于",
+    "example": "集合论的属于变体。"
   },
   "\\isinE": {
     "unicode": "⋹",
     "name": "isinE",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带双横杠的属于",
+    "example": "集合论的属于变体。"
   },
   "\\nisd": {
     "unicode": "⋺",
     "name": "nisd",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带长横杠的含有",
+    "example": "集合论的含有变体。"
   },
   "\\varnis": {
     "unicode": "⋻",
     "name": "varnis",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带横杠的含有变体",
+    "example": "集合论的含有变体。"
   },
   "\\nis": {
     "unicode": "⋼",
     "name": "nis",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小型含有变体",
+    "example": "集合论的含有变体。"
   },
   "\\varniobar": {
     "unicode": "⋽",
     "name": "varniobar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带横圈的含有变体",
+    "example": "集合论的含有变体。"
   },
   "\\niobar": {
     "unicode": "⋾",
@@ -4580,16 +4580,16 @@
   "\\diameter": {
     "unicode": "⌀",
     "name": "diameter",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "直径符号",
+    "example": "工程图中标注直径。"
   },
   "\\house": {
     "unicode": "⌂",
     "name": "house",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "房屋符号",
+    "example": "用于标记或导航。"
   },
   "\\varbarwedge": {
     "unicode": "⌅",
@@ -4608,37 +4608,37 @@
   "\\lceil": {
     "unicode": "⌈",
     "name": "lceil",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "左上取整括号 (Left Ceiling)",
+    "example": "上取整：$\\\\lceil 3.2 \\\\rceil = 4$。"
   },
   "\\rceil": {
     "unicode": "⌉",
     "name": "rceil",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "右上取整括号 (Right Ceiling)",
+    "example": "上取整：$\\\\lceil x \\\\rceil$。"
   },
   "\\lfloor": {
     "unicode": "⌊",
     "name": "lfloor",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "左下取整括号 (Left Floor)",
+    "example": "下取整：$\\\\lfloor 3.7 \\\\rfloor = 3$。"
   },
   "\\rfloor": {
     "unicode": "⌋",
     "name": "rfloor",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "右下取整括号 (Right Floor)",
+    "example": "下取整：$\\\\lfloor x \\\\rfloor$。"
   },
   "\\invneg": {
     "unicode": "⌐",
     "name": "invneg",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反向否定",
+    "example": "逻辑非的变体。"
   },
   "\\wasylozenge": {
     "unicode": "⌑",
@@ -4665,8 +4665,8 @@
     "unicode": "⌗",
     "name": "viewdata",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "可视数据符号",
+    "example": "技术标记。"
   },
   "\\turnednot": {
     "unicode": "⌙",
@@ -4678,30 +4678,30 @@
   "\\ulcorner": {
     "unicode": "⌜",
     "name": "ulcorner",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左上角",
+    "example": "Quine角标记。"
   },
   "\\urcorner": {
     "unicode": "⌝",
     "name": "urcorner",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右上角",
+    "example": "Quine角标记。"
   },
   "\\llcorner": {
     "unicode": "⌞",
     "name": "llcorner",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左下角",
+    "example": "Quine角标记。"
   },
   "\\lrcorner": {
     "unicode": "⌟",
     "name": "lrcorner",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右下角",
+    "example": "Quine角标记。"
   },
   "\\inttop": {
     "unicode": "⌠",
@@ -4748,9 +4748,9 @@
   "\\topbot": {
     "unicode": "⌶",
     "name": "topbot",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "other",
+    "description": "上下杠组合",
+    "example": "排版标记。"
   },
   "\\APLinv": {
     "unicode": "⌹",
@@ -4762,142 +4762,142 @@
   "\\obar": {
     "unicode": "⌽",
     "name": "obar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈横杠",
+    "example": "特殊标记符号。"
   },
   "\\notslash": {
     "unicode": "⌿",
     "name": "notslash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "否定斜杠",
+    "example": "否定记号。"
   },
   "\\notbackslash": {
     "unicode": "⍀",
     "name": "notbackslash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "否定反斜杠",
+    "example": "否定记号。"
   },
   "\\APLleftarrowbox": {
     "unicode": "⍇",
     "name": "APLleftarrowbox",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "APL左箭头方框",
+    "example": "APL编程语言符号。"
   },
   "\\APLrightarrowbox": {
     "unicode": "⍈",
     "name": "APLrightarrowbox",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "APL右箭头方框",
+    "example": "APL编程语言符号。"
   },
   "\\APLuparrowbox": {
     "unicode": "⍐",
     "name": "APLuparrowbox",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "APL上箭头方框",
+    "example": "APL编程语言符号。"
   },
   "\\APLboxupcaret": {
     "unicode": "⍓",
     "name": "APLboxupcaret",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "APL 方框上脱字符",
+    "example": "APL 编程语言符号。"
   },
   "\\APLdownarrowbox": {
     "unicode": "⍗",
     "name": "APLdownarrowbox",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "APL 下箭头方框",
+    "example": "APL 编程语言中的箭头方框。"
   },
   "\\APLcomment": {
     "unicode": "⍝",
     "name": "APLcomment",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "APL 注释符号",
+    "example": "APL 编程语言的注释标记。"
   },
   "\\APLinput": {
     "unicode": "⍞",
     "name": "APLinput",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "APL 输入符号",
+    "example": "APL 编程中的输入标记。"
   },
   "\\APLlog": {
     "unicode": "⍟",
     "name": "APLlog",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "APL 对数符号",
+    "example": "APL 编程中的对数运算。"
   },
   "\\APLboxquestion": {
     "unicode": "⍰",
     "name": "APLboxquestion",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "APL问号方框",
+    "example": "APL编程语言符号。"
   },
   "\\rangledownzigzagarrow": {
     "unicode": "⍼",
     "name": "rangledownzigzagarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右尖括号下锯齿箭头",
+    "example": "特殊箭头符号。"
   },
   "\\hexagon": {
     "unicode": "⎔",
     "name": "hexagon",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "六边形",
+    "example": "几何六边形符号。"
   },
   "\\lparenuend": {
     "unicode": "⎛",
     "name": "lparenuend",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左大括号上端",
+    "example": "大括号组件。"
   },
   "\\lparenextender": {
     "unicode": "⎜",
     "name": "lparenextender",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左大括号延伸",
+    "example": "大括号组件。"
   },
   "\\lparenlend": {
     "unicode": "⎝",
     "name": "lparenlend",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左大括号下端",
+    "example": "大括号组件。"
   },
   "\\rparenuend": {
     "unicode": "⎞",
     "name": "rparenuend",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右大括号上端",
+    "example": "大括号组件。"
   },
   "\\rparenextender": {
     "unicode": "⎟",
     "name": "rparenextender",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右大括号延伸",
+    "example": "大括号组件。"
   },
   "\\rparenlend": {
     "unicode": "⎠",
     "name": "rparenlend",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右大括号下端",
+    "example": "大括号组件。"
   },
   "\\lbrackuend": {
     "unicode": "⎡",
@@ -4916,9 +4916,9 @@
   "\\lbracklend": {
     "unicode": "⎣",
     "name": "lbracklend",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左方括号下端",
+    "example": "方括号组件。"
   },
   "\\rbrackuend": {
     "unicode": "⎤",
@@ -4937,65 +4937,65 @@
   "\\rbracklend": {
     "unicode": "⎦",
     "name": "rbracklend",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右方括号下端",
+    "example": "方括号组件。"
   },
   "\\lbraceuend": {
     "unicode": "⎧",
     "name": "lbraceuend",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左花括号上端",
+    "example": "花括号组件。"
   },
   "\\lbracemid": {
     "unicode": "⎨",
     "name": "lbracemid",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左花括号中段",
+    "example": "花括号组件。"
   },
   "\\lbracelend": {
     "unicode": "⎩",
     "name": "lbracelend",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左花括号下端",
+    "example": "花括号组件。"
   },
   "\\vbraceextender": {
     "unicode": "⎪",
     "name": "vbraceextender",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "花括号垂直延伸段",
+    "example": "花括号组件。"
   },
   "\\rbraceuend": {
     "unicode": "⎫",
     "name": "rbraceuend",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右花括号上端",
+    "example": "花括号组件。"
   },
   "\\rbracemid": {
     "unicode": "⎬",
     "name": "rbracemid",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右花括号中段",
+    "example": "花括号组件。"
   },
   "\\rbracelend": {
     "unicode": "⎭",
     "name": "rbracelend",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右花括号下端",
+    "example": "花括号组件。"
   },
   "\\intextender": {
     "unicode": "⎮",
     "name": "intextender",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "积分号延伸段",
+    "example": "大号积分号组件。"
   },
   "\\harrowextender": {
     "unicode": "⎯",
@@ -5021,16 +5021,16 @@
   "\\sumtop": {
     "unicode": "⎲",
     "name": "sumtop",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "求和号顶部",
+    "example": "大号求和符号组件。"
   },
   "\\sumbottom": {
     "unicode": "⎳",
     "name": "sumbottom",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "求和号底部",
+    "example": "大号求和符号组件。"
   },
   "\\overbracket": {
     "unicode": "⎴",
@@ -5246,8 +5246,8 @@
     "unicode": "▢",
     "name": "squoval",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "圆角方形",
+    "example": "特殊形状符号。"
   },
   "\\blackinwhitesquare": {
     "unicode": "▣",
@@ -5302,15 +5302,15 @@
     "unicode": "▪",
     "name": "smblksquare",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "小实心方块",
+    "example": "列表项标记或装饰。"
   },
   "\\smwhtsquare": {
     "unicode": "▫",
     "name": "smwhtsquare",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "小空心方块",
+    "example": "列表项标记或装饰。"
   },
   "\\hrectangleblack": {
     "unicode": "▬",
@@ -5364,9 +5364,9 @@
   "\\bigtriangleup": {
     "unicode": "△",
     "name": "bigtriangleup",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大上三角形",
+    "example": "用于差分运算：$\\\\bigtriangleup f(x)$。"
   },
   "\\blacktriangleup": {
     "unicode": "▴",
@@ -5399,16 +5399,16 @@
   "\\blacktriangleright": {
     "unicode": "▸",
     "name": "blacktriangleright",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "实心右三角形",
+    "example": "方向指示或播放按钮。"
   },
   "\\smalltriangleright": {
     "unicode": "▹",
     "name": "smalltriangleright",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小右三角形",
+    "example": "小型方向指示。"
   },
   "\\blackpointerright": {
     "unicode": "►",
@@ -5434,16 +5434,16 @@
   "\\bigtriangledown": {
     "unicode": "▽",
     "name": "bigtriangledown",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大下三角形",
+    "example": "用于梯度相关运算。"
   },
   "\\blacktriangledown": {
     "unicode": "▾",
     "name": "blacktriangledown",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "实心下三角形",
+    "example": "列表标记或方向指示。"
   },
   "\\smalltriangledown": {
     "unicode": "▿",
@@ -5469,16 +5469,16 @@
   "\\blacktriangleleft": {
     "unicode": "◂",
     "name": "blacktriangleleft",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "实心左三角形",
+    "example": "方向指示或播放按钮。"
   },
   "\\smalltriangleleft": {
     "unicode": "◃",
     "name": "smalltriangleleft",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小左三角形",
+    "example": "小型方向指示。"
   },
   "\\blackpointerleft": {
     "unicode": "◄",
@@ -5526,8 +5526,8 @@
     "unicode": "◊",
     "name": "lozenge",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "菱形 (Lozenge)",
+    "example": "文本装饰或制药标记。"
   },
   "\\Circle": {
     "unicode": "○",
@@ -5603,78 +5603,78 @@
     "unicode": "◕",
     "name": "blackcircleulquadwhite",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "四分之三实心圆",
+    "example": "特殊装饰符号。"
   },
   "\\LEFTCIRCLE": {
     "unicode": "◖",
     "name": "LEFTCIRCLE",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "左半实心圆",
+    "example": "月相或装饰符号。"
   },
   "\\RIGHTCIRCLE": {
     "unicode": "◗",
     "name": "RIGHTCIRCLE",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "右半实心圆",
+    "example": "月相或装饰符号。"
   },
   "\\inversebullet": {
     "unicode": "◘",
     "name": "inversebullet",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "反向实心圆 (反色)",
+    "example": "白底黑框的圆形标记。"
   },
   "\\inversewhitecircle": {
     "unicode": "◙",
     "name": "inversewhitecircle",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "反向空心圆 (反色)",
+    "example": "黑底白圈的标记。"
   },
   "\\invwhiteupperhalfcircle": {
     "unicode": "◚",
     "name": "invwhiteupperhalfcircle",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "上半反色圆",
+    "example": "特殊装饰符号。"
   },
   "\\invwhitelowerhalfcircle": {
     "unicode": "◛",
     "name": "invwhitelowerhalfcircle",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "下半反色圆",
+    "example": "特殊装饰符号。"
   },
   "\\ularc": {
     "unicode": "◜",
     "name": "ularc",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "左上弧线",
+    "example": "弧线符号。"
   },
   "\\urarc": {
     "unicode": "◝",
     "name": "urarc",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "右上弧线",
+    "example": "弧线符号。"
   },
   "\\lrarc": {
     "unicode": "◞",
     "name": "lrarc",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "右下弧线",
+    "example": "弧线符号。"
   },
   "\\llarc": {
     "unicode": "◟",
     "name": "llarc",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "左下弧线",
+    "example": "弧线符号。"
   },
   "\\topsemicircle": {
     "unicode": "◠",
@@ -5757,8 +5757,8 @@
     "unicode": "◫",
     "name": "boxbar",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "竖线方框",
+    "example": "框线绘制符号。"
   },
   "\\trianglecdot": {
     "unicode": "◬",
@@ -5875,9 +5875,9 @@
   "\\blacksquare": {
     "unicode": "⬛",
     "name": "blacksquare",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "实心方块 (QED)",
+    "example": "证毕标记：放在证明末尾 $\\\\blacksquare$。"
   },
   "\\mdsmwhtsquare": {
     "unicode": "◽",
@@ -5904,8 +5904,8 @@
     "unicode": "★",
     "name": "bigstar",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "大实心星",
+    "example": "收藏或强调标记：$\\\\bigstar$。"
   },
   "\\bigwhitestar": {
     "unicode": "☆",
@@ -6016,29 +6016,29 @@
     "unicode": "☼",
     "name": "sun",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "太阳符号",
+    "example": "天文学标记。"
   },
   "\\rightmoon": {
     "unicode": "☽",
     "name": "rightmoon",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "右月亮(上弦月)",
+    "example": "天文或日历符号。"
   },
   "\\leftmoon": {
     "unicode": "☾",
     "name": "leftmoon",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "左月亮(下弦月)",
+    "example": "天文或日历符号。"
   },
   "\\mercury": {
     "unicode": "☿",
     "name": "mercury",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "水星符号",
+    "example": "天文学行星标记。"
   },
   "\\female": {
     "unicode": "♀",
@@ -6051,911 +6051,911 @@
     "unicode": "♁",
     "name": "earth",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "地球符号",
+    "example": "天文学行星标记。"
   },
   "\\male": {
     "unicode": "♂",
     "name": "male",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "火星/男性符号",
+    "example": "生物学中的男性标记：♂。"
   },
   "\\jupiter": {
     "unicode": "♃",
     "name": "jupiter",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "other",
+    "description": "木星符号",
+    "example": "天文学行星标记。"
   },
   "\\saturn": {
     "unicode": "♄",
     "name": "saturn",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "土星符号",
+    "example": "天文学行星标记。"
   },
   "\\uranus": {
     "unicode": "♅",
     "name": "uranus",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "other",
+    "description": "天王星符号",
+    "example": "天文学行星标记。"
   },
   "\\neptune": {
     "unicode": "♆",
     "name": "neptune",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "海王星符号",
+    "example": "天文学行星标记。"
   },
   "\\pluto": {
     "unicode": "♇",
     "name": "pluto",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "other",
+    "description": "冥王星符号",
+    "example": "天文学行星标记。"
   },
   "\\aries": {
     "unicode": "♈",
     "name": "aries",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "白羊座",
+    "example": "黄道十二宫符号。"
   },
   "\\taurus": {
     "unicode": "♉",
     "name": "taurus",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "other",
+    "description": "金牛座",
+    "example": "黄道十二宫符号。"
   },
   "\\gemini": {
     "unicode": "♊",
     "name": "gemini",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "双子座",
+    "example": "黄道十二宫符号。"
   },
   "\\cancer": {
     "unicode": "♋",
     "name": "cancer",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "巨蟹座",
+    "example": "黄道十二宫符号。"
   },
   "\\leo": {
     "unicode": "♌",
     "name": "leo",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "狮子座",
+    "example": "黄道十二宫符号。"
   },
   "\\virgo": {
     "unicode": "♍",
     "name": "virgo",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "处女座",
+    "example": "黄道十二宫符号。"
   },
   "\\libra": {
     "unicode": "♎",
     "name": "libra",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "天秤座",
+    "example": "黄道十二宫符号。"
   },
   "\\scorpio": {
     "unicode": "♏",
     "name": "scorpio",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "other",
+    "description": "天蝎座",
+    "example": "黄道十二宫符号。"
   },
   "\\sagittarius": {
     "unicode": "♐",
     "name": "sagittarius",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "射手座",
+    "example": "黄道十二宫符号。"
   },
   "\\capricornus": {
     "unicode": "♑",
     "name": "capricornus",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "other",
+    "description": "摩羯座",
+    "example": "黄道十二宫符号。"
   },
   "\\aquarius": {
     "unicode": "♒",
     "name": "aquarius",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "水瓶座",
+    "example": "黄道十二宫符号。"
   },
   "\\pisces": {
     "unicode": "♓",
     "name": "pisces",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "other",
+    "description": "双鱼座",
+    "example": "黄道十二宫符号。"
   },
   "\\spadesuit": {
     "unicode": "♠",
     "name": "spadesuit",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "黑桃(空心)",
+    "example": "扑克牌花色。"
   },
   "\\heartsuit": {
     "unicode": "♡",
     "name": "heartsuit",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "红心(空心)",
+    "example": "扑克牌花色。"
   },
   "\\diamondsuit": {
     "unicode": "♢",
     "name": "diamondsuit",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "方块(空心)",
+    "example": "扑克牌花色。"
   },
   "\\clubsuit": {
     "unicode": "♣",
     "name": "clubsuit",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "梅花(空心)",
+    "example": "扑克牌花色。"
   },
   "\\varspadesuit": {
     "unicode": "♤",
     "name": "varspadesuit",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "黑桃(实心)",
+    "example": "扑克牌花色。"
   },
   "\\varheartsuit": {
     "unicode": "♥",
     "name": "varheartsuit",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "红心(实心)",
+    "example": "扑克牌花色。"
   },
   "\\vardiamondsuit": {
     "unicode": "♦",
     "name": "vardiamondsuit",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "方块(实心)",
+    "example": "扑克牌花色。"
   },
   "\\varclubsuit": {
     "unicode": "♧",
     "name": "varclubsuit",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "梅花(实心)",
+    "example": "扑克牌花色。"
   },
   "\\quarternote": {
     "unicode": "♩",
     "name": "quarternote",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "四分音符",
+    "example": "音乐记谱符号。"
   },
   "\\eighthnote": {
     "unicode": "♪",
     "name": "eighthnote",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "八分音符",
+    "example": "音乐记谱符号。"
   },
   "\\twonotes": {
     "unicode": "♫",
     "name": "twonotes",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "双八分音符",
+    "example": "音乐记谱符号。"
   },
   "\\sixteenthnote": {
     "unicode": "♬",
     "name": "sixteenthnote",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "十六分音符",
+    "example": "音乐记谱符号。"
   },
   "\\flat": {
     "unicode": "♭",
     "name": "flat",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "降号(♭)",
+    "example": "音乐记谱：降半音。"
   },
   "\\natural": {
     "unicode": "♮",
     "name": "natural",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "还原号(♮)",
+    "example": "音乐记谱：还原。"
   },
   "\\sharp": {
     "unicode": "♯",
     "name": "sharp",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "升号(♯)",
+    "example": "音乐记谱：升半音。"
   },
   "\\recycle": {
     "unicode": "♻",
     "name": "recycle",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "回收符号",
+    "example": "环保标记。"
   },
   "\\acidfree": {
     "unicode": "♾",
     "name": "acidfree",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "无酸纸符号",
+    "example": "纸质品质量标记。"
   },
   "\\dicei": {
     "unicode": "⚀",
     "name": "dicei",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "骰子面 1",
+    "example": "表示骰子的 1 点面。"
   },
   "\\diceii": {
     "unicode": "⚁",
     "name": "diceii",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "骰子面 2",
+    "example": "表示骰子的 2 点面。"
   },
   "\\diceiii": {
     "unicode": "⚂",
     "name": "diceiii",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "骰子面 3",
+    "example": "表示骰子的 3 点面。"
   },
   "\\diceiv": {
     "unicode": "⚃",
     "name": "diceiv",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "骰子面 4",
+    "example": "表示骰子的 4 点面。"
   },
   "\\dicev": {
     "unicode": "⚄",
     "name": "dicev",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "骰子面 5",
+    "example": "表示骰子的 5 点面。"
   },
   "\\dicevi": {
     "unicode": "⚅",
     "name": "dicevi",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "骰子面 6",
+    "example": "表示骰子的 6 点面。"
   },
   "\\circledrightdot": {
     "unicode": "⚆",
     "name": "circledrightdot",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "圈内右点",
+    "example": "特殊标记符号。"
   },
   "\\circledtwodots": {
     "unicode": "⚇",
     "name": "circledtwodots",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "圈内双点",
+    "example": "特殊数学标记。"
   },
   "\\blackcircledrightdot": {
     "unicode": "⚈",
     "name": "blackcircledrightdot",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "实心圈内右点",
+    "example": "特殊标记符号。"
   },
   "\\blackcircledtwodots": {
     "unicode": "⚉",
     "name": "blackcircledtwodots",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "实心圈内双点",
+    "example": "特殊数学标记。"
   },
   "\\anchor": {
     "unicode": "⚓",
     "name": "anchor",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "锚符号",
+    "example": "航海或装饰符号。"
   },
   "\\swords": {
     "unicode": "⚔",
     "name": "swords",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "交叉剑",
+    "example": "战斗或冲突标记。"
   },
   "\\warning": {
     "unicode": "⚠",
     "name": "warning",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "警告符号",
+    "example": "危险或注意标记。"
   },
   "\\Hermaphrodite": {
     "unicode": "⚥",
     "name": "Hermaphrodite",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "雌雄同体符号",
+    "example": "生物学符号。"
   },
   "\\medcirc": {
     "unicode": "⚪",
     "name": "medcirc",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "中等空心圆",
+    "example": "装饰符号。"
   },
   "\\medbullet": {
     "unicode": "⚫",
     "name": "medbullet",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "中等实心圆",
+    "example": "项目标记。"
   },
   "\\mdsmwhtcircle": {
     "unicode": "⚬",
     "name": "mdsmwhtcircle",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "中小空心圆",
+    "example": "装饰符号。"
   },
   "\\neuter": {
     "unicode": "⚲",
     "name": "neuter",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "中性符号",
+    "example": "生物学符号。"
   },
   "\\pencil": {
     "unicode": "✎",
     "name": "pencil",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "铅笔符号",
+    "example": "编辑或标注标记。"
   },
   "\\checkmark": {
     "unicode": "✓",
     "name": "checkmark",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "对勾 (勾选标记)",
+    "example": "表示正确或已完成：$\\\\checkmark$。"
   },
   "\\ballotx": {
     "unicode": "✗",
     "name": "ballotx",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "叉号 (投票否)",
+    "example": "表示错误或未选择。"
   },
   "\\maltese": {
     "unicode": "✠",
     "name": "maltese",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "马耳他十字",
+    "example": "装饰或历史符号。"
   },
   "\\circledstar": {
     "unicode": "✪",
     "name": "circledstar",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "圈中星",
+    "example": "特殊装饰符号。"
   },
   "\\varstar": {
     "unicode": "✶",
     "name": "varstar",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "六角变体星",
+    "example": "装饰符号。"
   },
   "\\dingasterisk": {
     "unicode": "✽",
     "name": "dingasterisk",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "花体星号 (Dingbat)",
+    "example": "装饰星号。"
   },
   "\\lbrbrak": {
     "unicode": "〔",
     "name": "lbrbrak",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左龟甲括号",
+    "example": "日式括号或特殊定界符。"
   },
   "\\rbrbrak": {
     "unicode": "〕",
     "name": "rbrbrak",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右龟甲括号",
+    "example": "日式括号或特殊定界符。"
   },
   "\\draftingarrow": {
     "unicode": "➛",
     "name": "draftingarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "制图箭头",
+    "example": "技术制图中的方向指示箭头。"
   },
   "\\arrowbullet": {
     "unicode": "➢",
     "name": "arrowbullet",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "箭头项目符号",
+    "example": "带箭头的项目标记。"
   },
   "\\threedangle": {
     "unicode": "⟀",
     "name": "threedangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "三维角",
+    "example": "立体几何中的角度。"
   },
   "\\whiteinwhitetriangle": {
     "unicode": "⟁",
     "name": "whiteinwhitetriangle",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "三角形内三角形",
+    "example": "嵌套三角形符号。"
   },
   "\\perp": {
     "unicode": "⟂",
     "name": "perp",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "垂直 / 正交",
+    "example": "几何中表示垂直关系：$a \\\\perp b$。"
   },
   "\\subsetcirc": {
     "unicode": "⟃",
     "name": "subsetcirc",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "带圈子集",
+    "example": "集合论的子集变体。"
   },
   "\\supsetcirc": {
     "unicode": "⟄",
     "name": "supsetcirc",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "带圈超集",
+    "example": "集合论的超集变体。"
   },
   "\\Lbag": {
     "unicode": "⟅",
     "name": "Lbag",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左多重集括号",
+    "example": "多重集合标记。"
   },
   "\\Rbag": {
     "unicode": "⟆",
     "name": "Rbag",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右多重集括号",
+    "example": "多重集合标记。"
   },
   "\\veedot": {
     "unicode": "⟇",
     "name": "veedot",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "带点析取",
+    "example": "逻辑析取的带点变体。"
   },
   "\\bsolhsub": {
     "unicode": "⟈",
     "name": "bsolhsub",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反斜杠与子集",
+    "example": "集合差的变体。"
   },
   "\\suphsol": {
     "unicode": "⟉",
     "name": "suphsol",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "超集与斜杠",
+    "example": "集合差的变体。"
   },
   "\\longdivision": {
     "unicode": "⟌",
     "name": "longdivision",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "长除法符号",
+    "example": "算术中的长除法标记。"
   },
   "\\Diamonddot": {
     "unicode": "⟐",
     "name": "Diamonddot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带点菱形",
+    "example": "特殊菱形运算符。"
   },
   "\\wedgedot": {
     "unicode": "⟑",
     "name": "wedgedot",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "带点合取",
+    "example": "逻辑合取的带点变体。"
   },
   "\\upin": {
     "unicode": "⟒",
     "name": "upin",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "向上元素符号",
+    "example": "特殊集合关系。"
   },
   "\\pullback": {
     "unicode": "⟓",
     "name": "pullback",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "拉回 (Pullback)",
+    "example": "范畴论中的拉回：$X \\\\times_Z Y$。"
   },
   "\\pushout": {
     "unicode": "⟔",
     "name": "pushout",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "推出 (Pushout)",
+    "example": "范畴论中的推出。"
   },
   "\\leftouterjoin": {
     "unicode": "⟕",
     "name": "leftouterjoin",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "左外连接",
+    "example": "数据库操作中的左外连接符号。"
   },
   "\\rightouterjoin": {
     "unicode": "⟖",
     "name": "rightouterjoin",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "右外连接",
+    "example": "数据库操作中的右外连接符号。"
   },
   "\\fullouterjoin": {
     "unicode": "⟗",
     "name": "fullouterjoin",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "全外连接",
+    "example": "数据库操作中的全外连接符号。"
   },
   "\\bigbot": {
     "unicode": "⟘",
     "name": "bigbot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大底部 (Big Bottom)",
+    "example": "大型永假符号。"
   },
   "\\bigtop": {
     "unicode": "⟙",
     "name": "bigtop",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大顶部 (Big Top)",
+    "example": "大型永真符号。"
   },
   "\\DashVDash": {
     "unicode": "⟚",
     "name": "DashVDash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双横双竖",
+    "example": "特殊逻辑关系。"
   },
   "\\dashVdash": {
     "unicode": "⟛",
     "name": "dashVdash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "横竖横",
+    "example": "特殊逻辑关系。"
   },
   "\\multimapinv": {
     "unicode": "⟜",
     "name": "multimapinv",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反向多重映射",
+    "example": "线性逻辑中的反向映射。"
   },
   "\\vlongdash": {
     "unicode": "⟝",
     "name": "vlongdash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "竖线长横",
+    "example": "特殊逻辑断言。"
   },
   "\\longdashv": {
     "unicode": "⟞",
     "name": "longdashv",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "长横竖线",
+    "example": "特殊逻辑断言。"
   },
   "\\cirbot": {
     "unicode": "⟟",
     "name": "cirbot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈底部",
+    "example": "特殊逻辑符号。"
   },
   "\\lozengeminus": {
     "unicode": "⟠",
     "name": "lozengeminus",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带减号菱形",
+    "example": "特殊菱形运算符。"
   },
   "\\concavediamond": {
     "unicode": "⟡",
     "name": "concavediamond",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "凹菱形",
+    "example": "装饰符号。"
   },
   "\\concavediamondtickleft": {
     "unicode": "⟢",
     "name": "concavediamondtickleft",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "左勾凹菱形",
+    "example": "装饰符号。"
   },
   "\\concavediamondtickright": {
     "unicode": "⟣",
     "name": "concavediamondtickright",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "右勾凹菱形",
+    "example": "装饰符号。"
   },
   "\\whitesquaretickleft": {
     "unicode": "⟤",
     "name": "whitesquaretickleft",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "左勾空心方块",
+    "example": "装饰符号。"
   },
   "\\whitesquaretickright": {
     "unicode": "⟥",
     "name": "whitesquaretickright",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "右勾空心方块",
+    "example": "装饰符号。"
   },
   "\\llbracket": {
     "unicode": "⟦",
     "name": "llbracket",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左双方括号",
+    "example": "语义学中的双方括号：$\\\\llbracket x \\\\rrbracket$。"
   },
   "\\rrbracket": {
     "unicode": "⟧",
     "name": "rrbracket",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右双方括号",
+    "example": "语义学中的双方括号：$\\\\llbracket x \\\\rrbracket$。"
   },
   "\\langle": {
     "unicode": "⟨",
     "name": "langle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左尖括号",
+    "example": "内积或量子态：$\\\\langle \\\\psi | \\\\phi \\\\rangle$。"
   },
   "\\rangle": {
     "unicode": "⟩",
     "name": "rangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右尖括号",
+    "example": "内积或量子态：$\\\\langle \\\\psi | \\\\phi \\\\rangle$。"
   },
   "\\lang": {
     "unicode": "⟪",
     "name": "lang",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左双尖括号",
+    "example": "特殊定界符。"
   },
   "\\rang": {
     "unicode": "⟫",
     "name": "rang",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右双尖括号",
+    "example": "特殊定界符。"
   },
   "\\Lbrbrak": {
     "unicode": "〘",
     "name": "Lbrbrak",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左双龟甲括号",
+    "example": "特殊定界符。"
   },
   "\\Rbrbrak": {
     "unicode": "〙",
     "name": "Rbrbrak",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右双龟甲括号",
+    "example": "特殊定界符。"
   },
   "\\lgroup": {
     "unicode": "⟮",
     "name": "lgroup",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左分组括号",
+    "example": "用于数学表达式的分组。"
   },
   "\\rgroup": {
     "unicode": "⟯",
     "name": "rgroup",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右分组括号",
+    "example": "用于数学表达式的分组。"
   },
   "\\UUparrow": {
     "unicode": "⟰",
     "name": "UUparrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双线上箭头",
+    "example": "强化的上方向指示。"
   },
   "\\DDownarrow": {
     "unicode": "⟱",
     "name": "DDownarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双线下箭头",
+    "example": "强化的下方向指示。"
   },
   "\\acwgapcirclearrow": {
     "unicode": "⟲",
     "name": "acwgapcirclearrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "逆时针缺口圆箭头",
+    "example": "表示逆时针旋转。"
   },
   "\\cwgapcirclearrow": {
     "unicode": "⟳",
     "name": "cwgapcirclearrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "顺时针缺口圆箭头",
+    "example": "表示顺时针旋转。"
   },
   "\\rightarrowonoplus": {
     "unicode": "⟴",
     "name": "rightarrowonoplus",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "圈加上右箭头",
+    "example": "带运算的箭头。"
   },
   "\\longleftarrow": {
     "unicode": "⟵",
     "name": "longleftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "长左箭头",
+    "example": "$\\\\longleftarrow$"
   },
   "\\longrightarrow": {
     "unicode": "⟶",
     "name": "longrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "长右箭头",
+    "example": "$A \\\\longrightarrow B$"
   },
   "\\longleftrightarrow": {
     "unicode": "⟷",
     "name": "longleftrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "长双向箭头",
+    "example": "$A \\\\longleftrightarrow B$"
   },
   "\\Longleftarrow": {
     "unicode": "⟸",
     "name": "Longleftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "长双线左箭头",
+    "example": "强逻辑蕴含(逆向)。"
   },
   "\\Longrightarrow": {
     "unicode": "⟹",
     "name": "Longrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "长双线右箭头",
+    "example": "$P \\\\Longrightarrow Q$"
   },
   "\\Longleftrightarrow": {
     "unicode": "⟺",
     "name": "Longleftrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "长双线双向箭头",
+    "example": "$P \\\\Longleftrightarrow Q$"
   },
   "\\longmapsfrom": {
     "unicode": "⟻",
     "name": "longmapsfrom",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "长映射从(反向)",
+    "example": "反向的长映射箭头。"
   },
   "\\longmapsto": {
     "unicode": "⟼",
     "name": "longmapsto",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "长映射到",
+    "example": "$f:x\\\\longmapsto x^2$"
   },
   "\\Longmapsfrom": {
     "unicode": "⟽",
     "name": "Longmapsfrom",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "双线长映射从",
+    "example": "反向双线长映射。"
   },
   "\\Longmapsto": {
     "unicode": "⟾",
     "name": "Longmapsto",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双线长映射到",
+    "example": "双线映射箭头。"
   },
   "\\longrightsquigarrow": {
     "unicode": "⟿",
     "name": "longrightsquigarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "长右波浪箭头",
+    "example": "非确定性映射。"
   },
   "\\psur": {
     "unicode": "⤀",
     "name": "psur",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "arrow",
+    "description": "满射箭头",
+    "example": "满射映射。"
   },
   "\\nVtwoheadrightarrow": {
     "unicode": "⤁",
     "name": "nVtwoheadrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "否定双线双头右箭头",
+    "example": "否定满射。"
   },
   "\\nvLeftarrow": {
     "unicode": "⤂",
     "name": "nvLeftarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "否定双线左箭头",
+    "example": "否定逻辑蕴含。"
   },
   "\\nvRightarrow": {
     "unicode": "⤃",
     "name": "nvRightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "否定双线右箭头",
+    "example": "否定逻辑蕴含。"
   },
   "\\nvLeftrightarrow": {
     "unicode": "⤄",
     "name": "nvLeftrightarrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "否定双线双向箭头",
+    "example": "否定逻辑等价。"
   },
   "\\twoheadmapsto": {
     "unicode": "⤅",
     "name": "twoheadmapsto",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "双头映射到",
+    "example": "满射映射箭头。"
   },
   "\\Mapsfrom": {
     "unicode": "⤆",
@@ -7997,239 +7997,239 @@
     "unicode": "⦚",
     "name": "vzigzag",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "垂直锯齿线",
+    "example": "断裂或省略标记。"
   },
   "\\measuredangleleft": {
     "unicode": "⦛",
     "name": "measuredangleleft",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "左侧有度量的角",
+    "example": "几何中标注角度。"
   },
   "\\rightanglesqr": {
     "unicode": "⦜",
     "name": "rightanglesqr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "直角方块标记",
+    "example": "几何中标注直角。"
   },
   "\\rightanglemdot": {
     "unicode": "⦝",
     "name": "rightanglemdot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "直角带中心点",
+    "example": "几何中标注直角。"
   },
   "\\angles": {
     "unicode": "⦞",
     "name": "angles",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双角度符号",
+    "example": "几何中的角度组。"
   },
   "\\angdnr": {
     "unicode": "⦟",
     "name": "angdnr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "角度(右下)",
+    "example": "几何角度标记。"
   },
   "\\gtlpar": {
     "unicode": "⦠",
     "name": "gtlpar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "球面角度",
+    "example": "球面几何角度。"
   },
   "\\sphericalangleup": {
     "unicode": "⦡",
     "name": "sphericalangleup",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "球面角(向上)",
+    "example": "球面几何。"
   },
   "\\turnangle": {
     "unicode": "⦢",
     "name": "turnangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "旋转角",
+    "example": "几何旋转角度。"
   },
   "\\revangle": {
     "unicode": "⦣",
     "name": "revangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反转角",
+    "example": "几何角度标记。"
   },
   "\\angleubar": {
     "unicode": "⦤",
     "name": "angleubar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带下杆的角",
+    "example": "几何角度标记。"
   },
   "\\revangleubar": {
     "unicode": "⦥",
     "name": "revangleubar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反转带下杆的角",
+    "example": "几何角度标记。"
   },
   "\\wideangledown": {
     "unicode": "⦦",
     "name": "wideangledown",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "向下广角",
+    "example": "广角标记。"
   },
   "\\wideangleup": {
     "unicode": "⦧",
     "name": "wideangleup",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "向上广角",
+    "example": "广角标记。"
   },
   "\\measanglerutone": {
     "unicode": "⦨",
     "name": "measanglerutone",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "测量角(右上至东北)",
+    "example": "角度测量。"
   },
   "\\measanglelutonw": {
     "unicode": "⦩",
     "name": "measanglelutonw",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "测量角(左上至西北)",
+    "example": "角度测量。"
   },
   "\\measanglerdtose": {
     "unicode": "⦪",
     "name": "measanglerdtose",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "测量角(右下至东南)",
+    "example": "角度测量。"
   },
   "\\measangleldtosw": {
     "unicode": "⦫",
     "name": "measangleldtosw",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "测量角(左下至西南)",
+    "example": "角度测量。"
   },
   "\\measangleurtone": {
     "unicode": "⦬",
     "name": "measangleurtone",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "测量角(上右至东北)",
+    "example": "角度测量。"
   },
   "\\measangleultonw": {
     "unicode": "⦭",
     "name": "measangleultonw",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "测量角(上左至西北)",
+    "example": "角度测量。"
   },
   "\\measangledrtose": {
     "unicode": "⦮",
     "name": "measangledrtose",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "测量角(下右至东南)",
+    "example": "角度测量。"
   },
   "\\measangledltosw": {
     "unicode": "⦯",
     "name": "measangledltosw",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "测量角(下左至西南)",
+    "example": "角度测量。"
   },
   "\\revemptyset": {
     "unicode": "⦰",
     "name": "revemptyset",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反转空集",
+    "example": "空集符号变体。"
   },
   "\\emptysetobar": {
     "unicode": "⦱",
     "name": "emptysetobar",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带横杠空集",
+    "example": "空集变体。"
   },
   "\\emptysetocirc": {
     "unicode": "⦲",
     "name": "emptysetocirc",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带上圈空集",
+    "example": "空集变体。"
   },
   "\\emptysetoarr": {
     "unicode": "⦳",
     "name": "emptysetoarr",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带箭头空集",
+    "example": "空集变体。"
   },
   "\\emptysetoarrl": {
     "unicode": "⦴",
     "name": "emptysetoarrl",
-    "category": "arrow",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带左箭头空集",
+    "example": "空集变体。"
   },
   "\\circlehbar": {
     "unicode": "⦵",
     "name": "circlehbar",
-    "category": "physics",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈横杠",
+    "example": "特殊运算符。"
   },
   "\\circledvert": {
     "unicode": "⦶",
     "name": "circledvert",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈竖线",
+    "example": "特殊运算符。"
   },
   "\\circledparallel": {
     "unicode": "⦷",
     "name": "circledparallel",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈平行线",
+    "example": "特殊运算符。"
   },
   "\\circledbslash": {
     "unicode": "⦸",
     "name": "circledbslash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈反斜线",
+    "example": "特殊运算符。"
   },
   "\\operp": {
     "unicode": "⦹",
     "name": "operp",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈垂直",
+    "example": "特殊运算符。"
   },
   "\\obot": {
     "unicode": "⦺",
     "name": "obot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈底部",
+    "example": "特殊运算符。"
   },
   "\\olcross": {
     "unicode": "⦻",
     "name": "olcross",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈叉号",
+    "example": "特殊运算符。"
   },
   "\\odotslashdot": {
     "unicode": "⦼",
@@ -8242,141 +8242,141 @@
     "unicode": "⦽",
     "name": "uparrowoncircle",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "圈上箭头",
+    "example": "方向与运算组合。"
   },
   "\\circledwhitebullet": {
     "unicode": "⦾",
     "name": "circledwhitebullet",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "圈内白点",
+    "example": "特殊标记。"
   },
   "\\circledbullet": {
     "unicode": "⦿",
     "name": "circledbullet",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "圈内黑点",
+    "example": "特殊标记。"
   },
   "\\circledless": {
     "unicode": "⧀",
     "name": "circledless",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈小于",
+    "example": "特殊比较运算。"
   },
   "\\circledgtr": {
     "unicode": "⧁",
     "name": "circledgtr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈大于",
+    "example": "特殊比较运算。"
   },
   "\\cirscir": {
     "unicode": "⧂",
     "name": "cirscir",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "双圈(同心)",
+    "example": "装饰符号。"
   },
   "\\cirE": {
     "unicode": "⧃",
     "name": "cirE",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圈内E",
+    "example": "特殊运算标记。"
   },
   "\\boxslash": {
     "unicode": "⧄",
     "name": "boxslash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "斜线方框",
+    "example": "特殊运算符。"
   },
   "\\boxbslash": {
     "unicode": "⧅",
     "name": "boxbslash",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反斜线方框",
+    "example": "特殊运算符。"
   },
   "\\boxast": {
     "unicode": "⧆",
     "name": "boxast",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "星号方框",
+    "example": "特殊运算符。"
   },
   "\\boxcircle": {
     "unicode": "⧇",
     "name": "boxcircle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圆圈方框",
+    "example": "特殊运算符。"
   },
   "\\boxbox": {
     "unicode": "⧈",
     "name": "boxbox",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "嵌套方框",
+    "example": "模态逻辑中的必然性算子。"
   },
   "\\boxonbox": {
     "unicode": "⧉",
     "name": "boxonbox",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "重叠方框",
+    "example": "层叠标记。"
   },
   "\\triangleodot": {
     "unicode": "⧊",
     "name": "triangleodot",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "三角圈点",
+    "example": "特殊运算符。"
   },
   "\\triangleubar": {
     "unicode": "⧋",
     "name": "triangleubar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "三角下横",
+    "example": "特殊运算符。"
   },
   "\\triangles": {
     "unicode": "⧌",
     "name": "triangles",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小三角形",
+    "example": "装饰或标记。"
   },
   "\\triangleserifs": {
     "unicode": "⧍",
     "name": "triangleserifs",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带衬线三角形",
+    "example": "特殊符号。"
   },
   "\\rtriltri": {
     "unicode": "⧎",
     "name": "rtriltri",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "右三角左三角",
+    "example": "三角形组合。"
   },
   "\\LeftTriangleBar": {
     "unicode": "⧏",
     "name": "LeftTriangleBar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "左三角杆",
+    "example": "特殊关系符号。"
   },
   "\\RightTriangleBar": {
     "unicode": "⧐",
     "name": "RightTriangleBar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "右三角杆",
+    "example": "特殊关系符号。"
   },
   "\\lfbowtie": {
     "unicode": "⧑",
@@ -8564,8 +8564,8 @@
     "unicode": "⧫",
     "name": "blacklozenge",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "实心菱形 (Black Lozenge)",
+    "example": "难度标记（如滑雪道）。"
   },
   "\\circledownarrow": {
     "unicode": "⧬",
@@ -8584,156 +8584,156 @@
   "\\errbarsquare": {
     "unicode": "⧮",
     "name": "errbarsquare",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "方形误差条",
+    "example": "统计图误差标记。"
   },
   "\\errbarblacksquare": {
     "unicode": "⧯",
     "name": "errbarblacksquare",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "实心方形误差条",
+    "example": "统计图误差标记。"
   },
   "\\errbardiamond": {
     "unicode": "⧰",
     "name": "errbardiamond",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "菱形误差条",
+    "example": "统计图误差标记。"
   },
   "\\errbarblackdiamond": {
     "unicode": "⧱",
     "name": "errbarblackdiamond",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "实心菱形误差条",
+    "example": "统计图误差标记。"
   },
   "\\errbarcircle": {
     "unicode": "⧲",
     "name": "errbarcircle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "圆形误差条",
+    "example": "统计图误差标记。"
   },
   "\\errbarblackcircle": {
     "unicode": "⧳",
     "name": "errbarblackcircle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "实心圆形误差条",
+    "example": "统计图误差标记。"
   },
   "\\ruledelayed": {
     "unicode": "⧴",
     "name": "ruledelayed",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "延迟规则",
+    "example": "Mathematica延迟求值。"
   },
   "\\setminus": {
     "unicode": "⧵",
     "name": "setminus",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "集合差(反斜杠)",
+    "example": "$A\\\\setminus B$"
   },
   "\\dsol": {
     "unicode": "⧶",
     "name": "dsol",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双斜杠",
+    "example": "数学双除号。"
   },
   "\\rsolbar": {
     "unicode": "⧷",
     "name": "rsolbar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反斜杠横杠",
+    "example": "特殊否定符号。"
   },
   "\\xsol": {
     "unicode": "⧸",
     "name": "xsol",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大除号",
+    "example": "分数线或大除法。"
   },
   "\\zhide": {
     "unicode": "⧹",
     "name": "zhide",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反斜杠",
+    "example": "集合差或特殊操作。"
   },
   "\\doubleplus": {
     "unicode": "⧺",
     "name": "doubleplus",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双加号",
+    "example": "自增或特殊加法。"
   },
   "\\tripleplus": {
     "unicode": "⧻",
     "name": "tripleplus",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "三加号",
+    "example": "特殊加法运算。"
   },
   "\\lcurvyangle": {
     "unicode": "⧼",
     "name": "lcurvyangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "左弯曲尖括号",
+    "example": "特殊定界符。"
   },
   "\\rcurvyangle": {
     "unicode": "⧽",
     "name": "rcurvyangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "delimiter",
+    "description": "右弯曲尖括号",
+    "example": "特殊定界符。"
   },
   "\\tplus": {
     "unicode": "⧾",
     "name": "tplus",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "下加号",
+    "example": "特殊加法运算。"
   },
   "\\tminus": {
     "unicode": "⧿",
     "name": "tminus",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "下减号",
+    "example": "特殊减法运算。"
   },
   "\\bigodot": {
     "unicode": "⨀",
     "name": "bigodot",
-    "category": "math",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "大圈点积",
+    "example": "$\\\\bigodot_{i=1}^n a_i$"
   },
   "\\bigoplus": {
     "unicode": "⨁",
     "name": "bigoplus",
-    "category": "math",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "大直和",
+    "example": "$\\\\bigoplus_{i=1}^n V_i$"
   },
   "\\bigotimes": {
     "unicode": "⨂",
     "name": "bigotimes",
-    "category": "math",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "大张量积",
+    "example": "$\\\\bigotimes_{i=1}^n V_i$"
   },
   "\\bigcupdot": {
     "unicode": "⨃",
     "name": "bigcupdot",
-    "category": "math",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "大点并集",
+    "example": "全称不相交并。"
   },
   "\\biguplus": {
     "unicode": "⨄",
@@ -8752,23 +8752,23 @@
   "\\bigsqcup": {
     "unicode": "⨆",
     "name": "bigsqcup",
-    "category": "math",
-    "description": "",
-    "example": ""
+    "category": "operator",
+    "description": "大方形并集",
+    "example": "$\\\\bigsqcup_{i} A_i$"
   },
   "\\conjquant": {
     "unicode": "⨇",
     "name": "conjquant",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "合取量词",
+    "example": "逻辑运算符。"
   },
   "\\disjquant": {
     "unicode": "⨈",
     "name": "disjquant",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "析取量词",
+    "example": "逻辑运算符。"
   },
   "\\varprod": {
     "unicode": "⨉",
@@ -8795,29 +8795,29 @@
     "unicode": "⨌",
     "name": "iiiint",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "四重积分",
+    "example": "四维积分。"
   },
   "\\intbar": {
     "unicode": "⨍",
     "name": "intbar",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "带横杠积分",
+    "example": "均值积分。"
   },
   "\\intBar": {
     "unicode": "⨎",
     "name": "intBar",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "带双横杠积分",
+    "example": "双均值积分。"
   },
   "\\fint": {
     "unicode": "⨏",
     "name": "fint",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "平均积分",
+    "example": "$\\\\fint f\\,dx$"
   },
   "\\cirfnint": {
     "unicode": "⨐",
@@ -8858,57 +8858,57 @@
     "unicode": "⨕",
     "name": "pointint",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "点积分",
+    "example": "特殊积分。"
   },
   "\\sqint": {
     "unicode": "⨖",
     "name": "sqint",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "方形积分",
+    "example": "特殊积分。"
   },
   "\\intlarhk": {
     "unicode": "⨗",
     "name": "intlarhk",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "左钩积分",
+    "example": "特殊积分。"
   },
   "\\intx": {
     "unicode": "⨘",
     "name": "intx",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "叉积分",
+    "example": "特殊积分。"
   },
   "\\intcap": {
     "unicode": "⨙",
     "name": "intcap",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "交集积分",
+    "example": "特殊积分。"
   },
   "\\intcup": {
     "unicode": "⨚",
     "name": "intcup",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "并集积分",
+    "example": "特殊积分。"
   },
   "\\upint": {
     "unicode": "⨛",
     "name": "upint",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "上积分(上确界)",
+    "example": "上黎曼积分。"
   },
   "\\lowint": {
     "unicode": "⨜",
     "name": "lowint",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "下积分(下确界)",
+    "example": "下黎曼积分。"
   },
   "\\Join": {
     "unicode": "⨝",
@@ -9151,9 +9151,9 @@
   "\\amalg": {
     "unicode": "⨿",
     "name": "amalg",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "余积",
+    "example": "范畴论中的余积。"
   },
   "\\capdot": {
     "unicode": "⩀",
@@ -9670,15 +9670,15 @@
     "unicode": "⪉",
     "name": "lnapprox",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "小于且不近似",
+    "example": "严格不等式。"
   },
   "\\gnapprox": {
     "unicode": "⪊",
     "name": "gnapprox",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "大于且不近似",
+    "example": "严格不等式。"
   },
   "\\lesseqqgtr": {
     "unicode": "⪋",
@@ -9753,44 +9753,44 @@
   "\\eqslantless": {
     "unicode": "⪕",
     "name": "eqslantless",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "斜线小于等于",
+    "example": "带斜线等号的小于等于变体。"
   },
   "\\eqslantgtr": {
     "unicode": "⪖",
     "name": "eqslantgtr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "斜线大于等于",
+    "example": "带斜线等号的大于等于变体。"
   },
   "\\elsdot": {
     "unicode": "⪗",
     "name": "elsdot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小于等于带点",
+    "example": "不等式带点变体。"
   },
   "\\egsdot": {
     "unicode": "⪘",
     "name": "egsdot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于等于带点",
+    "example": "不等式带点变体。"
   },
   "\\eqqless": {
     "unicode": "⪙",
     "name": "eqqless",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双等小于",
+    "example": "特殊不等式。"
   },
   "\\eqqgtr": {
     "unicode": "⪚",
     "name": "eqqgtr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双等大于",
+    "example": "特殊不等式。"
   },
   "\\eqqslantless": {
     "unicode": "⪛",
@@ -9809,30 +9809,30 @@
   "\\simless": {
     "unicode": "⪝",
     "name": "simless",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "近似小于",
+    "example": "近似不等式。"
   },
   "\\simgtr": {
     "unicode": "⪞",
     "name": "simgtr",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "近似大于",
+    "example": "近似不等式。"
   },
   "\\simlE": {
     "unicode": "⪟",
     "name": "simlE",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "近似小于等于",
+    "example": "近似不等式。"
   },
   "\\simgE": {
     "unicode": "⪠",
     "name": "simgE",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "近似大于等于",
+    "example": "近似不等式。"
   },
   "\\NestedLessLess": {
     "unicode": "⪡",
@@ -9858,16 +9858,16 @@
   "\\glj": {
     "unicode": "⪤",
     "name": "glj",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于小于连接",
+    "example": "特殊比较。"
   },
   "\\gla": {
     "unicode": "⪥",
     "name": "gla",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于小于连接变体",
+    "example": "特殊比较。"
   },
   "\\leftslice": {
     "unicode": "⪦",
@@ -9886,65 +9886,65 @@
   "\\lescc": {
     "unicode": "⪨",
     "name": "lescc",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小于等于闭合曲线",
+    "example": "特殊不等式。"
   },
   "\\gescc": {
     "unicode": "⪩",
     "name": "gescc",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于等于闭合曲线",
+    "example": "特殊不等式。"
   },
   "\\smt": {
     "unicode": "⪪",
     "name": "smt",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小于(圆滑)",
+    "example": "圆滑小于号。"
   },
   "\\lat": {
     "unicode": "⪫",
     "name": "lat",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于(圆滑)",
+    "example": "圆滑大于号。"
   },
   "\\smte": {
     "unicode": "⪬",
     "name": "smte",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小于等于(圆滑)",
+    "example": "圆滑不等式。"
   },
   "\\late": {
     "unicode": "⪭",
     "name": "late",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于等于(圆滑)",
+    "example": "圆滑不等式。"
   },
   "\\bumpeqq": {
     "unicode": "⪮",
     "name": "bumpeqq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "双凸等号",
+    "example": "特殊等号变体。"
   },
   "\\preceq": {
     "unicode": "⪯",
     "name": "preceq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "前驱或等于",
+    "example": "$a\\\\preceq b$"
   },
   "\\succeq": {
     "unicode": "⪰",
     "name": "succeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "后继或等于",
+    "example": "$b\\\\succeq a$"
   },
   "\\precneq": {
     "unicode": "⪱",
@@ -9978,43 +9978,43 @@
     "unicode": "⪵",
     "name": "precneqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "前驱且不等于",
+    "example": "序关系否认变体。"
   },
   "\\succneqq": {
     "unicode": "⪶",
     "name": "succneqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "后继且不等于",
+    "example": "序关系否认变体。"
   },
   "\\precapprox": {
     "unicode": "⪷",
     "name": "precapprox",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "前驱且近似",
+    "example": "序关系近似变体。"
   },
   "\\succapprox": {
     "unicode": "⪸",
     "name": "succapprox",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "后继且近似",
+    "example": "序关系近似变体。"
   },
   "\\precnapprox": {
     "unicode": "⪹",
     "name": "precnapprox",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "前驱且不近似",
+    "example": "序关系否认变体。"
   },
   "\\succnapprox": {
     "unicode": "⪺",
     "name": "succnapprox",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "后继且不近似",
+    "example": "序关系否认变体。"
   },
   "\\llcurly": {
     "unicode": "⪻",
@@ -10048,29 +10048,29 @@
     "unicode": "⪿",
     "name": "subsetplus",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "子集加号",
+    "example": "特殊子集。"
   },
   "\\supsetplus": {
     "unicode": "⫀",
     "name": "supsetplus",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "超集加号",
+    "example": "特殊超集。"
   },
   "\\submult": {
     "unicode": "⫁",
     "name": "submult",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "子集乘号",
+    "example": "特殊子集。"
   },
   "\\supmult": {
     "unicode": "⫂",
     "name": "supmult",
-    "category": "greek",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "超集乘号",
+    "example": "特殊超集。"
   },
   "\\subedot": {
     "unicode": "⫃",
@@ -10090,15 +10090,15 @@
     "unicode": "⫅",
     "name": "subseteqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "子集或等于 (双横)",
+    "example": "集合论的子集变体。"
   },
   "\\supseteqq": {
     "unicode": "⫆",
     "name": "supseteqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "超集或等于 (双横)",
+    "example": "集合论的超集变体。"
   },
   "\\subsim": {
     "unicode": "⫇",
@@ -10132,15 +10132,15 @@
     "unicode": "⫋",
     "name": "subsetneqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "真子集且不等于 (双横)",
+    "example": "严格子集变体。"
   },
   "\\supsetneqq": {
     "unicode": "⫌",
     "name": "supsetneqq",
     "category": "math",
-    "description": "",
-    "example": ""
+    "description": "真超集且不等于 (双横)",
+    "example": "严格超集变体。"
   },
   "\\lsqhook": {
     "unicode": "⫍",
@@ -10159,30 +10159,30 @@
   "\\csub": {
     "unicode": "⫏",
     "name": "csub",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "封闭子集",
+    "example": "拓扑学封闭子集。"
   },
   "\\csup": {
     "unicode": "⫐",
     "name": "csup",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "封闭超集",
+    "example": "拓扑学封闭超集。"
   },
   "\\csube": {
     "unicode": "⫑",
     "name": "csube",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "封闭子集或等于",
+    "example": "拓扑学封闭子集。"
   },
   "\\csupe": {
     "unicode": "⫒",
     "name": "csupe",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "封闭超集或等于",
+    "example": "拓扑学封闭超集。"
   },
   "\\subsup": {
     "unicode": "⫓",
@@ -18364,15 +18364,15 @@
     "unicode": "⇠",
     "name": "leftdasharrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "左虚线箭头",
+    "example": "部分函数或弱依赖。"
   },
   "\\rightdasharrow": {
     "unicode": "⇢",
     "name": "rightdasharrow",
     "category": "arrow",
-    "description": "",
-    "example": ""
+    "description": "右虚线箭头",
+    "example": "UML依赖关系。"
   },
   "\\barleftarrow": {
     "unicode": "⇤",
@@ -18427,29 +18427,29 @@
     "unicode": "∙",
     "name": "vysmblkcircle",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "极小实心圆",
+    "example": "项目符号标记。"
   },
   "\\surd": {
     "unicode": "√",
     "name": "surd",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "根号",
+    "example": "$\\\\surd{x}$"
   },
   "\\cuberoot": {
     "unicode": "∛",
     "name": "cuberoot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "立方根号",
+    "example": "立方根：$\\\\cuberoot{x}$。"
   },
   "\\fourthroot": {
     "unicode": "∜",
     "name": "fourthroot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "四次根号",
+    "example": "四次方根：$\\\\fourthroot{x}$。"
   },
   "\\mathratio": {
     "unicode": "∶",
@@ -18574,29 +18574,29 @@
     "unicode": "⋄",
     "name": "smwhtdiamond",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "小空心菱形",
+    "example": "装饰符号。"
   },
   "\\equalparallel": {
     "unicode": "⋕",
     "name": "equalparallel",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "等号且平行",
+    "example": "几何中的等价并行关系。"
   },
   "\\npreccurlyeq": {
     "unicode": "⋠",
     "name": "npreccurlyeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不前驱或弯曲等于",
+    "example": "序关系否认。"
   },
   "\\nsucccurlyeq": {
     "unicode": "⋡",
     "name": "nsucccurlyeq",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "不后继或弯曲等于",
+    "example": "序关系否认。"
   },
   "\\nvartriangleleft": {
     "unicode": "⋪",
@@ -18615,16 +18615,16 @@
   "\\varisinobar": {
     "unicode": "⋶",
     "name": "varisinobar",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "带横杠的属于变体",
+    "example": "集合论的属于变体。"
   },
   "\\invnot": {
     "unicode": "⌐",
     "name": "invnot",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "反向否定符号",
+    "example": "逻辑否定的变体。"
   },
   "\\sqlozenge": {
     "unicode": "⌑",
@@ -18664,9 +18664,9 @@
   "\\blacktriangle": {
     "unicode": "▴",
     "name": "blacktriangle",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "实心上三角形",
+    "example": "列表标记或方向指示。"
   },
   "\\vartriangle": {
     "unicode": "▵",
@@ -18678,9 +18678,9 @@
   "\\triangleright": {
     "unicode": "▷",
     "name": "triangleright",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "右三角形",
+    "example": "表示右侧操作或方向。"
   },
   "\\smallblacktriangleright": {
     "unicode": "▸",
@@ -18692,16 +18692,16 @@
   "\\triangledown": {
     "unicode": "▿",
     "name": "triangledown",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "倒三角形",
+    "example": "微分算子梯度的变体或几何标记。"
   },
   "\\triangleleft": {
     "unicode": "◁",
     "name": "triangleleft",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "左三角形",
+    "example": "表示左侧操作或方向。"
   },
   "\\smallblacktriangleleft": {
     "unicode": "◂",
@@ -18714,15 +18714,15 @@
     "unicode": "◆",
     "name": "mdlgblkdiamond",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "大实心菱形",
+    "example": "列表标记或强调。"
   },
   "\\mdlgwhtdiamond": {
     "unicode": "◇",
     "name": "mdlgwhtdiamond",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "大空心菱形",
+    "example": "列表标记或装饰。"
   },
   "\\mdlgwhtlozenge": {
     "unicode": "◊",
@@ -18735,15 +18735,15 @@
     "unicode": "○",
     "name": "mdlgwhtcircle",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "大空心圆",
+    "example": "标注或指示。"
   },
   "\\mdlgblkcircle": {
     "unicode": "●",
     "name": "mdlgblkcircle",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "大实心圆",
+    "example": "强调标记。"
   },
   "\\circlelefthalfblack": {
     "unicode": "◐",
@@ -18777,15 +18777,15 @@
     "unicode": "◻",
     "name": "mdwhtsquare",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "中等空心方块",
+    "example": "列表项标记或装饰。"
   },
   "\\mdblksquare": {
     "unicode": "◼",
     "name": "mdblksquare",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "中等实心方块",
+    "example": "列表项标记或装饰。"
   },
   "\\astrosun": {
     "unicode": "☉",
@@ -19336,16 +19336,16 @@
   "\\ltcc": {
     "unicode": "⪦",
     "name": "ltcc",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "小于闭合曲线",
+    "example": "特殊不等式。"
   },
   "\\gtcc": {
     "unicode": "⪧",
     "name": "gtcc",
-    "category": "other",
-    "description": "",
-    "example": ""
+    "category": "math",
+    "description": "大于闭合曲线",
+    "example": "特殊不等式。"
   },
   "\\Prec": {
     "unicode": "⪻",
@@ -19379,15 +19379,15 @@
     "unicode": "⬛",
     "name": "lgblksquare",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "大实心方块",
+    "example": "列表项标记或装饰。"
   },
   "\\lgwhtsquare": {
     "unicode": "⬜",
     "name": "lgwhtsquare",
     "category": "other",
-    "description": "",
-    "example": ""
+    "description": "大空心方块",
+    "example": "列表项标记或装饰。"
   },
   "\\mathit{A}": {
     "unicode": "𝐴",
