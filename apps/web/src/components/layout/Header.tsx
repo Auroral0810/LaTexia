@@ -30,6 +30,7 @@ export function Header() {
         {/* 桌面端导航 */}
         <nav className="hidden md:flex items-center space-x-1">
           {[
+            { href: '/', label: '首页' },
             { href: '/practice', label: '练习' },
             { href: '/learn', label: '教学' },
             { href: '/symbols', label: '符号' },
@@ -120,6 +121,7 @@ export function Header() {
         <div className="md:hidden border-t border-border/40 animate-slide-down">
           <nav className="container py-4 space-y-1">
             {[
+              { href: '/', label: '首页' },
               { href: '/practice', label: '练习' },
               { href: '/learn', label: '教学' },
               { href: '/symbols', label: '符号' },
