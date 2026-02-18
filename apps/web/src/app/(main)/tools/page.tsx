@@ -1,159 +1,56 @@
+'use client';
+
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
 
 interface Resource {
-  id: number;
+  id: string | number;
   name: string;
   url: string;
   description: string;
   level: string;
-  isOfficial: boolean;
+  isFeatured: boolean;
   category: 'tutorial' | 'reference' | 'tool' | 'community';
 }
 
-const resources: Resource[] = [
-  {
-    id: 1,
-    name: 'Overleaf Learn LaTeX',
-    url: 'https://www.overleaf.com/learn',
-    description: '最受欢迎的在线 LaTeX 编辑器 + 完整教程库，从“30分钟入门”到表格、图表、参考文献等高级主题，全部支持一键在 Overleaf 中编辑运行。',
-    level: '入门到高级',
-    isOfficial: false,
-    category: 'tutorial'
-  },
-  {
-    id: 2,
-    name: 'Learn LaTeX (learnlatex.org)',
-    url: 'https://www.learnlatex.org/en/',
-    description: 'LaTeX 项目团队成员亲自编写的 16 节短课，内容精炼、可直接在线编辑示例，安装+基础+结构一步步教。',
-    level: '入门',
-    isOfficial: true,
-    category: 'tutorial'
-  },
-  {
-    id: 3,
-    name: 'LaTeX-Tutorial.com',
-    url: 'https://latex-tutorial.com/',
-    description: '简洁清晰的步步教程，配完整代码示例，专为科研论文/报告设计，适合快速上手。',
-    level: '入门 / 进阶',
-    isOfficial: false,
-    category: 'tutorial'
-  },
-  {
-    id: 4,
-    name: 'UseOctree Learn LaTeX',
-    url: 'https://www.useoctree.com/learn/latex',
-    description: '2025 年更新的完整初学者教程，覆盖文档结构、数学公式、表格、引用等，界面现代。',
-    level: '入门',
-    isOfficial: false,
-    category: 'tutorial'
-  },
-  {
-    id: 5,
-    name: 'Javatpoint LaTeX Tutorial',
-    url: 'https://www.javatpoint.com/latex-tutorial',
-    description: '结构化教程 + 大量示例代码，适合有编程基础的初学者，包含环境搭建和常用命令。',
-    level: '入门',
-    isOfficial: false,
-    category: 'tutorial'
-  },
-  {
-    id: 6,
-    name: 'LaTeX Wikibooks',
-    url: 'https://en.wikibooks.org/wiki/LaTeX',
-    description: '开放式维基百科风格的全面手册，从零基础到高级宏、自定义样式，几乎所有主题都有。',
-    level: '入门到高级',
-    isOfficial: false,
-    category: 'reference'
-  },
-  {
-    id: 7,
-    name: 'Getting to Grips with LaTeX',
-    url: 'http://www.andy-roberts.net/writing/latex',
-    description: '经典免费教程，内容平衡，适合从入门过渡到进阶的科研写作。',
-    level: '入门到进阶',
-    isOfficial: false,
-    category: 'tutorial'
-  },
-  {
-    id: 8,
-    name: 'The LaTeX Project 官方文档',
-    url: 'https://www.latex-project.org/help/documentation/',
-    description: 'LaTeX 核心团队维护的官方参考文档、发布说明和进阶指南。',
-    level: '进阶到高级',
-    isOfficial: true,
-    category: 'reference'
-  },
-  {
-    id: 9,
-    name: 'TeX Users Group (TUG)',
-    url: 'https://www.tug.org/',
-    description: 'TeX/LaTeX 官方用户组织，提供资源链接、会议资料、新闻和进一步学习路径。',
-    level: '所有层次',
-    isOfficial: true,
-    category: 'community'
-  },
-  {
-    id: 10,
-    name: 'CTAN - 综合 TeX 档案网',
-    url: 'https://www.ctan.org/',
-    description: '所有 LaTeX 包的中央仓库，可搜索包名、下载文档，是进阶必备工具站。',
-    level: '高级',
-    isOfficial: true,
-    category: 'tool'
-  },
-  {
-    id: 11,
-    name: 'TeX - LaTeX Stack Exchange',
-    url: 'https://tex.stackexchange.com/',
-    description: '全球最大的 LaTeX 问答社区，搜任何问题几乎都有答案，包含高级宏、排版技巧。',
-    level: '进阶到高级',
-    isOfficial: false,
-    category: 'community'
-  },
-  {
-    id: 12,
-    name: 'Detexify',
-    url: 'https://detexify.kirelabs.org/',
-    description: '“手画符号找命令”神器，画出符号就能得到 LaTeX 代码 + 所需包，学习符号最快方式。',
-    level: '所有层次',
-    isOfficial: false,
-    category: 'tool'
-  },
-  {
-    id: 13,
-    name: 'TeXample.net',
-    url: 'https://www.texample.net/',
-    description: '海量 LaTeX 示例库（尤其是 TikZ/PGF 绘图），适合想做复杂图表/海报的进阶用户。',
-    level: '进阶到高级',
-    isOfficial: false,
-    category: 'reference'
-  },
-  {
-    id: 14,
-    name: 'Harvard Library LaTeX Resources',
-    url: 'https://guides.library.harvard.edu/overleaf/latex',
-    description: '顶尖大学图书馆整理的资源合集，包含模板、符号列表、进阶链接，质量极高。',
-    level: '入门到进阶',
-    isOfficial: false,
-    category: 'reference'
-  },
-  {
-    id: 15,
-    name: 'The Not So Short Introduction',
-    url: 'https://tobi.oetiker.ch/lshort/',
-    description: '经典“不太短的 LaTeX 介绍”（lshort）官方托管站点，PDF + 更新链接，进阶必读。',
-    level: '入门到进阶',
-    isOfficial: false,
-    category: 'tutorial'
-  },
-];
-
-export const metadata = {
-  title: '学习资源 | Latexia',
-  description: '精选的 LaTeX 学习网站、工具和社区资源。',
-};
+async function fetchTools(): Promise<Resource[]> {
+  const res = await fetch('http://localhost:3001/api/tools');
+  if (!res.ok) throw new Error('Network response was not ok');
+  const json = await res.json();
+  return json.data;
+}
 
 export default function ToolsPage() {
+  const { data: resources, isLoading, error } = useQuery({
+    queryKey: ['tools', 'all'],
+    queryFn: fetchTools,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="container py-20 text-center">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 w-48 bg-muted mx-auto rounded-md"></div>
+          <div className="h-4 w-64 bg-muted mx-auto rounded-md"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="h-48 bg-muted rounded-2xl"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container py-20 text-center">
+        <h2 className="text-xl font-bold">加载失败</h2>
+        <p className="text-muted-foreground mt-2">请稍后再试或检查后端连接。</p>
+      </div>
+    );
+  }
+
   return (
     <div className="container py-10 animate-slide-up">
       {/* 头部 */}
@@ -166,7 +63,7 @@ export default function ToolsPage() {
         </p>
       </div>
 
-      {/* 分类切换器 (未来可扩展) */}
+      {/* 分类切换器 */}
       <div className="flex flex-wrap justify-center gap-2 mb-10">
         {['全部', '系统教程', '参考手册', '实用工具', '技术社区'].map((tab) => (
           <button
@@ -184,7 +81,7 @@ export default function ToolsPage() {
 
       {/* 资源网格 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {resources.map((res) => (
+        {resources?.map((res) => (
           <a
             key={res.id}
             href={res.url}
@@ -192,8 +89,8 @@ export default function ToolsPage() {
             rel="noopener noreferrer"
             className="group relative flex flex-col h-full rounded-2xl border border-border/50 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 shadow-sm"
           >
-            {/* 官方标签 */}
-            {res.isOfficial && (
+            {/* 官方标签 (通过 featured 逻辑等展示，这里暂时逻辑简单处理) */}
+            {res.isFeatured && (
               <div className="absolute top-4 right-4 px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-primary/10 text-primary border border-primary/20">
                 Official
               </div>

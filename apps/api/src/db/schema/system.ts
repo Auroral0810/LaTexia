@@ -84,6 +84,8 @@ export const toolRecommendations = pgTable('tool_recommendations', {
   isFeatured: boolean('is_featured').default(false),
   // 排序
   sortOrder: integer('sort_order').default(0),
+  // 难度等级：Beginner, Intermediate, Advanced 等
+  level: varchar('level', { length: 50 }),
   // 创建者
   createdBy: uuid('created_by').references(() => users.id),
   // 创建时间

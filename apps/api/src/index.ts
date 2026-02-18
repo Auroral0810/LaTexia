@@ -5,11 +5,16 @@ import { logger } from 'hono/logger';
 import { db } from './db';
 import { users } from './db/schema/users';
 
+import toolsRouter from './modules/tools/tools.routes';
+
 const app = new Hono();
 
 // 中间件
 app.use('*', logger());
 app.use('*', cors());
+
+// 路由注册
+app.route('/api/tools', toolsRouter);
 
 // 健康检查
 app.get('/', (c) => {
