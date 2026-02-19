@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     default: 'Latexia — 在线 LaTeX 学习与练习平台',
     template: '%s | Latexia',
   },
-  description: '面向学生、学术研究者和技术写作者的企业级 SaaS 风格 LaTeX 训练平台',
+  description: '面向学生与研究者的 LaTeX 在线刷题平台，通过系统化的题库练习与即时反馈，帮你真正掌握 LaTeX',
   keywords: ['LaTeX', '学习', '练习', '公式', '数学', '排版'],
   icons: {
     icon: '/images/logo1.png',

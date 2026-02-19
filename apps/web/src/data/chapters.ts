@@ -86,7 +86,30 @@ Hello, World! 这是我的第一份 LaTeX 文档。
       },
       {
         title: '常用文本命令',
-        content: 'LaTeX 命令通常以反斜杠 `\\` 开头。有些命令需要参数，参数用花括号 `{}` 包裹。',
+        content: `LaTeX 命令通常以反斜杠 \`\\\` 开头。
+
+### 常用样式
+
+| 命令 | 说明 | 示例 |
+| :--- | :--- | :--- |
+| \`\\textbf{...}\` | 加粗 | \\textbf{Bold} |
+| \`\\textit{...}\` | 斜体 | \\textit{Italic} |
+| \`\\underline{...}\` | 下划线 | \\underline{Underline} |
+
+### 标题结构
+
+- \`\\section{...}\`: 一级标题
+- \`\\subsection{...}\`: 二级标题
+- \`\\subsubsection{...}\`: 三级标题
+
+### 渲染效果预览
+
+**加粗文本**
+*斜体文本*
+<u>下划线</u>
+
+# 一级标题
+## 二级标题`,
         code: `\\textbf{加粗文本}
 \\textit{斜体文本}
 \\underline{下划线}
@@ -102,7 +125,23 @@ Hello, World! 这是我的第一份 LaTeX 文档。
       },
       {
         title: '列表环境',
-        content: 'LaTeX 提供了有序列表 `enumerate` 和无序列表 `itemize`。',
+        content: `LaTeX 提供了有序列表 \`enumerate\` 和无序列表 \`itemize\`。
+
+### 代码结构
+
+使用 \`\\begin{...}\` 和 \`\\end{...}\` 包裹列表项，每项使用 \`\\item\` 标记。
+
+### 渲染效果预览
+
+**无序列表**：
+
+- 第一点
+- 第二点
+
+**有序列表**：
+
+1. 第一步
+2. 第二步`,
         code: `\\begin{itemize}
   \\item 第一点
   \\item 第二点
@@ -119,7 +158,23 @@ Hello, World! 这是我的第一份 LaTeX 文档。
       },
       {
         title: '特殊字符',
-        content: '有些字符在 LaTeX 中有特殊含义，如 `% $ & { } _ ^ # ~ \\`。如果需要显示它们，需要使用转义符 `\\`。',
+        content: `有些字符在 LaTeX 中有特殊含义（保留字符），如 \`% $ & { } _ ^ # ~ \\\`。
+
+如果需要在文档中显示它们，必须使用反斜杠 \`\\\` 进行转义。
+
+### 常见转义字符
+
+| 符号 | 用途 | 转义输入 | 显示结果 |
+| :--- | :--- | :--- | :--- |
+| \`%\` | 注释 | \`\\%\` | % |
+| \`$\` | 数学模式 | \`\\$\` | $ |
+| \`&\` | 对齐/表格 | \`\\&\` | & |
+| \`_\` | 下标 | \`\\_\` | _ |
+| \`{\` | 组开始 | \`\\{\` | { |
+| \`}\` | 组结束 | \`\\}\` | } |
+| \`#\` | 参数 | \`\\#\` | # |
+
+注意：反斜杠 \`\\\` 本身不能用 \`\\\\\` 转义（那是换行！），需要使用 \`\\textbackslash\` 命令。`,
         code: `\\% 
 \\$ 
 \\& 
@@ -153,7 +208,22 @@ Hello, World! 这是我的第一份 LaTeX 文档。
       },
       {
         title: '字号大小',
-        content: '从极小到极大，LaTeX 预定义了多种字号。',
+        content: `从极小到极大，LaTeX 预定义了多种字号。
+
+### 字号列表
+
+| 命令 | 相对大小 |
+| :--- | :--- |
+| \`\\tiny\` | <span style="font-size: 0.5rem">极小</span> |
+| \`\\scriptsize\` | <span style="font-size: 0.6rem">脚本</span> |
+| \`\\footnotesize\` | <span style="font-size: 0.7rem">脚注</span> |
+| \`\\small\` | <span style="font-size: 0.8rem">小号</span> |
+| \`\\normalsize\` | <span style="font-size: 1rem">正常</span> |
+| \`\\large\` | <span style="font-size: 1.2rem">大号</span> |
+| \`\\Large\` | <span style="font-size: 1.4rem">更大</span> |
+| \`\\LARGE\` | <span style="font-size: 1.6rem">特大</span> |
+| \`\\huge\` | <span style="font-size: 1.8rem">巨大</span> |
+| \`\\Huge\` | <span style="font-size: 2.2rem">最大</span> |`,
         code: `\\tiny 极小
 \\scriptsize 脚本
 \\footnotesize 脚注

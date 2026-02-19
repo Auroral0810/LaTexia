@@ -24,7 +24,7 @@ export function Footer() {
           </div>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              面向学生、学术研究者和技术写作者的在线 LaTeX 学习与练习平台。
+              面向学生与研究者的 LaTeX 在线刷题平台，通过练习真正掌握 LaTeX。
             </p>
             <p className="text-xs text-muted-foreground">
               Version 1.0.0

@@ -23,7 +23,7 @@ export default function AboutPage() {
               </h1>
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
                 Latexia 是一个开源的在线 LaTeX 学习与练习平台，
-                致力于让学术写作变得简单而有趣。
+                致力于让 LaTeX 学习像刷题一样简单而有趣。
               </p>
             </div>
           </div>

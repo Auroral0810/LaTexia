@@ -36,15 +36,15 @@ export default function HomePage() {
                 </div>
                 
                 <h1 className="font-heading text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl leading-[1.1] mb-6">
-                  让学术写作 <br className="hidden lg:block" />
+                  让 LaTeX 练习 <br className="hidden lg:block" />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-teal-400 to-blue-500 animate-shimmer bg-[length:200%_auto]">
-                    优雅且高效
+                    像刷题一样简单
                   </span>
                 </h1>
                 
                 <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
-                  面向未来的 LaTeX 学习训练平台。从基础语法到复杂排版，
-                  通过实时交互式练习，像玩游戏一样掌握学术写作。
+                  面向学生与研究者的 LaTeX 在线刷题平台。从基础符号到复杂公式，
+                  通过系统化的题库练习与即时反馈，帮你真正掌握 LaTeX。
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
@@ -217,7 +217,7 @@ export default function HomePage() {
                   iconName: 'Search',
                   color: 'text-purple-500',
                   title: '智能符号检索',
-                  desc: '集成 10000+ 数学符号，支持模糊搜索、手写识别（Coming Soon）。'
+                  desc: '集成 3000+ 数学符号，支持模糊搜索、手写识别（Coming Soon）。'
                 },
                 {
                   iconName: 'CheckCircle2',
@@ -296,28 +296,29 @@ export default function HomePage() {
                   name: 'Dr. Zhang', 
                   role: '数学系教授 @ Tsinghua Univ.', 
                   content: '终于有一个能让学生快速上手的 LaTeX 平台了。界面非常现代，实时预览功能极大地降低了教学成本。',
-                  initial: 'Z',
-                  gradient: 'from-blue-500 to-cyan-500'
+                  avatar: '/images/Dr. Zhang.jpg'
                 },
                 { 
                   name: 'Li Ming', 
                   role: '计算机科学博士生', 
-                  content: '公式速查功能帮了大忙，写论文时再也不用翻厚厚的 PDF 手册了。智能纠错也挽救了我的毕业论文！',
-                  initial: 'L',
-                  gradient: 'from-emerald-500 to-teal-500' 
+                  content: '公式速查功能帮了大忙，练习时再也不用翻厚厚的 PDF 手册了。通过刷题真正记住了常用公式！',
+                  avatar: '/images/Li Ming.jpg'
                 },
                 { 
                   name: 'Sarah Jenkins', 
                   role: '技术文档工程师', 
                   content: '练习模式非常有创意，把枯燥的语法点变成了有趣的小挑战。这是这一代人学习排版工具的最佳方式。',
-                  initial: 'S',
-                  gradient: 'from-orange-500 to-amber-500'
+                  avatar: '/images/Sarah Jenkins.jpg'
                 }
               ].map((item, i) => (
                 <div key={i} className="group relative bg-card border border-border/50 rounded-2xl p-8 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                   <div className="flex items-center gap-4 mb-6">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.gradient} text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-primary/10`}>
-                      {item.initial}
+                    <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 ring-2 ring-primary/10 shadow-md">
+                      <img 
+                        src={item.avatar} 
+                        alt={item.name} 
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div>
                       <div className="font-bold text-foreground">{item.name}</div>
@@ -348,8 +349,8 @@ export default function HomePage() {
               </div>
 
             <h2 className="font-heading text-4xl md:text-6xl font-bold mb-8 tracking-tight">
-              准备好<span className="text-gradient bg-gradient-to-r from-primary to-teal-500">重新定义</span><br/>
-              你的学术写作体验了吗？
+              准备好<span className="text-gradient bg-gradient-to-r from-primary to-teal-500">开始</span><br/>
+              你的 LaTeX 练习之旅了吗？
             </h2>
             <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
               无需信用卡，无需繁琐配置。打开浏览器，<br className="hidden sm:block"/>

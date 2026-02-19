@@ -1,48 +1,101 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import Image from 'next/image';
+import { useState, useRef, useCallback } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@latexia/ui/components/ui/tabs";
+import { Input } from "@latexia/ui/components/ui/input";
+import { Label } from "@latexia/ui/components/ui/label";
+import { Button } from "@latexia/ui/components/ui/button";
+import { GraphicCaptcha } from "@latexia/ui/components/ui/graphic-captcha";
+import { AuthLogo } from "@latexia/ui/components/ui/auth-logo";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [emailCode, setEmailCode] = useState('');
+  const [phoneCode, setPhoneCode] = useState('');
   const [registerMethod, setRegisterMethod] = useState<'email' | 'phone'>('email');
+
+  // 图形验证码相关
+  const [showCaptcha, setShowCaptcha] = useState(false);
+  const [captchaInput, setCaptchaInput] = useState('');
+  const [captchaAnswer, setCaptchaAnswer] = useState('');
+  const [captchaTarget, setCaptchaTarget] = useState<'email' | 'phone'>('email');
+
+  // 验证码倒计时
+  const [emailCountdown, setEmailCountdown] = useState(0);
+  const [phoneCountdown, setPhoneCountdown] = useState(0);
+
+  // 处理图形验证码回调
+  const handleCaptchaChange = useCallback((answer: string) => {
+    setCaptchaAnswer(answer);
+  }, []);
+
+  // 发起获取验证码流程（先弹出图形验证码）
+  const handleRequestCode = (target: 'email' | 'phone') => {
+    setCaptchaTarget(target);
+    setCaptchaInput('');
+    setShowCaptcha(true);
+  };
+
+  // 校验图形验证码后发送验证码
+  const handleCaptchaSubmit = () => {
+    if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
+      alert('验证码错误，请重试');
+      return;
+    }
+    setShowCaptcha(false);
+    // 模拟发送验证码
+    if (captchaTarget === 'email') {
+      setEmailCountdown(60);
+      const timer = setInterval(() => {
+        setEmailCountdown((prev) => {
+          if (prev <= 1) { clearInterval(timer); return 0; }
+          return prev - 1;
+        });
+      }, 1000);
+    } else {
+      setPhoneCountdown(60);
+      const timer = setInterval(() => {
+        setPhoneCountdown((prev) => {
+          if (prev <= 1) { clearInterval(timer); return 0; }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+  };
 
   return (
     <div className="w-full flex h-screen">
-      {/* Left Side - Brand & Info (Mirrored/Varied from Login) */}
+      {/* 左侧品牌区 */}
       <div className="hidden lg:flex w-1/2 bg-teal-900 relative overflow-hidden flex-col justify-between p-12 text-white">
-        {/* Background Decor */}
         <div className="absolute inset-0 bg-gradient-to-bl from-teal-800 via-primary to-emerald-900"></div>
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(45deg, #ffffff 25%, transparent 25%, transparent 75%, #ffffff 75%, #ffffff), linear-gradient(45deg, #ffffff 25%, transparent 25%, transparent 75%, #ffffff 75%, #ffffff)', backgroundSize: '60px 60px', backgroundPosition: '0 0, 30px 30px' }}></div>
         
-        {/* Floating Icons */}
+        {/* 装饰元素 */}
         <div className="absolute bottom-1/4 left-10 transform -translate-x-1/4 -rotate-12 w-64 h-64 bg-white/5 backdrop-blur-3xl rounded-full blur-2xl animate-breathe"></div>
         
         <div className="relative z-10">
-          <Link href="/" className="flex items-center space-x-2 group w-fit">
-             <div className="w-10 h-10 rounded-xl bg-white text-teal-800 flex items-center justify-center font-bold text-xl transition-transform group-hover:scale-110">
-              L
-            </div>
-            <span className="font-heading font-bold text-2xl">Latexia</span>
-          </Link>
+          <AuthLogo lightMode />
         </div>
 
         <div className="relative z-10 max-w-lg">
-          <h2 className="text-4xl font-bold mb-6">甚至比 Word <br/>更简单？</h2>
+          <h2 className="text-4xl font-bold mb-6">让 LaTeX 学习<br/>像刷题一样简单</h2>
           <p className="text-lg text-white/80 leading-relaxed">
-            Latexia 的智能辅助和实时预览功能，消除了 LaTeX 陡峭的学习曲线。
-            立即注册，免费体验新时代的文档排版工具。
+            Latexia 不是编辑器，是练习场。通过系统化的题库训练，
+            从基础符号到复杂公式，建立真正的 LaTeX 肌肉记忆。
           </p>
           <div className="mt-8 flex gap-4">
             <div className="flex items-center gap-2 text-sm bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10">
               <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <span>云端实时同步</span>
+              <span>3000+ 符号题库</span>
             </div>
             <div className="flex items-center gap-2 text-sm bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/10">
               <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              <span>团队协作编辑</span>
+              <span>即时渲染反馈</span>
             </div>
           </div>
         </div>
@@ -52,14 +105,10 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* Right Side - Form */}
+      {/* 右侧表单区 */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-background relative">
         <div className="absolute top-6 left-6 lg:hidden">
-          <Link href="/" className="flex items-center space-x-2 group">
-             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg">
-              L
-            </div>
-          </Link>
+          <AuthLogo />
         </div>
 
         <Link href="/" className="absolute top-8 right-8 text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1 group">
@@ -69,135 +118,129 @@ export default function RegisterPage() {
           返回首页
         </Link>
         
-        <div className="w-full max-w-md space-y-8 animate-slide-up">
+        <div className="w-full max-w-md space-y-6 animate-slide-up">
           <div className="text-center">
             <h1 className="text-3xl font-bold tracking-tight">创建账户</h1>
             <p className="mt-2 text-muted-foreground">
-              开启你的学术写作新篇章
+              开启你的 LaTeX 练习之旅
             </p>
           </div>
 
-          {/* Register Method Tabs */}
-          <div className="grid grid-cols-2 gap-1 p-1 bg-muted rounded-xl">
-            <button
-              onClick={() => setRegisterMethod('email')}
-              className={`py-2 text-sm font-medium rounded-lg transition-all ${
-                registerMethod === 'email' 
-                  ? 'bg-background shadow-sm text-foreground' 
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              邮箱注册
-            </button>
-            <button
-              onClick={() => setRegisterMethod('phone')}
-              className={`py-2 text-sm font-medium rounded-lg transition-all ${
-                registerMethod === 'phone' 
-                  ? 'bg-background shadow-sm text-foreground' 
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              手机注册
-            </button>
-          </div>
+          <Tabs defaultValue="email" onValueChange={(v) => setRegisterMethod(v as any)} className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="email">邮箱注册</TabsTrigger>
+              <TabsTrigger value="phone">手机注册</TabsTrigger>
+            </TabsList>
 
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                用户名
-              </label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="latex_master"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              />
-            </div>
-
-            {registerMethod === 'email' ? (
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  邮箱地址
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            <form className="mt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
+              {/* 用户名（公共） */}
+              <div className="space-y-2">
+                <Label htmlFor="username">用户名</Label>
+                <Input
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="latex_master"
                 />
               </div>
-            ) : (
-               <div className="space-y-1.5">
-                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  手机号码
-                </label>
-                <div className="flex gap-2">
-                  <input
+
+              <TabsContent value="email" className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">邮箱地址</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="emailCode">邮箱验证码</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="emailCode"
+                      placeholder="6位数字验证码"
+                      value={emailCode}
+                      onChange={(e) => setEmailCode(e.target.value)}
+                    />
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      className="w-32 shrink-0"
+                      disabled={emailCountdown > 0}
+                      onClick={() => handleRequestCode('email')}
+                    >
+                      {emailCountdown > 0 ? `${emailCountdown}s` : '获取验证码'}
+                    </Button>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="phone" className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="phone">手机号码</Label>
+                  <Input
+                    id="phone"
                     type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
                     placeholder="13800000000"
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   />
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phoneCode">手机验证码</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="phoneCode"
+                      placeholder="6位数字验证码"
+                      value={phoneCode}
+                      onChange={(e) => setPhoneCode(e.target.value)}
+                    />
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      className="w-32 shrink-0"
+                      disabled={phoneCountdown > 0}
+                      onClick={() => handleRequestCode('phone')}
+                    >
+                      {phoneCountdown > 0 ? `${phoneCountdown}s` : '获取验证码'}
+                    </Button>
+                  </div>
+                </div>
+              </TabsContent>
+
+              {/* 密码（公共） */}
+              <div className="space-y-2">
+                <Label htmlFor="password">密码</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="至少 8 个字符"
+                />
               </div>
-            )}
 
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                密码
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="至少 8 个字符"
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              />
-              <p className="text-[0.8rem] text-muted-foreground">
-                密码强度: <span className="text-xs text-muted-foreground/60">输入以查看</span>
-              </p>
-            </div>
-
-            {registerMethod === 'phone' && (
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  验证码
+              <div className="flex items-center space-x-2 pt-1">
+                <input 
+                  type="checkbox" 
+                  id="terms" 
+                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                />
+                <label htmlFor="terms" className="text-sm text-muted-foreground leading-none">
+                  我同意{' '}
+                  <Link href="/terms" className="text-primary hover:underline">用户协议</Link>
+                  {' '}和{' '}
+                  <Link href="/privacy" className="text-primary hover:underline">隐私政策</Link>
                 </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="6位数字"
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  />
-                  <button type="button" className="shrink-0 px-4 h-10 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground text-sm font-medium transition-colors">
-                    获取验证码
-                  </button>
-                </div>
               </div>
-            )}
 
-            <div className="flex items-center space-x-2 pt-2">
-              <input 
-                type="checkbox" 
-                id="terms" 
-                className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-              />
-              <label htmlFor="terms" className="text-sm text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                我同意{' '}
-                <Link href="/terms" className="text-primary hover:underline">用户协议</Link>
-                {' '}和{' '}
-                <Link href="/privacy" className="text-primary hover:underline">隐私政策</Link>
-              </label>
-            </div>
-
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-full shadow-sm"
-            >
-              注 册
-            </button>
-          </form>
+              <Button type="submit" className="w-full">
+                注 册
+              </Button>
+            </form>
+          </Tabs>
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -228,7 +271,7 @@ export default function RegisterPage() {
             ))}
           </div>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
+          <p className="text-center text-sm text-muted-foreground">
             已经有账户？{' '}
             <Link href="/login" className="text-primary font-medium hover:underline">
               登录
@@ -236,6 +279,37 @@ export default function RegisterPage() {
           </p>
         </div>
       </div>
+
+      {/* 图形验证码弹窗 */}
+      {showCaptcha && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-background border rounded-xl p-6 w-full max-w-sm space-y-4 shadow-2xl animate-in zoom-in-95">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold">安全验证</h3>
+              <p className="text-sm text-muted-foreground mt-1">请输入下方图形验证码后发送{captchaTarget === 'email' ? '邮箱' : '手机'}验证码</p>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <GraphicCaptcha onCaptchaChange={handleCaptchaChange} width={140} height={44} />
+              <span className="text-xs text-muted-foreground">点击图片刷新</span>
+            </div>
+            <Input
+              placeholder="请输入图形验证码"
+              value={captchaInput}
+              onChange={(e) => setCaptchaInput(e.target.value)}
+              className="text-center"
+              autoFocus
+            />
+            <div className="flex gap-3">
+              <Button variant="outline" className="flex-1" onClick={() => setShowCaptcha(false)}>
+                取消
+              </Button>
+              <Button className="flex-1" onClick={handleCaptchaSubmit}>
+                确认发送
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

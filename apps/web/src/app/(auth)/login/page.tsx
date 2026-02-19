@@ -1,22 +1,28 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@latexia/ui/components/ui/tabs";
+import { Input } from "@latexia/ui/components/ui/input";
+import { Label } from "@latexia/ui/components/ui/label";
+import { Button } from "@latexia/ui/components/ui/button";
+import { AuthLogo } from "@latexia/ui/components/ui/auth-logo";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
-  const [loginMethod, setLoginMethod] = useState<'email' | 'phone'>('email');
+  const [phoneOrEmail, setPhoneOrEmail] = useState('');
+  const [code, setCode] = useState('');
 
   return (
     <div className="w-full flex h-screen">
-      {/* Left Side - Brand & Info */}
+      {/* 左侧品牌区 */}
       <div className="hidden lg:flex w-1/2 bg-primary relative overflow-hidden flex-col justify-between p-12 text-primary-foreground">
-        {/* Background Decor */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-teal-600 to-emerald-700"></div>
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
         
-        {/* Floating Code Snippets */}
+        {/* 浮动代码片段 */}
         <div className="absolute top-1/4 right-0 transform translate-x-1/3 rotate-12 bg-black/20 backdrop-blur-md p-6 rounded-xl border border-white/10 w-80 animate-float">
           <code className="font-mono text-sm text-blue-200">
             \documentclass{'{article}'}<br/>
@@ -28,19 +34,14 @@ export default function LoginPage() {
         </div>
 
         <div className="relative z-10">
-          <Link href="/" className="flex items-center space-x-2 group w-fit">
-             <div className="w-10 h-10 rounded-xl bg-white text-primary flex items-center justify-center font-bold text-xl transition-transform group-hover:scale-110">
-              L
-            </div>
-            <span className="font-heading font-bold text-2xl">Latexia</span>
-          </Link>
+          <AuthLogo lightMode />
         </div>
 
         <div className="relative z-10 max-w-lg">
-          <h2 className="text-4xl font-bold mb-6">大师级的排版体验<br/>触手可及</h2>
+          <h2 className="text-4xl font-bold mb-6">用练习掌握 LaTeX<br/>而不是死记硬背</h2>
           <p className="text-lg text-primary-foreground/80 leading-relaxed">
-            无论你是撰写学术论文、制作简历，还是记录数学笔记，
-            Latexia 都能为你提供最优雅、最高效的写作环境。
+            Latexia 是你的 LaTeX 在线练习场。从基础符号到复杂公式，
+            通过系统化的题库训练，建立真正的肌肉记忆。
           </p>
         </div>
 
@@ -49,14 +50,10 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Side - Form */}
+      {/* 右侧表单区 */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-background relative">
         <div className="absolute top-6 left-6 lg:hidden">
-          <Link href="/" className="flex items-center space-x-2 group">
-             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg">
-              L
-            </div>
-          </Link>
+          <AuthLogo />
         </div>
 
         <Link href="/" className="absolute top-8 right-8 text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1 group">
@@ -70,106 +67,75 @@ export default function LoginPage() {
           <div className="text-center">
             <h1 className="text-3xl font-bold tracking-tight">欢迎回来</h1>
             <p className="mt-2 text-muted-foreground">
-              登录以继续你的 LaTeX 之旅
+              登录以继续你的 LaTeX 练习之旅
             </p>
           </div>
 
-          {/* Login Method Tabs */}
-          <div className="grid grid-cols-2 gap-1 p-1 bg-muted rounded-xl">
-            <button
-              onClick={() => setLoginMethod('email')}
-              className={`py-2 text-sm font-medium rounded-lg transition-all ${
-                loginMethod === 'email' 
-                  ? 'bg-background shadow-sm text-foreground' 
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              邮箱密码
-            </button>
-            <button
-              onClick={() => setLoginMethod('phone')}
-              className={`py-2 text-sm font-medium rounded-lg transition-all ${
-                loginMethod === 'phone' 
-                  ? 'bg-background shadow-sm text-foreground' 
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              手机验证码
-            </button>
-          </div>
-
-          <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-            {loginMethod === 'email' ? (
-              <>
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    邮箱地址
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          <Tabs defaultValue="password" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="password">密码登录</TabsTrigger>
+              <TabsTrigger value="code">验证码登录</TabsTrigger>
+            </TabsList>
+            
+            <form className="mt-6 space-y-5" onSubmit={(e) => e.preventDefault()}>
+              <TabsContent value="password" className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="identifier">账号</Label>
+                  <Input 
+                    id="identifier" 
+                    placeholder="用户名 / 邮箱 / 手机号" 
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
                   />
                 </div>
-                <div className="space-y-1.5">
+                <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                      密码
-                    </label>
+                    <Label htmlFor="password">密码</Label>
                     <Link href="/forgot-password" className="text-xs font-medium text-primary hover:underline">
                       忘记密码？
                     </Link>
                   </div>
-                  <input
-                    type="password"
+                  <Input 
+                    id="password" 
+                    type="password" 
+                    placeholder="••••••••" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   />
                 </div>
-              </>
-            ) : (
-              <>
-                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    手机号码
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="tel"
-                      placeholder="13800000000"
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    验证码
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="6位数字"
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    />
-                    <button type="button" className="shrink-0 px-4 h-10 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground text-sm font-medium transition-colors">
-                      获取验证码
-                    </button>
-                  </div>
-                </div>
-              </>
-            )}
+              </TabsContent>
 
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-full shadow-sm"
-            >
-              登 录
-            </button>
-          </form>
+              <TabsContent value="code" className="space-y-4">
+                 <div className="space-y-2">
+                  <Label htmlFor="phoneOrEmail">手机号 / 邮箱</Label>
+                  <Input 
+                    id="phoneOrEmail" 
+                    placeholder="请输入手机号或邮箱" 
+                    value={phoneOrEmail}
+                    onChange={(e) => setPhoneOrEmail(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="code">验证码</Label>
+                  <div className="flex gap-2">
+                    <Input 
+                      id="code" 
+                      placeholder="6位数字验证码" 
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                    />
+                    <Button type="button" variant="outline" className="w-32 shrink-0">
+                      获取验证码
+                    </Button>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <Button type="submit" className="w-full mt-2">
+                登 录
+              </Button>
+            </form>
+          </Tabs>
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -199,7 +165,6 @@ export default function LoginPage() {
               </button>
             ))}
           </div>
-
 
           <p className="px-8 text-center text-sm text-muted-foreground">
             还没有账户？{' '}

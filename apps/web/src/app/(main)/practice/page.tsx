@@ -226,7 +226,7 @@ export default function PracticePage() {
             <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-white/20 rounded-full blur-2xl"></div>
             <h3 className="font-bold text-lg mb-2 relative z-10">Latex 排版周赛 🏆</h3>
             <p className="text-indigo-100 text-sm mb-4 relative z-10">
-              每周日上午 10:30，挑战更复杂的论文排版，赢取会员与周边。
+              每周日上午 10:30，挑战更复杂的 LaTeX 公式，赢取会员与周边。
             </p>
             <button className="w-full py-2 bg-white text-indigo-600 font-bold rounded-xl text-sm shadow hover:bg-indigo-50 transition-colors relative z-10">
               立即报名

@@ -29,6 +29,10 @@ export const users = pgTable('users', {
   googleId: varchar('google_id', { length: 50 }).unique(),
   // Apple Sign In ID
   appleId: varchar('apple_id', { length: 255 }).unique(),
+  // QQ OAuth ID
+  qqId: varchar('qq_id', { length: 50 }).unique(),
+  // WeChat OAuth ID
+  wechatId: varchar('wechat_id', { length: 50 }).unique(),
   // 语言偏好
   locale: varchar('locale', { length: 10 }).default('zh-CN'),
   // 主题：light / dark / system
