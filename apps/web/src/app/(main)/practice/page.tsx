@@ -3,9 +3,34 @@
 import React from 'react';
 import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@latexia/ui/components/ui/select';
+import { useAuthStore } from '@/store/auth.store';
+import { useRouter } from 'next/navigation';
+import { Lock } from 'lucide-react';
 
 
 export default function PracticePage() {
+  const { isAuthenticated } = useAuthStore();
+  const router = useRouter();
+
+  const handleSidebarClick = () => {
+    if (!isAuthenticated) {
+      router.push('/login');
+    }
+  };
+
+  const SidebarOverlay = () => (
+    <div 
+      className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/40 backdrop-blur-[6px] rounded-2xl cursor-pointer group transition-all hover:bg-background/50"
+      onClick={handleSidebarClick}
+    >
+      <div className="bg-card/80 p-3 rounded-full shadow-lg border border-border/50 group-hover:scale-110 transition-transform mb-3">
+        <Lock className="w-5 h-5 text-primary" />
+      </div>
+      <p className="text-sm font-bold text-foreground">请登录后查看</p>
+      <p className="text-[10px] text-muted-foreground mt-1">点击前往登录页</p>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container py-8 flex gap-8">
@@ -137,47 +162,50 @@ export default function PracticePage() {
         {/* Sidebar */}
         <div className="w-80 shrink-0 space-y-6 hidden lg:block">
           {/* Progress Card */}
-          <div className="bg-card rounded-2xl border border-border/50 p-6 shadow-sm">
-            <h3 className="font-bold text-lg mb-4">LaTeX 技能树</h3>
-            <div className="flex items-center justify-between mb-2">
-              <div className="relative w-24 h-24 flex items-center justify-center">
-                 <svg className="hidden">
-                   {/* Placeholder for chart lib if needed, using generic ring */}
-                 </svg>
-                 <div className="w-20 h-20 rounded-full border-8 border-muted flex items-center justify-center relative">
-                    <div className="absolute inset-0 rounded-full border-8 border-transparent border-t-green-500 rotate-45"></div>
-                    <div className="text-center">
-                      <span className="block text-xl font-bold">42</span>
-                      <span className="text-[10px] text-muted-foreground">已掌握</span>
+          <div className="relative group/card">
+            {!isAuthenticated && <SidebarOverlay />}
+            <div className="bg-card rounded-2xl border border-border/50 p-6 shadow-sm">
+              <h3 className="font-bold text-lg mb-4">LaTeX 技能树</h3>
+              <div className="flex items-center justify-between mb-2">
+                <div className="relative w-24 h-24 flex items-center justify-center">
+                   <svg className="hidden">
+                     {/* Placeholder for chart lib if needed, using generic ring */}
+                   </svg>
+                   <div className="w-20 h-20 rounded-full border-8 border-muted flex items-center justify-center relative">
+                      <div className="absolute inset-0 rounded-full border-8 border-transparent border-t-green-500 rotate-45"></div>
+                      <div className="text-center">
+                        <span className="block text-xl font-bold">42</span>
+                        <span className="text-[10px] text-muted-foreground">已掌握</span>
+                      </div>
+                   </div>
+                </div>
+                <div className="flex-1 pl-4 space-y-3">
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-xs text-muted-foreground">
+                      <span>基础排版</span>
+                      <span>20/50</span>
                     </div>
-                 </div>
-              </div>
-              <div className="flex-1 pl-4 space-y-3">
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>基础排版</span>
-                    <span>20/50</span>
+                    <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-green-500 w-[40%]"></div>
+                    </div>
                   </div>
-                  <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
-                    <div className="h-full bg-green-500 w-[40%]"></div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-xs text-muted-foreground">
+                      <span>数学公式</span>
+                      <span>15/120</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-yellow-500 w-[12.5%]"></div>
+                    </div>
                   </div>
-                </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>数学公式</span>
-                    <span>15/120</span>
-                  </div>
-                  <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
-                    <div className="h-full bg-yellow-500 w-[12.5%]"></div>
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>图形绘制</span>
-                    <span>7/80</span>
-                  </div>
-                  <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
-                    <div className="h-full bg-red-500 w-[8.75%]"></div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-xs text-muted-foreground">
+                      <span>图形绘制</span>
+                      <span>7/80</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-red-500 w-[8.75%]"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -185,38 +213,41 @@ export default function PracticePage() {
           </div>
 
           {/* Calendar Card */}
-          <div className="bg-card rounded-2xl border border-border/50 p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-lg">打卡日历</h3>
-              <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">2026年 2月</span>
-            </div>
-            <div className="grid grid-cols-7 gap-1 text-center text-xs mb-2 text-muted-foreground">
-              <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
-            </div>
-            <div className="grid grid-cols-7 gap-1 text-center text-sm font-medium">
-              <span className="text-muted-foreground/30">1</span>
-              <span className="text-muted-foreground/30">2</span>
-              <span className="text-muted-foreground/30">3</span>
-              {[...Array(28)].map((_, i) => (
-                 <div key={i} className={`h-8 w-8 flex items-center justify-center rounded-full mx-auto ${
-                   i === 18 ? 'bg-primary text-primary-foreground' : 
-                   i % 3 === 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 relative' : 
-                   'hover:bg-muted text-foreground'
-                 }`}>
-                   {i + 1}
-                   {i % 3 === 0 && <span className="absolute bottom-0.5 w-1 h-1 bg-current rounded-full"></span>}
-                 </div>
-              ))}
-            </div>
-            <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground bg-muted/30 p-3 rounded-lg">
-              <div className="flex flex-col items-center">
-                <span className="font-bold text-foreground text-base">42</span>
-                <span>连续打卡</span>
+          <div className="relative group/card">
+            {!isAuthenticated && <SidebarOverlay />}
+            <div className="bg-card rounded-2xl border border-border/50 p-6 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-lg">打卡日历</h3>
+                <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">2026年 2月</span>
               </div>
-              <div className="w-px h-8 bg-border"></div>
-              <div className="flex flex-col items-center">
-                <span className="font-bold text-foreground text-base">365</span>
-                <span>历史最高</span>
+              <div className="grid grid-cols-7 gap-1 text-center text-xs mb-2 text-muted-foreground">
+                <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+              </div>
+              <div className="grid grid-cols-7 gap-1 text-center text-sm font-medium">
+                <span className="text-muted-foreground/30">1</span>
+                <span className="text-muted-foreground/30">2</span>
+                <span className="text-muted-foreground/30">3</span>
+                {[...Array(28)].map((_, i) => (
+                   <div key={i} className={`h-8 w-8 flex items-center justify-center rounded-full mx-auto ${
+                     i === 18 ? 'bg-primary text-primary-foreground' : 
+                     i % 3 === 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 relative' : 
+                     'hover:bg-muted text-foreground'
+                   }`}>
+                     {i + 1}
+                     {i % 3 === 0 && <span className="absolute bottom-0.5 w-1 h-1 bg-current rounded-full"></span>}
+                   </div>
+                ))}
+              </div>
+              <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground bg-muted/30 p-3 rounded-lg">
+                <div className="flex flex-col items-center">
+                  <span className="font-bold text-foreground text-base">42</span>
+                  <span>连续打卡</span>
+                </div>
+                <div className="w-px h-8 bg-border"></div>
+                <div className="flex flex-col items-center">
+                  <span className="font-bold text-foreground text-base">365</span>
+                  <span>历史最高</span>
+                </div>
               </div>
             </div>
           </div>

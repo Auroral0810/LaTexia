@@ -13,6 +13,7 @@ export function Header() {
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const [notifMenuOpen, setNotifMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuthStore();
   const router = useRouter();
 
@@ -37,6 +38,12 @@ export function Header() {
     { code: 'la', label: 'Latina' },
     { code: 'nl', label: 'Nederlands' },
     { code: 'th', label: 'ไทย' },
+  ];
+
+  const notifications = [
+    { title: '系统更新', content: 'Latexia v1.1.0 已发布，修复了已知问题。', time: '1小时前', tag: '更新' },
+    { title: '维护公告', content: '我们将于 2月25日凌晨进行系统维护。', time: '1天前', tag: '维护' },
+    { title: '新春挑战', content: '快来看看为您准备的 LaTeX 练习挑战赛！', time: '3天前', tag: '活动' },
   ];
 
   useEffect(() => setMounted(true), []);
@@ -91,6 +98,7 @@ export function Header() {
             {[
               { href: '/', label: '首页' },
               { href: '/practice', label: '练习' },
+              { href: '/formula-train', label: '公式训练' },
               { href: '/learn', label: '教学' },
               { href: '/symbols', label: '符号' },
               { href: '/tools', label: '资源' },
@@ -109,6 +117,55 @@ export function Header() {
 
         {/* 右侧操作区 */}
         <div className="flex items-center space-x-2">
+          {/* 系统通知 */}
+          <div className="relative">
+            <button
+              className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors flex items-center justify-center relative group"
+              aria-label="系统通知"
+              onClick={() => setNotifMenuOpen(!notifMenuOpen)}
+            >
+              <svg className="w-5 h-5 transition-transform group-hover:rotate-12" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+              </svg>
+              <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full ring-2 ring-background ring-offset-0 animate-pulse" />
+            </button>
+
+            {notifMenuOpen && (
+              <>
+                <div 
+                  className="fixed inset-0 z-40" 
+                  onClick={() => setNotifMenuOpen(false)} 
+                />
+                <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-border/50 bg-card p-3 shadow-2xl z-50 animate-in fade-in zoom-in duration-200">
+                  <div className="px-3 py-2 mb-2 flex items-center justify-between border-b border-border/50">
+                    <span className="text-sm font-black uppercase tracking-widest text-muted-foreground">系统通知</span>
+                    <button className="text-[10px] font-bold text-primary hover:underline">全部已读</button>
+                  </div>
+                  <div className="grid grid-cols-1 gap-2 max-h-[400px] overflow-y-auto pr-1 flex flex-col items-stretch">
+                    {notifications.map((notif, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3 rounded-xl hover:bg-accent/50 transition-all cursor-pointer group border border-transparent hover:border-border/30 text-left"
+                      >
+                        <div className="flex items-start justify-between mb-1">
+                          <h4 className="text-[13px] font-bold text-foreground group-hover:text-primary transition-colors">{notif.title}</h4>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-muted font-bold text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary">{notif.tag}</span>
+                        </div>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-2">{notif.content}</p>
+                        <span className="text-[9px] text-muted-foreground/40 mt-2 block italic">{notif.time}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-border/50">
+                    <button className="w-full text-center py-1.5 text-xs font-bold text-muted-foreground hover:text-primary transition-colors">
+                      查看历史记录
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
           {/* GitHub 链接 */}
           <a
             href="https://github.com/Auroral0810/LaTexia"
@@ -267,6 +324,7 @@ export function Header() {
             {[
               { href: '/', label: '首页' },
               { href: '/practice', label: '练习' },
+              { href: '/formula-train', label: '公式训练' },
               { href: '/learn', label: '教学' },
               { href: '/symbols', label: '符号' },
               { href: '/tools', label: '资源' },
