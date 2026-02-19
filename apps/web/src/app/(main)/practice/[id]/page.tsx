@@ -28,6 +28,7 @@ import {
   Check,
   Clock,
   Code2,
+  Lock,
 } from 'lucide-react';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
@@ -223,7 +224,42 @@ export default function ProblemDetailPage({ params }: { params: { id: string } }
           <span className="text-sm text-foreground font-medium truncate max-w-[300px]">{problem.title}</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 items-start">
+        {/* 登录网关：未登录时显示玻璃模糊遮罩 */}
+        <div className="relative">
+          {!isAuthenticated && (
+            <div className="absolute inset-0 z-20 flex items-center justify-center" style={{ minHeight: '400px' }}>
+              {/* 模糊遮罩层 */}
+              <div className="absolute inset-0 backdrop-blur-md bg-background/60" />
+              {/* 登录提示卡片 */}
+              <div className="relative z-10 bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl p-8 shadow-2xl max-w-sm w-full mx-4 text-center space-y-5">
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center">
+                  <Lock className="w-8 h-8 text-primary" />
+                </div>
+                <div className="space-y-2">
+                  <h2 className="text-xl font-bold">登录后开始答题</h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    请先登录您的账号，即可查看完整题目并提交答案
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2.5 pt-1">
+                  <Link
+                    href="/login"
+                    className="w-full py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity text-center"
+                  >
+                    立即登录
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="w-full py-2.5 border border-border rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all text-center"
+                  >
+                    注册账号
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className={`grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 items-start ${!isAuthenticated ? 'select-none pointer-events-none' : ''}`}>
           {/* 左侧：题目内容 */}
           <div className="space-y-4 min-w-0">
             {/* 题头 + 题目内容合并卡 */}
@@ -554,6 +590,7 @@ export default function ProblemDetailPage({ params }: { params: { id: string } }
               返回题库
             </Link>
           </div>
+        </div>
         </div>
       </div>
     </div>
