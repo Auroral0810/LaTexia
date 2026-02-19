@@ -342,10 +342,13 @@ export default function PracticePage() {
         {/* Sidebar */}
         <div className="w-80 shrink-0 space-y-6 hidden lg:block">
           {/* Progress Card */}
-          <div className="relative group/card">
+          <Link href="/profile" className="block relative group/card">
             {!isAuthenticated && <SidebarOverlay />}
-            <div className={`bg-card rounded-2xl border border-border/50 p-6 shadow-sm ${!isAuthenticated && 'opacity-50 blur-[2px]'}`}>
-              <h3 className="font-bold text-lg mb-4">LaTeX 技能树</h3>
+            <div className={`bg-card rounded-2xl border border-border/50 p-6 shadow-sm group-hover/card:border-primary/30 transition-all ${!isAuthenticated && 'opacity-50 blur-[2px]'}`}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-lg">LaTeX 技能树</h3>
+                <ChevronRight className="w-4 h-4 text-muted-foreground group-hover/card:text-primary transition-colors" />
+              </div>
               <div className="flex items-center justify-between mb-2">
                 <div className="relative w-24 h-24 flex items-center justify-center">
                    <div className="w-20 h-20 rounded-full border-8 border-muted flex items-center justify-center relative">
@@ -380,17 +383,18 @@ export default function PracticePage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Calendar Card */}
-          <div className="relative group/card">
+          <Link href="/profile" className="block relative group/card">
             {!isAuthenticated && <SidebarOverlay />}
-            <div className={`bg-card rounded-2xl border border-border/50 p-6 shadow-sm ${!isAuthenticated && 'opacity-50 blur-[2px]'}`}>
+            <div className={`bg-card rounded-2xl border border-border/50 p-6 shadow-sm group-hover/card:border-primary/30 transition-all ${!isAuthenticated && 'opacity-50 blur-[2px]'}`}>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-lg">打卡日历</h3>
-                <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
-                  {new Date().getFullYear()}年 {new Date().getMonth() + 1}月
-                </span>
+                <div className="flex flex-col">
+                  <h3 className="font-bold text-lg">打卡日历</h3>
+                  <span className="text-[10px] text-muted-foreground">查看活跃度详情</span>
+                </div>
+                <ChevronRight className="w-4 h-4 text-muted-foreground group-hover/card:text-primary transition-colors" />
               </div>
               <div className="grid grid-cols-7 gap-1 text-center text-xs mb-2 text-muted-foreground">
                 <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
@@ -432,7 +436,7 @@ export default function PracticePage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Leaderboard or Featured */}
           <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg overflow-hidden relative">

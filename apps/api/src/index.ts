@@ -13,6 +13,7 @@ import symbolsOpenApiRouter from './modules/symbols/symbols.openapi';
 import formulaExercisesRouter from './modules/formula-exercises/formula-exercises.openapi';
 import authRouter from './modules/auth/auth.routes';
 import problemsRouter from './modules/problems/problems.routes';
+import statsRouter from './modules/users/stats.routes';
 
 const app = new OpenAPIHono();
 
@@ -26,6 +27,7 @@ app.route('/api/symbols', symbolsOpenApiRouter);
 app.route('/api/formula-exercises', formulaExercisesRouter);
 app.route('/api/auth', authRouter);
 app.route('/api/problems', problemsRouter);
+app.route('/api/users/stats', statsRouter);
 
 // 根路径与健康检查（加入 OpenAPI 文档）
 const routeRoot = createRoute({
