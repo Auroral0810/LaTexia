@@ -315,6 +315,8 @@ export async function getProblemById(id: string, userId?: string) {
   };
 }
 
+import * as reviewService from '../review/review.service';
+
 /**
  * 记录用户答题结果
  */
@@ -327,6 +329,11 @@ export async function recordAttempt(problemId: string, userId: string, isCorrect
     source: 'practice',
   });
 
+  // 如果答错，加入复习计划
+  if (!isCorrectAnswer) {
+    await reviewService.addToReviewPlan(userId, problemId);
+  }
+
   // 更新题目统计
   await db
     .update(problems)
@@ -338,3 +345,4 @@ export async function recordAttempt(problemId: string, userId: string, isCorrect
 
   return { success: true };
 }
+
