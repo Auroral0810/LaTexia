@@ -71,17 +71,25 @@ export default function FormulaTrainPage() {
   const [score, setScore] = useState(0);
   const [showSummary, setShowSummary] = useState(false);
   const [isConfirmingStop, setIsConfirmingStop] = useState(false);
+  const [isRandomMode, setIsRandomMode] = useState(false);
+  const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
+  const [sessionDuration, setSessionDuration] = useState(0);
+  const [difficultyStats, setDifficultyStats] = useState({ easy: 0, medium: 0, hard: 0 });
 
   const currentQuestion = pool[currentIndex];
   const totalQuestions = pool.length;
   const isLastQuestion = totalQuestions > 0 && currentIndex >= totalQuestions - 1;
 
-  const startSession = async () => {
+  const startSession = async (randomMode = false) => {
     setLoading(true);
     setFetchError('');
+    setIsRandomMode(randomMode);
     try {
-      const params = new URLSearchParams({ limit: String(questionCount) });
-      if (difficulty !== 'all') params.set('difficulty', difficulty);
+      const params = new URLSearchParams({ 
+        limit: randomMode ? '20' : String(questionCount) 
+      });
+      if (!randomMode && difficulty !== 'all') params.set('difficulty', difficulty);
+      
       const res = await fetch(`${API_URL}/api/formula-exercises/random?${params.toString()}`);
       const json = await res.json();
       if (!json.success || !json.data?.length) {
@@ -89,7 +97,14 @@ export default function FormulaTrainPage() {
         setLoading(false);
         return;
       }
-      setPool(json.data);
+
+      let questions = json.data;
+      if (randomMode) {
+        // 随机模式下再次乱序打乱（虽然 API 已经随机了，但本地打乱双重保险）
+        questions = [...questions].sort(() => Math.random() - 0.5);
+      }
+
+      setPool(questions);
       setCurrentIndex(0);
       setUserInput('');
       setResult(null);
@@ -97,7 +112,9 @@ export default function FormulaTrainPage() {
       setScore(0);
       setShowSummary(false);
       setIsConfirmingStop(false);
-      setRemainingSeconds(timeLimitEnabled ? timeLimitSeconds : null);
+      setSessionStartTime(Date.now());
+      setDifficultyStats({ easy: 0, medium: 0, hard: 0 });
+      setRemainingSeconds(randomMode ? null : (timeLimitEnabled ? timeLimitSeconds : null));
       setStarted(true);
     } catch {
       setFetchError('获取题目失败，请检查网络或稍后再试');
@@ -126,6 +143,12 @@ export default function FormulaTrainPage() {
     const actual = normalizeLatex(userInput);
     const isCorrect = expected === actual;
     
+    // 更新难度统计
+    const diff = currentQuestion.difficulty as 'easy' | 'medium' | 'hard';
+    if (isCorrect) {
+      setDifficultyStats(prev => ({ ...prev, [diff]: prev[diff] + 1 }));
+    }
+
     if (isCorrect) {
       setResult('correct');
       setScore(s => s + 1);
@@ -156,11 +179,11 @@ export default function FormulaTrainPage() {
       setUserInput('');
       setResult(null);
       setErrorHint('');
-      setRemainingSeconds(timeLimitEnabled ? timeLimitSeconds : null);
+      setRemainingSeconds(isRandomMode ? null : (timeLimitEnabled ? timeLimitSeconds : null));
     } else {
-      setShowSummary(true);
+      stopSession();
     }
-  }, [currentIndex, totalQuestions, timeLimitEnabled, timeLimitSeconds]);
+  }, [currentIndex, totalQuestions, timeLimitEnabled, timeLimitSeconds, isRandomMode]);
 
   const handleSkip = useCallback(() => {
     if (result !== null) return;
@@ -169,6 +192,9 @@ export default function FormulaTrainPage() {
   }, [currentQuestion, result]);
 
   const stopSession = () => {
+    if (sessionStartTime) {
+      setSessionDuration(Math.floor((Date.now() - sessionStartTime) / 1000));
+    }
     setShowSummary(true);
     setIsConfirmingStop(false);
   };
@@ -279,9 +305,14 @@ export default function FormulaTrainPage() {
                 </div>
               )}
 
-              <Button onClick={startSession} className="w-full h-12 rounded-2xl text-base font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all" disabled={loading}>
-                {loading ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" />正在生成题目...</> : <><Loader2 className="w-5 h-5 mr-2" />开始训练</>}
-              </Button>
+              <div className="flex gap-4">
+                <Button onClick={() => startSession(false)} className="flex-1 h-12 rounded-2xl text-base font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all" disabled={loading}>
+                  {loading && !isRandomMode ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" />正在生成...</> : <><Trophy className="w-5 h-5 mr-2" />限时挑战</>}
+                </Button>
+                <Button variant="outline" onClick={() => startSession(true)} className="flex-1 h-12 rounded-2xl text-base font-bold border-primary/20 text-primary hover:bg-primary/5 hover:scale-[1.02] active:scale-[0.98] transition-all" disabled={loading}>
+                  {loading && isRandomMode ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" />正在生成...</> : <><SkipForward className="w-5 h-5 mr-2" />随机练习</>}
+                </Button>
+              </div>
             </div>
           </div>
           
@@ -307,30 +338,72 @@ export default function FormulaTrainPage() {
   // 训练结算页面
   if (showSummary) {
     const accuracy = Math.round((score / totalQuestions) * 100);
+    const formatDuration = (s: number) => {
+      const m = Math.floor(s / 60);
+      const rs = s % 60;
+      return m > 0 ? `${m}分${rs}秒` : `${rs}秒`;
+    };
+
     return (
-      <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-4 bg-background">
-        <div className="w-full max-w-lg space-y-8 animate-in zoom-in-95 duration-500">
+      <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-4 bg-background overflow-y-auto">
+        <div className="w-full max-w-2xl space-y-8 animate-in zoom-in-95 duration-500 py-12">
            <div className="text-center space-y-4">
               <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary mb-2 border-4 border-background shadow-xl">
                  <Trophy className="w-10 h-10" />
               </div>
-              <h1 className="text-3xl font-bold">训练完成！</h1>
-              <p className="text-muted-foreground">已完成 {currentIndex + (result !== null ? 1 : 0)} / {totalQuestions} 道题目，战绩如下：</p>
+              <h1 className="text-3xl font-bold">{isRandomMode ? '随机练习完成！' : '限时挑战完成！'}</h1>
+              <p className="text-muted-foreground">已完成 {currentIndex + (result !== null ? 1 : 0)} / {totalQuestions} 道题目 {isRandomMode && '(随机乱序模式)'}</p>
            </div>
            
-           <div className="grid grid-cols-2 gap-4">
-              <div className="bg-card p-6 rounded-3xl border border-border/50 text-center space-y-1 shadow-sm">
-                 <span className="text-sm text-muted-foreground font-medium">正确数量</span>
-                 <p className="text-4xl font-bold text-primary">{score}</p>
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-card p-4 rounded-2xl border border-border/50 text-center space-y-1 shadow-sm">
+                 <span className="text-xs text-muted-foreground font-medium">正确数量</span>
+                 <p className="text-2xl font-bold text-primary">{score}</p>
               </div>
-              <div className="bg-card p-6 rounded-3xl border border-border/50 text-center space-y-1 shadow-sm">
-                 <span className="text-sm text-muted-foreground font-medium">准确率</span>
-                 <p className={`text-4xl font-bold ${accuracy >= 80 ? 'text-green-500' : accuracy >= 50 ? 'text-yellow-500' : 'text-red-500'}`}>{accuracy || 0}%</p>
+              <div className="bg-card p-4 rounded-2xl border border-border/50 text-center space-y-1 shadow-sm">
+                 <span className="text-xs text-muted-foreground font-medium">准确率</span>
+                 <p className={`text-2xl font-bold ${accuracy >= 80 ? 'text-green-500' : accuracy >= 50 ? 'text-yellow-500' : 'text-red-500'}`}>{accuracy || 0}%</p>
+              </div>
+              <div className="bg-card p-4 rounded-2xl border border-border/50 text-center space-y-1 shadow-sm">
+                 <span className="text-xs text-muted-foreground font-medium">练习时长</span>
+                 <p className="text-2xl font-bold">{formatDuration(sessionDuration)}</p>
+              </div>
+              <div className="bg-card p-4 rounded-2xl border border-border/50 text-center space-y-1 shadow-sm">
+                 <span className="text-xs text-muted-foreground font-medium">题目总数</span>
+                 <p className="text-2xl font-bold">{totalQuestions}</p>
+              </div>
+           </div>
+
+           {/* 难度分布统计 */}
+           <div className="bg-card/50 backdrop-blur-sm p-6 rounded-3xl border border-border/50 space-y-4 shadow-sm">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground text-center">难度正确分布</h3>
+              <div className="grid grid-cols-3 gap-8">
+                 <div className="space-y-2 text-center">
+                    <div className="text-xs font-bold text-green-500 uppercase">简单</div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                       <div className="h-full bg-green-500 transition-all duration-1000" style={{ width: `${(difficultyStats.easy / Math.max(1, score)) * 100}%` }} />
+                    </div>
+                    <div className="text-lg font-mono font-bold">{difficultyStats.easy}</div>
+                 </div>
+                 <div className="space-y-2 text-center">
+                    <div className="text-xs font-bold text-yellow-500 uppercase">中等</div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                       <div className="h-full bg-yellow-500 transition-all duration-1000" style={{ width: `${(difficultyStats.medium / Math.max(1, score)) * 100}%` }} />
+                    </div>
+                    <div className="text-lg font-mono font-bold">{difficultyStats.medium}</div>
+                 </div>
+                 <div className="space-y-2 text-center">
+                    <div className="text-xs font-bold text-red-500 uppercase">困难</div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                       <div className="h-full bg-red-500 transition-all duration-1000" style={{ width: `${(difficultyStats.hard / Math.max(1, score)) * 100}%` }} />
+                    </div>
+                    <div className="text-lg font-mono font-bold">{difficultyStats.hard}</div>
+                 </div>
               </div>
            </div>
 
            <div className="flex gap-4 p-2">
-              <Button onClick={startSession} className="flex-1 h-12 rounded-2xl font-bold">再次挑战</Button>
+              <Button onClick={() => startSession(isRandomMode)} className="flex-1 h-12 rounded-2xl font-bold">再次挑战</Button>
               <Button variant="outline" onClick={() => setStarted(false)} className="flex-1 h-12 rounded-2xl font-bold">返回设置</Button>
            </div>
         </div>
