@@ -80,14 +80,18 @@ export default function FormulaTrainPage() {
   const totalQuestions = pool.length;
   const isLastQuestion = totalQuestions > 0 && currentIndex >= totalQuestions - 1;
 
+  // 用于无限模式的加载状态
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+
   const startSession = async (randomMode = false) => {
     setLoading(true);
     setFetchError('');
     setIsRandomMode(randomMode);
     try {
-      const params = new URLSearchParams({ 
-        limit: randomMode ? '20' : String(questionCount) 
-      });
+      // 随机模式默认一次拉取 50 道，后续自动补充
+      const limit = randomMode ? '50' : String(questionCount);
+      const params = new URLSearchParams({ limit });
+      
       if (!randomMode && difficulty !== 'all') params.set('difficulty', difficulty);
       
       const res = await fetch(`${API_URL}/api/formula-exercises/random?${params.toString()}`);
@@ -100,7 +104,6 @@ export default function FormulaTrainPage() {
 
       let questions = json.data;
       if (randomMode) {
-        // 随机模式下再次乱序打乱（虽然 API 已经随机了，但本地打乱双重保险）
         questions = [...questions].sort(() => Math.random() - 0.5);
       }
 
@@ -120,6 +123,23 @@ export default function FormulaTrainPage() {
       setFetchError('获取题目失败，请检查网络或稍后再试');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchMoreQuestions = async () => {
+    if (isFetchingMore) return;
+    setIsFetchingMore(true);
+    try {
+      const res = await fetch(`${API_URL}/api/formula-exercises/random?limit=20`);
+      const json = await res.json();
+      if (json.success && json.data?.length) {
+        const newQuestions = [...json.data].sort(() => Math.random() - 0.5);
+        setPool(prev => [...prev, ...newQuestions]);
+      }
+    } catch (e) {
+      console.error('Failed to fetch more questions', e);
+    } finally {
+      setIsFetchingMore(false);
     }
   };
 
@@ -174,13 +194,19 @@ export default function FormulaTrainPage() {
   }, [currentQuestion, userInput, result]);
 
   const handleNext = useCallback(() => {
+    // 随机模式下：如果剩余题目不足 5 道，提前拉取下一批
+    if (isRandomMode && totalQuestions - currentIndex <= 5) {
+      fetchMoreQuestions();
+    }
+
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((i) => i + 1);
       setUserInput('');
       setResult(null);
       setErrorHint('');
       setRemainingSeconds(isRandomMode ? null : (timeLimitEnabled ? timeLimitSeconds : null));
-    } else {
+    } else if (!isRandomMode) {
+      // 非随机模式才会在最后一题结束
       stopSession();
     }
   }, [currentIndex, totalQuestions, timeLimitEnabled, timeLimitSeconds, isRandomMode]);
@@ -351,8 +377,8 @@ export default function FormulaTrainPage() {
               <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary mb-2 border-4 border-background shadow-xl">
                  <Trophy className="w-10 h-10" />
               </div>
-              <h1 className="text-3xl font-bold">{isRandomMode ? '随机练习完成！' : '限时挑战完成！'}</h1>
-              <p className="text-muted-foreground">已完成 {currentIndex + (result !== null ? 1 : 0)} / {totalQuestions} 道题目 {isRandomMode && '(随机乱序模式)'}</p>
+              <h1 className="text-3xl font-bold">{isRandomMode ? '随机练习停止' : '限时挑战完成！'}</h1>
+              <p className="text-muted-foreground">已完成 {currentIndex + (result !== null ? 1 : 0)} 道题目 {isRandomMode && '(随机无限模式)'}</p>
            </div>
            
            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -368,10 +394,13 @@ export default function FormulaTrainPage() {
                  <span className="text-xs text-muted-foreground font-medium">练习时长</span>
                  <p className="text-2xl font-bold">{formatDuration(sessionDuration)}</p>
               </div>
-              <div className="bg-card p-4 rounded-2xl border border-border/50 text-center space-y-1 shadow-sm">
-                 <span className="text-xs text-muted-foreground font-medium">题目总数</span>
-                 <p className="text-2xl font-bold">{totalQuestions}</p>
-              </div>
+              {/* 随机模式下不展示“题目总数”，因为是无限的 */}
+              {!isRandomMode && (
+                <div className="bg-card p-4 rounded-2xl border border-border/50 text-center space-y-1 shadow-sm">
+                   <span className="text-xs text-muted-foreground font-medium">题目总数</span>
+                   <p className="text-2xl font-bold">{totalQuestions}</p>
+                </div>
+              )}
            </div>
 
            {/* 难度分布统计 */}
@@ -414,11 +443,11 @@ export default function FormulaTrainPage() {
   // 渲染正在训练
   return (
     <div className="min-h-[calc(100vh-64px)] bg-background flex flex-col relative overflow-hidden">
-      {/* 顶部进度条 */}
+      {/* 顶部进度条 - 随机模式下显示无穷符号或动态效果 */}
       <div className="absolute top-0 left-0 w-full h-1.5 bg-muted/30">
         <div 
           className="h-full bg-primary transition-all duration-500 ease-out shadow-[0_0_10px_rgba(20,184,166,0.5)]" 
-          style={{ width: `${((currentIndex + (result !== null ? 1 : 0)) / totalQuestions) * 100}%` }}
+          style={{ width: isRandomMode ? '100%' : `${((currentIndex + (result !== null ? 1 : 0)) / totalQuestions) * 100}%` }}
         />
       </div>
 
@@ -540,8 +569,8 @@ export default function FormulaTrainPage() {
                            </Button>
                          </>
                        ) : (
-                         <Button onClick={handleNext} size="lg" className={`rounded-xl px-10 font-bold shadow-lg shadow-primary/20 group ${result === 'correct' ? 'bg-primary' : 'bg-muted hover:bg-muted/80 text-foreground'}`}>
-                            {isLastQuestion ? '查看总结' : '下一题'}
+                         <Button onClick={handleNext} size="lg" disabled={isRandomMode && isFetchingMore && isLastQuestion} className={`rounded-xl px-10 font-bold shadow-lg shadow-primary/20 group ${result === 'correct' ? 'bg-primary' : 'bg-muted hover:bg-muted/80 text-foreground'}`}>
+                            {isRandomMode ? (isFetchingMore && isLastQuestion ? '加载中...' : '下一题') : (isLastQuestion ? '查看总结' : '下一题')}
                             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                          </Button>
                        )}

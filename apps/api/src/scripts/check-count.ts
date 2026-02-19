@@ -1,0 +1,1 @@
+import { db } from '../db'; import { formulaExercises } from '../db/schema'; import { count } from 'drizzle-orm'; async function check() { const res = await db.select({ count: count() }).from(formulaExercises); console.log('Total exercises:', res[0].count); process.exit(0); } check();
