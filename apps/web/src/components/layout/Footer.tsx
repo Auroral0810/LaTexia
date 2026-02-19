@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function Footer() {
   return (
@@ -8,9 +9,13 @@ export function Footer() {
           {/* 品牌 */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg">
-                L
-              </div>
+              <Image
+                src="/images/logo1.png"
+                alt="Latexia"
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
               <span className="font-heading font-bold text-lg">Latexia</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">

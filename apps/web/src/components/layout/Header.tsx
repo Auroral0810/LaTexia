@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -26,14 +27,40 @@ export function Header() {
 
   useEffect(() => setMounted(true), []);
 
+  const toggleTheme = useCallback(() => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+
+    if (
+      typeof document === 'undefined' ||
+      !('startViewTransition' in document)
+    ) {
+      setTheme(newTheme);
+      return;
+    }
+
+    (document as any).startViewTransition(() => {
+      if (newTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      setTheme(newTheme);
+    });
+  }, [theme, setTheme]);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 glass">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2 group">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg transition-transform group-hover:scale-110">
-            L
-          </div>
+          <Image
+            src="/images/logo1.png"
+            alt="Latexia"
+            width={32}
+            height={32}
+            className="rounded-lg transition-transform group-hover:scale-110"
+            priority
+          />
           <span className="font-heading font-bold text-xl hidden sm:inline-block">
             Latexia
           </span>
@@ -120,7 +147,7 @@ export function Header() {
           {/* 主题切换 */}
           {mounted && (
             <button
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onClick={toggleTheme}
               className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
               aria-label="切换主题"
             >
