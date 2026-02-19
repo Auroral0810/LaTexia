@@ -1,5 +1,6 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { LatexScratchpad } from '@/components/common/LatexScratchpad';
 
 export default function MainLayout({
   children,
@@ -13,6 +14,8 @@ export default function MainLayout({
         {children}
       </main>
       <Footer />
+      {/* 全局悬浮 LaTeX 草稿本 */}
+      <LatexScratchpad />
     </div>
   );
 }
