@@ -158,3 +158,15 @@ export async function getProblemById(id: string, userId?: string): Promise<Probl
   }
   return response.data;
 }
+
+/**
+ * 获取每日一题
+ */
+export async function getDailyProblem(): Promise<ProblemItem> {
+  const response = await api.get<ApiResponse<ProblemItem>>('/api/daily');
+  if (!response.success) {
+    throw new Error(response.message || '获取每日一题失败');
+  }
+  return response.data;
+}
+

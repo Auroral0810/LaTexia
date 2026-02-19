@@ -39,6 +39,7 @@ export const leaderboardSnapshots = pgTable('leaderboard_snapshots', {
 /**
  * 2.2.15 题目反馈表 problem_feedbacks
  */
+
 export const problemFeedbacks = pgTable('problem_feedbacks', {
   // 记录 ID
   id: uuid('id').defaultRandom().primaryKey(),

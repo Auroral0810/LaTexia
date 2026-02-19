@@ -16,6 +16,7 @@ import problemsRouter from './modules/problems/problems.routes';
 import statsRouter from './modules/users/stats.routes';
 import feedbacksRouter from './modules/feedbacks/feedbacks.routes';
 import bookmarksRouter from './modules/bookmarks/bookmarks.routes';
+import dailyRouter from './modules/daily/daily.routes';
 
 const app = new OpenAPIHono();
 
@@ -32,6 +33,7 @@ app.route('/api/problems', problemsRouter);
 app.route('/api/users/stats', statsRouter);
 app.route('/api/feedbacks', feedbacksRouter);
 app.route('/api/bookmarks', bookmarksRouter);
+app.route('/api/daily', dailyRouter);
 
 // 根路径与健康检查（加入 OpenAPI 文档）
 const routeRoot = createRoute({

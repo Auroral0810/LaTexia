@@ -9,6 +9,7 @@ import { Lock, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { getProblems, getProblemMetadata, getProblemStats, getCheckinCalendar, ProblemDifficulty, ProblemStatus } from '@/lib/problems';
 import { useState } from 'react';
+import { DailyProblemCard } from '@/components/practice/DailyProblemCard';
 
 export default function PracticePage() {
   const { isAuthenticated, user } = useAuthStore();
@@ -150,6 +151,9 @@ export default function PracticePage() {
       <div className="container py-8 flex gap-8">
         {/* Main Content: Problem List */}
         <div className="flex-1 min-w-0 space-y-6">
+          {/* Daily Problem Section */}
+          <DailyProblemCard />
+
           {/* Header & Filters */}
           <div className="flex flex-col gap-4 p-6 bg-card rounded-2xl border border-border/50 shadow-sm">
             <div className="flex items-center justify-between">
