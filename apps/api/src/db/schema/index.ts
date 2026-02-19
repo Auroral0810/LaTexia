@@ -9,3 +9,4 @@ export * from './contests';    // 2.2.13~2.2.14 比赛表
 export * from './learn';       // 2.2.19~2.2.20 教学章节 + 学习进度
 export * from './system';      // 2.2.12, 2.2.15~2.2.18, 2.2.21 排行榜/反馈/工具/配置/审计/符号
 export * from './formula-exercises'; // 公式训练题目表
+export * from './problem-feedbacks'; // 题目反馈表

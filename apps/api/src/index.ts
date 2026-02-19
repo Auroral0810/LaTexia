@@ -14,6 +14,8 @@ import formulaExercisesRouter from './modules/formula-exercises/formula-exercise
 import authRouter from './modules/auth/auth.routes';
 import problemsRouter from './modules/problems/problems.routes';
 import statsRouter from './modules/users/stats.routes';
+import feedbacksRouter from './modules/feedbacks/feedbacks.routes';
+import bookmarksRouter from './modules/bookmarks/bookmarks.routes';
 
 const app = new OpenAPIHono();
 
@@ -28,6 +30,8 @@ app.route('/api/formula-exercises', formulaExercisesRouter);
 app.route('/api/auth', authRouter);
 app.route('/api/problems', problemsRouter);
 app.route('/api/users/stats', statsRouter);
+app.route('/api/feedbacks', feedbacksRouter);
+app.route('/api/bookmarks', bookmarksRouter);
 
 // 根路径与健康检查（加入 OpenAPI 文档）
 const routeRoot = createRoute({

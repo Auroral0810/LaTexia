@@ -29,7 +29,9 @@ import {
   Clock,
   Code2,
   Lock,
+  Star,
 } from 'lucide-react';
+import { FeedbackDialog } from '@/components/practice/FeedbackDialog';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -81,11 +83,52 @@ export default function ProblemDetailPage({ params }: { params: { id: string } }
   const [showAnswer, setShowAnswer] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
 
+  // 收藏状态
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkLoading, setBookmarkLoading] = useState(false);
+
   // 获取题目数据
   const { data: problem, isLoading, error } = useQuery({
     queryKey: ['problem', params.id, user?.id],
     queryFn: () => getProblemById(params.id, user?.id),
   });
+
+  // 获取收藏状态
+  useEffect(() => {
+    if (!isAuthenticated || !user || !params.id) return;
+    fetch(`${API_URL}/api/bookmarks/check/${params.id}`, {
+      headers: { 'X-User-Id': user.id },
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setIsBookmarked(data.data.bookmarked);
+      })
+      .catch(() => {});
+  }, [isAuthenticated, user, params.id]);
+
+  // 切换收藏
+  const handleToggleBookmark = async () => {
+    if (!isAuthenticated || !user || bookmarkLoading) return;
+    setBookmarkLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/api/bookmarks/toggle`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-User-Id': user.id,
+        },
+        body: JSON.stringify({ problemId: params.id }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsBookmarked(data.data.bookmarked);
+      }
+    } catch (e) {
+      // 静默处理
+    } finally {
+      setBookmarkLoading(false);
+    }
+  };
 
   // 处理提交
   const handleSubmit = useCallback(async () => {
@@ -574,10 +617,31 @@ export default function ProblemDetailPage({ params }: { params: { id: string } }
             )}
 
             {/* 快捷操作 */}
-            <div className="bg-card rounded-2xl border border-border/50 p-4 shadow-sm">
+            <div className="bg-card rounded-2xl border border-border/50 p-4 shadow-sm space-y-3">
               <div className="flex items-center justify-between text-xs text-muted-foreground">
                 <span>提交答案</span>
                 <kbd className="px-2 py-0.5 bg-muted rounded text-[10px] font-mono border border-border">⌘ + ↵</kbd>
+              </div>
+              <div className="h-px bg-border/40" />
+              {isAuthenticated && (
+                <>
+                  <button
+                    onClick={handleToggleBookmark}
+                    disabled={bookmarkLoading}
+                    className={`flex items-center gap-1.5 w-full text-xs transition-colors py-1.5 px-2 rounded-lg ${
+                      isBookmarked
+                        ? 'text-amber-500 bg-amber-500/10 hover:bg-amber-500/15'
+                        : 'text-muted-foreground hover:text-amber-500 hover:bg-amber-500/5'
+                    }`}
+                  >
+                    <Star className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-current' : ''}`} />
+                    <span>{isBookmarked ? '已收藏' : '收藏题目'}</span>
+                  </button>
+                  <div className="h-px bg-border/40" />
+                </>
+              )}
+              <div className="flex justify-center pt-1">
+                <FeedbackDialog problemId={problem.id} problemTitle={problem.title} />
               </div>
             </div>
 
