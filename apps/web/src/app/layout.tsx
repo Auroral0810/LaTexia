@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   },
   description: '面向学生、学术研究者和技术写作者的企业级 SaaS 风格 LaTeX 训练平台',
   keywords: ['LaTeX', '学习', '练习', '公式', '数学', '排版'],
+  icons: {
+    icon: '/images/logo1.png',
+  },
 };
 
 /**
