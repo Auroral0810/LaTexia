@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.8.0",
+    "@hono/swagger-ui": "^0.5.3",
+    "@hono/zod-openapi": "^1.2.2",
     "@hono/zod-validator": "^0.2.0",
     "dotenv": "^16.4.0",
     "drizzle-orm": "^0.30.0",

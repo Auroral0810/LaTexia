@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const formulas = [
@@ -50,12 +51,40 @@ export default function NotFound() {
         ))}
       </div>
 
-      {/* 404 大文字 */}
+      {/* 顶部 Logo 品牌区 */}
+      <Link href="/" className="flex items-center gap-3 mb-10 group">
+        <Image
+          src="/images/logo1.png"
+          alt="Latexia"
+          width={40}
+          height={40}
+          className="rounded-lg transition-transform group-hover:scale-110"
+          priority
+        />
+        <div className="h-8 w-auto">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/latexia-text.svg"
+            alt="Latexia"
+            className="h-full w-auto"
+            style={{ filter: 'brightness(0)' }}
+          />
+        </div>
+      </Link>
+
+      {/* 404 大文字 — 使用内联样式确保渐变文字可见 */}
       <div className="relative mb-8">
         <h1
-          className={`text-[10rem] sm:text-[14rem] font-heading font-black leading-none tracking-tighter text-gradient bg-gradient-to-br from-primary/80 via-primary to-teal-300 transition-all duration-100 ${
+          className={`text-[10rem] sm:text-[14rem] font-heading font-black leading-none tracking-tighter transition-all duration-100 ${
             glitchActive ? 'translate-x-1 skew-x-2' : ''
           }`}
+          style={{
+            background: 'linear-gradient(135deg, hsl(var(--primary) / 0.8), hsl(var(--primary)), #5eead4)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            color: 'transparent',
+          }}
         >
           404
         </h1>
