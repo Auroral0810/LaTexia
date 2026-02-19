@@ -95,6 +95,31 @@ export default function FormulaTrainPage() {
     return () => clearInterval(t);
   }, [remainingSeconds, currentIndex]);
 
+  // 快捷键：⌘/Ctrl+Enter 提交，提交后 Enter 下一题，⌥/Alt+Enter 跳过
+  useEffect(() => {
+    if (!started || !currentQuestion) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Enter') return;
+      const submitMod = e.metaKey || e.ctrlKey;
+      if (submitMod) {
+        e.preventDefault();
+        if (result === null) handleSubmit();
+        return;
+      }
+      if (e.altKey) {
+        e.preventDefault();
+        if (result === null) handleSkip();
+        return;
+      }
+      if (!e.altKey && result !== null) {
+        e.preventDefault();
+        handleNext();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [started, currentQuestion, result, handleSubmit, handleSkip, handleNext]);
+
   const handleSubmit = () => {
     if (!currentQuestion) return;
     const expected = normalizeLatex(currentQuestion.latex);
