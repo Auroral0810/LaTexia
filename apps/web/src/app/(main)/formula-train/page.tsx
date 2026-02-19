@@ -7,7 +7,7 @@ import { Button } from '@latexia/ui/components/ui/button';
 import { Input } from '@latexia/ui/components/ui/input';
 import { Label } from '@latexia/ui/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@latexia/ui/components/ui/select';
-import { CheckCircle2, XCircle, SkipForward, Timer, Loader2 } from 'lucide-react';
+import { CheckCircle2, XCircle, SkipForward, Timer, Loader2, Trophy, ArrowRight, Keyboard, Info } from 'lucide-react';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -21,10 +21,9 @@ interface FormulaExercise {
 }
 
 function normalizeLatex(s: string): string {
-  return s
-    .trim()
-    .replace(/\s+/g, ' ')
-    .replace(/\s*\\\s*/g, '\\');
+  // 更加激进的归一化：移除所有空白字符，因为 LaTeX 数学模式中大部分空格均不影响语义
+  // 这样可以处理 \log_a b 与 \log_ab 的差异
+  return s.replace(/\s+/g, '').trim();
 }
 
 function findFirstDiffIndex(a: string, b: string): number {
@@ -38,12 +37,17 @@ function findFirstDiffIndex(a: string, b: string): number {
 function LatexPreview({ math }: { math: string }) {
   try {
     return (
-      <span className="text-lg">
+      <div className="text-xl py-4 transition-all duration-300">
         <BlockMath math={math} />
-      </span>
+      </div>
     );
   } catch {
-    return <span className="text-sm text-destructive">LaTeX 语法错误，无法渲染</span>;
+    return (
+      <div className="flex items-center gap-2 py-4 text-sm text-destructive font-medium">
+        <Info className="w-4 h-4" />
+        <span>LaTeX 语法错误，无法渲染</span>
+      </div>
+    );
   }
 }
 
@@ -62,6 +66,11 @@ export default function FormulaTrainPage() {
   const [result, setResult] = useState<'correct' | 'wrong' | null>(null);
   const [errorHint, setErrorHint] = useState('');
   const [remainingSeconds, setRemainingSeconds] = useState<number | null>(null);
+  
+  // 答题统计
+  const [score, setScore] = useState(0);
+  const [showSummary, setShowSummary] = useState(false);
+  const [isConfirmingStop, setIsConfirmingStop] = useState(false);
 
   const currentQuestion = pool[currentIndex];
   const totalQuestions = pool.length;
@@ -85,6 +94,9 @@ export default function FormulaTrainPage() {
       setUserInput('');
       setResult(null);
       setErrorHint('');
+      setScore(0);
+      setShowSummary(false);
+      setIsConfirmingStop(false);
       setRemainingSeconds(timeLimitEnabled ? timeLimitSeconds : null);
       setStarted(true);
     } catch {
@@ -94,39 +106,49 @@ export default function FormulaTrainPage() {
     }
   };
 
-  // 倒计时
   useEffect(() => {
-    if (remainingSeconds === null || remainingSeconds <= 0) return;
+    if (remainingSeconds === null || remainingSeconds <= 0 || result !== null || isConfirmingStop) return;
     const t = setInterval(() => {
-      setRemainingSeconds((s) => (s === null ? null : Math.max(0, s - 1)));
+      setRemainingSeconds((s) => {
+        if (s === 1) {
+          handleSkip(); // 倒计时结束自动跳过
+          return 0;
+        }
+        return s === null ? null : Math.max(0, s - 1);
+      });
     }, 1000);
     return () => clearInterval(t);
-  }, [remainingSeconds, currentIndex]);
+  }, [remainingSeconds, currentIndex, result, isConfirmingStop]);
 
   const handleSubmit = useCallback(() => {
-    if (!currentQuestion) return;
+    if (!currentQuestion || result !== null) return;
     const expected = normalizeLatex(currentQuestion.latex);
     const actual = normalizeLatex(userInput);
     const isCorrect = expected === actual;
+    
     if (isCorrect) {
       setResult('correct');
+      setScore(s => s + 1);
       setErrorHint('');
     } else {
-      setResult('wrong');
-      const idx = findFirstDiffIndex(expected, actual);
-      if (idx >= 0) {
-        const seg = expected.slice(Math.max(0, idx - 5), idx + 15);
-        setErrorHint(`从「…${seg}…」附近与标准答案不一致。正确答案：${expected}`);
-      } else {
-        setErrorHint(`正确答案：${expected}`);
-      }
+       setResult('wrong');
+       const idx = findFirstDiffIndex(expected, actual);
+       if (idx >= 0) {
+         // 注意：错误提示时展示带空格的原始 latex 比较友好
+         const rawExpected = currentQuestion.latex;
+         const seg = rawExpected.slice(Math.max(0, idx - 8), idx + 20);
+         setErrorHint(`从「…${seg}…」附近不匹配。正确：${rawExpected}`);
+       } else {
+         setErrorHint(`正确答案：${currentQuestion.latex}`);
+       }
     }
+
     fetch(`${API_URL}/api/formula-exercises/${currentQuestion.id}/attempt`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ correct: isCorrect }),
     }).catch(() => {});
-  }, [currentQuestion, userInput]);
+  }, [currentQuestion, userInput, result]);
 
   const handleNext = useCallback(() => {
     if (currentIndex < totalQuestions - 1) {
@@ -136,215 +158,360 @@ export default function FormulaTrainPage() {
       setErrorHint('');
       setRemainingSeconds(timeLimitEnabled ? timeLimitSeconds : null);
     } else {
-      setStarted(false);
-      setPool([]);
+      setShowSummary(true);
     }
   }, [currentIndex, totalQuestions, timeLimitEnabled, timeLimitSeconds]);
 
   const handleSkip = useCallback(() => {
+    if (result !== null) return;
     setErrorHint(`正确答案：${currentQuestion?.latex ?? ''}`);
     setResult('wrong');
-  }, [currentQuestion]);
+  }, [currentQuestion, result]);
 
-  // 快捷键：⌘/Ctrl+Enter 提交，提交后 Enter 下一题，⌥/Alt+Enter 跳过
+  const stopSession = () => {
+    setShowSummary(true);
+    setIsConfirmingStop(false);
+  };
+
+  // 快捷键支持
   useEffect(() => {
-    if (!started || !currentQuestion) return;
+    if (!started || !currentQuestion || showSummary || isConfirmingStop) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Enter') return;
-      const submitMod = e.metaKey || e.ctrlKey;
-      if (submitMod) {
-        e.preventDefault();
-        if (result === null) handleSubmit();
-        return;
-      }
-      if (e.altKey) {
+      if (e.key === 'Enter') {
+        if (e.metaKey || e.ctrlKey) {
+          e.preventDefault();
+          if (result === null) handleSubmit();
+        } else if (result !== null) {
+          e.preventDefault();
+          handleNext();
+        }
+      } else if (e.key === 's' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         if (result === null) handleSkip();
-        return;
-      }
-      if (!e.altKey && result !== null) {
-        e.preventDefault();
-        handleNext();
+      } else if (e.key === 'Escape') {
+        setIsConfirmingStop(true);
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [started, currentQuestion, result, handleSubmit, handleSkip, handleNext]);
+  }, [started, currentQuestion, result, handleSubmit, handleSkip, handleNext, showSummary, isConfirmingStop]);
 
+  // 渲染设置页面
   if (!started) {
     return (
-      <div className="container py-8 max-w-2xl">
-        <h1 className="text-2xl font-heading font-bold mb-2">公式训练</h1>
-        <p className="text-muted-foreground mb-6">
-          随机给出公式，请用 LaTeX 原样输入。无需登录即可练习。
-        </p>
-        <div className="space-y-6 rounded-2xl border border-border/50 bg-card p-6 shadow-sm">
-          <div className="space-y-2">
-            <Label>难度</Label>
-            <Select value={difficulty} onValueChange={setDifficulty}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">全部</SelectItem>
-                <SelectItem value="easy">简单</SelectItem>
-                <SelectItem value="medium">中等</SelectItem>
-                <SelectItem value="hard">困难</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                id="timelimit"
-                checked={timeLimitEnabled}
-                onChange={(e) => setTimeLimitEnabled(e.target.checked)}
-                className="rounded border-input"
-              />
-              <Label htmlFor="timelimit">每题限时</Label>
+      <div className="min-h-[calc(100vh-64px)] bg-gradient-to-b from-background to-muted/20 flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-xl space-y-8">
+          <div className="text-center space-y-2">
+            <div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary mb-4">
+              <Trophy className="w-8 h-8" />
             </div>
-            {timeLimitEnabled && (
-              <div className="flex items-center gap-2">
-                <Input
-                  type="number"
-                  min={10}
-                  max={300}
-                  value={timeLimitSeconds}
-                  onChange={(e) => setTimeLimitSeconds(Number(e.target.value) || 60)}
-                />
-                <span className="text-sm text-muted-foreground">秒</span>
-              </div>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label>题目数量</Label>
-            <Select value={String(questionCount)} onValueChange={(v) => setQuestionCount(Number(v))}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {[5, 10, 15, 20].map((n) => (
-                  <SelectItem key={n} value={String(n)}>
-                    {n} 题
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          {fetchError && (
-            <div className="rounded-lg border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-              {fetchError}
-            </div>
-          )}
-          <Button onClick={startSession} className="w-full" size="lg" disabled={loading}>
-            {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />加载中…</> : '开始练习'}
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!currentQuestion) {
-    return (
-      <div className="container py-8 text-center">
-        <p className="text-muted-foreground">没有符合条件的题目，请调整难度或题目数量。</p>
-        <Button onClick={() => setStarted(false)} className="mt-4">
-          返回设置
-        </Button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="container py-8 max-w-3xl">
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-sm text-muted-foreground">
-          第 {currentIndex + 1} / {totalQuestions} 题
-          {currentQuestion.difficulty === 'easy' && ' · 简单'}
-          {currentQuestion.difficulty === 'medium' && ' · 中等'}
-          {currentQuestion.difficulty === 'hard' && ' · 困难'}
-          {currentQuestion.title && ` · ${currentQuestion.title}`}
-        </span>
-        {remainingSeconds !== null && (
-          <span className={`flex items-center gap-1 text-sm ${remainingSeconds <= 10 ? 'text-destructive' : 'text-muted-foreground'}`}>
-            <Timer className="w-4 h-4" />
-            {remainingSeconds} 秒
-          </span>
-        )}
-      </div>
-
-      <div className="rounded-2xl border border-border/50 bg-card shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-border/50 bg-muted/30">
-          <p className="text-sm text-muted-foreground mb-2">请用 LaTeX 原样输入下方公式：</p>
-          <div className="min-h-[60px] flex items-center justify-center text-2xl">
-            <BlockMath math={currentQuestion.latex} />
-          </div>
-        </div>
-
-        <div className="p-6 space-y-4">
-          <div className="space-y-2">
-            <Label>你的 LaTeX 输入</Label>
-            <textarea
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              placeholder="例如：E = mc^2"
-              className="w-full min-h-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm font-mono placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              disabled={result !== null}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label>实时预览</Label>
-            <div className="min-h-[56px] rounded-md border border-border/50 bg-muted/30 p-3 flex items-center justify-center">
-              {userInput.trim() ? (
-                <LatexPreview math={userInput.trim()} />
-              ) : (
-                <span className="text-muted-foreground text-sm">输入 LaTeX 后将在此显示预览</span>
-              )}
-            </div>
-          </div>
-
-          {result === 'correct' && (
-            <div className="flex items-center gap-2 rounded-lg border border-green-500/50 bg-green-500/10 px-4 py-3 text-green-700 dark:text-green-400">
-              <CheckCircle2 className="h-4 w-4 shrink-0" />
-              <span>回答正确！</span>
-            </div>
-          )}
-          {result === 'wrong' && (
-            <div className="flex items-start gap-2 rounded-lg border border-destructive/50 bg-destructive/10 px-4 py-3 text-destructive">
-              <XCircle className="h-4 w-4 shrink-0 mt-0.5" />
-              <span className="text-sm">{errorHint}</span>
-            </div>
-          )}
-
-          <div className="space-y-2 pt-2">
-            <div className="flex flex-wrap gap-2">
-              {result === null && (
-                <>
-                  <Button onClick={handleSubmit}>提交</Button>
-                  <Button variant="outline" onClick={handleSkip}>
-                    <SkipForward className="w-4 h-4 mr-1" />
-                    跳过
-                  </Button>
-                </>
-              )}
-              {(result === 'correct' || result === 'wrong') && (
-                <Button onClick={handleNext}>
-                  {isLastQuestion ? '完成练习' : '下一题'}
-                </Button>
-              )}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">⌘</kbd>/<kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">Ctrl</kbd>+<kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">Enter</kbd> 提交
-              {' · '}
-              <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">Enter</kbd> 下一题
-              {' · '}
-              <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">⌥</kbd>/<kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">Alt</kbd>+<kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">Enter</kbd> 跳过
+            <h1 className="text-4xl font-heading font-bold tracking-tight">公式极限训练</h1>
+            <p className="text-muted-foreground text-lg">
+              挑战你的 LaTeX 输入速度与准确度，即时反馈，高效进阶。
             </p>
           </div>
+
+          <div className="bg-card/50 backdrop-blur-xl rounded-3xl border border-border/50 p-8 shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 -tr-4 -mt-4 w-32 h-32 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+            
+            <div className="grid gap-6 relative z-10">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">训练难度</Label>
+                  <Select value={difficulty} onValueChange={setDifficulty}>
+                    <SelectTrigger className="bg-background/50 border-border/50 h-11">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">全部难度</SelectItem>
+                      <SelectItem value="easy">简单 (基础符号)</SelectItem>
+                      <SelectItem value="medium">中等 (复杂公式)</SelectItem>
+                      <SelectItem value="hard">困难 (多层嵌套)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">题目数量</Label>
+                  <Select value={String(questionCount)} onValueChange={(v) => setQuestionCount(Number(v))}>
+                    <SelectTrigger className="bg-background/50 border-border/50 h-11">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[5, 10, 20, 50].map((n) => (
+                        <SelectItem key={n} value={String(n)}>{n} 道题目</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-muted/30 border border-border/50 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="timelimit" className="text-sm font-bold">每题限时挑战</Label>
+                    <p className="text-xs text-muted-foreground">开启后未在规定时间内提交将视为错误</p>
+                  </div>
+                  <div className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${timeLimitEnabled ? 'bg-primary' : 'bg-input'}`} onClick={() => setTimeLimitEnabled(!timeLimitEnabled)}>
+                    <span className={`pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform ${timeLimitEnabled ? 'translate-x-5' : 'translate-x-0'}`} />
+                  </div>
+                </div>
+                
+                {timeLimitEnabled && (
+                  <div className="flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <Input
+                      type="range"
+                      min={10}
+                      max={180}
+                      step={10}
+                      value={timeLimitSeconds}
+                      onChange={(e) => setTimeLimitSeconds(Number(e.target.value))}
+                      className="flex-1 h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
+                    />
+                    <span className="text-sm font-mono font-bold text-primary w-12 text-center">{timeLimitSeconds}s</span>
+                  </div>
+                )}
+              </div>
+
+              {fetchError && (
+                <div className="rounded-xl border border-destructive/20 bg-destructive/5 px-4 py-3 flex items-center gap-3 text-sm text-destructive animate-pulse">
+                  <XCircle className="w-5 h-5 shrink-0" />
+                  {fetchError}
+                </div>
+              )}
+
+              <Button onClick={startSession} className="w-full h-12 rounded-2xl text-base font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all" disabled={loading}>
+                {loading ? <><Loader2 className="w-5 h-5 mr-2 animate-spin" />正在生成题目...</> : <><Loader2 className="w-5 h-5 mr-2" />开始训练</>}
+              </Button>
+            </div>
+          </div>
+          
+          <div className="flex justify-center gap-8 text-muted-foreground/60">
+            <div className="flex items-center gap-2 text-xs font-medium">
+              <Keyboard className="w-4 h-4" />
+              <span>快捷键提交</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-medium">
+              <Timer className="w-4 h-4" />
+              <span>精确定时</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-medium">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>语法校验</span>
+            </div>
+          </div>
         </div>
       </div>
+    );
+  }
+
+  // 训练结算页面
+  if (showSummary) {
+    const accuracy = Math.round((score / totalQuestions) * 100);
+    return (
+      <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-4 bg-background">
+        <div className="w-full max-w-lg space-y-8 animate-in zoom-in-95 duration-500">
+           <div className="text-center space-y-4">
+              <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary mb-2 border-4 border-background shadow-xl">
+                 <Trophy className="w-10 h-10" />
+              </div>
+              <h1 className="text-3xl font-bold">训练完成！</h1>
+              <p className="text-muted-foreground">已完成 {currentIndex + (result !== null ? 1 : 0)} / {totalQuestions} 道题目，战绩如下：</p>
+           </div>
+           
+           <div className="grid grid-cols-2 gap-4">
+              <div className="bg-card p-6 rounded-3xl border border-border/50 text-center space-y-1 shadow-sm">
+                 <span className="text-sm text-muted-foreground font-medium">正确数量</span>
+                 <p className="text-4xl font-bold text-primary">{score}</p>
+              </div>
+              <div className="bg-card p-6 rounded-3xl border border-border/50 text-center space-y-1 shadow-sm">
+                 <span className="text-sm text-muted-foreground font-medium">准确率</span>
+                 <p className={`text-4xl font-bold ${accuracy >= 80 ? 'text-green-500' : accuracy >= 50 ? 'text-yellow-500' : 'text-red-500'}`}>{accuracy || 0}%</p>
+              </div>
+           </div>
+
+           <div className="flex gap-4 p-2">
+              <Button onClick={startSession} className="flex-1 h-12 rounded-2xl font-bold">再次挑战</Button>
+              <Button variant="outline" onClick={() => setStarted(false)} className="flex-1 h-12 rounded-2xl font-bold">返回设置</Button>
+           </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 渲染正在训练
+  return (
+    <div className="min-h-[calc(100vh-64px)] bg-background flex flex-col relative overflow-hidden">
+      {/* 顶部进度条 */}
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-muted/30">
+        <div 
+          className="h-full bg-primary transition-all duration-500 ease-out shadow-[0_0_10px_rgba(20,184,166,0.5)]" 
+          style={{ width: `${((currentIndex + (result !== null ? 1 : 0)) / totalQuestions) * 100}%` }}
+        />
+      </div>
+
+      <div className="container max-w-4xl py-12 flex-1 flex flex-col gap-8">
+        {/* 顶部状态 */}
+        <div className="flex items-center justify-between px-2">
+           <div className="flex items-center gap-4">
+              <div className="h-10 w-10 rounded-xl bg-card border border-border/50 flex items-center justify-center font-bold text-sm shadow-sm">
+                {currentIndex + 1}
+              </div>
+              <div className="space-y-0.5">
+                <p className="text-sm font-bold truncate max-w-[200px]">{currentQuestion.title || '随机练习题'}</p>
+                <div className="flex items-center gap-2">
+                   <span className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60">{currentQuestion.difficulty}</span>
+                   <div className="h-1 w-1 rounded-full bg-muted-foreground/30"></div>
+                   <span className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground/60">{currentQuestion.category}</span>
+                </div>
+              </div>
+           </div>
+
+           <div className="flex items-center gap-3">
+              {remainingSeconds !== null && (
+                <div className={`flex items-center gap-2 h-10 px-4 rounded-xl border transition-colors ${remainingSeconds <= 10 ? 'bg-destructive/10 border-destructive/20 text-destructive animate-pulse' : 'bg-card border-border/50 text-muted-foreground'}`}>
+                   <Timer className="w-4 h-4" />
+                   <span className="text-sm font-mono font-bold">{remainingSeconds}s</span>
+                </div>
+              )}
+              <div className="h-10 px-4 rounded-xl bg-primary/10 border border-primary/20 flex items-center gap-2 group">
+                 <Trophy className="w-4 h-4 text-primary" />
+                 <span className="text-sm font-bold text-primary">{score}</span>
+              </div>
+              <Button variant="outline" size="icon" className="h-10 w-10 rounded-xl text-muted-foreground" onClick={() => setIsConfirmingStop(true)}>
+                <XCircle className="w-5 h-5" />
+              </Button>
+           </div>
+        </div>
+
+        {/* 核心训练区域 */}
+        <div className="grid gap-6">
+           <div className="bg-card/50 backdrop-blur-sm rounded-[2rem] border border-border/50 overflow-hidden shadow-xl">
+              <div className="bg-muted/30 p-8 flex flex-col items-center justify-center min-h-[160px] relative">
+                 <div className="absolute top-4 left-6 py-1 px-3 bg-background/50 backdrop-blur-sm rounded-full text-[10px] font-bold text-muted-foreground uppercase tracking-wider border border-border/50">
+                    Target Formula
+                 </div>
+                 <div className="transform scale-125 transition-transform duration-500 py-4">
+                    <BlockMath math={currentQuestion.latex} />
+                 </div>
+              </div>
+
+              <div className="p-8 space-y-6">
+                 <div className="relative group">
+                    <textarea
+                      value={userInput}
+                      onChange={(e) => setUserInput(e.target.value)}
+                      placeholder="开始输入 LaTeX 代码..."
+                      spellCheck={false}
+                      className={`w-full min-h-[120px] bg-background/50 rounded-2xl border-2 p-6 text-lg font-mono transition-all duration-300 focus:outline-none placeholder:text-muted-foreground/40 resize-none ${
+                        result === 'correct' ? 'border-green-500/50 bg-green-500/5' : 
+                        result === 'wrong' ? 'border-destructive/50 bg-destructive/5' : 
+                        'border-border/50 focus:border-primary shadow-inner'
+                      }`}
+                      disabled={result !== null}
+                      autoFocus
+                    />
+                    
+                    {result === null && (
+                      <div className="absolute bottom-4 right-4 text-[10px] items-center gap-1 text-muted-foreground/40 hidden md:flex">
+                        <kbd className="px-1 py-0.5 rounded bg-muted border border-border/50">Ctrl</kbd>
+                        <span>+</span>
+                        <kbd className="px-1 py-0.5 rounded bg-muted border border-border/50">Enter</kbd>
+                        <span className="ml-1">提交</span>
+                      </div>
+                    )}
+                 </div>
+
+                 {/* 实时预览 */}
+                 <div className="space-y-3">
+                    <div className="flex items-center justify-between px-1">
+                       <Label className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">实时预览</Label>
+                       {result === 'wrong' && (
+                         <div className="text-xs text-destructive flex items-center gap-1 font-bold animate-in slide-in-from-right-2">
+                           <XCircle className="w-3 h-3" />
+                           需要修正
+                         </div>
+                       )}
+                    </div>
+                    <div className={`min-h-[80px] rounded-2xl border bg-muted/20 flex flex-col items-center justify-center transition-all ${result === 'wrong' ? 'border-destructive/30' : 'border-border/30'}`}>
+                       {userInput.trim() ? (
+                         <LatexPreview math={userInput.trim()} />
+                       ) : (
+                         <span className="text-muted-foreground/30 text-sm font-medium">输入后将在此显示预览</span>
+                       )}
+                    </div>
+                 </div>
+
+                 {/* 反馈提示 */}
+                 {result !== null && (
+                   <div className={`p-4 rounded-xl border animate-in slide-in-from-bottom-2 duration-300 ${result === 'correct' ? 'bg-green-500/10 border-green-500/20 text-green-700 dark:text-green-400' : 'bg-destructive/10 border-destructive/20 text-destructive'}`}>
+                      <div className="flex gap-3">
+                         {result === 'correct' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <XCircle className="w-5 h-5 shrink-0" />}
+                         <div className="space-y-1">
+                            <p className="font-bold text-sm">{result === 'correct' ? '干得漂亮！公式匹配完美' : '出错了'}</p>
+                            {errorHint && <p className="text-xs opacity-80 leading-relaxed font-mono break-all">{errorHint}</p>}
+                         </div>
+                      </div>
+                   </div>
+                 )}
+
+                 {/* 操作按钮 */}
+                 <div className="flex items-center justify-between pt-2">
+                    <div className="flex gap-3">
+                       {result === null ? (
+                         <>
+                           <Button onClick={handleSubmit} size="lg" className="rounded-xl px-8 font-bold shadow-lg shadow-primary/20">
+                             提交答案
+                           </Button>
+                           <Button variant="ghost" onClick={handleSkip} className="rounded-xl text-muted-foreground font-bold hover:bg-muted/50">
+                             跳过此题
+                           </Button>
+                         </>
+                       ) : (
+                         <Button onClick={handleNext} size="lg" className={`rounded-xl px-10 font-bold shadow-lg shadow-primary/20 group ${result === 'correct' ? 'bg-primary' : 'bg-muted hover:bg-muted/80 text-foreground'}`}>
+                            {isLastQuestion ? '查看总结' : '下一题'}
+                            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                         </Button>
+                       )}
+                    </div>
+
+                    <div className="hidden lg:flex flex-col items-end gap-1.5 opacity-40">
+                       <div className="flex items-center gap-1.5 text-[10px] font-bold">
+                          <SkipForward className="w-3 h-3" />
+                          <span>跳过快捷键：Ctrl + S</span>
+                       </div>
+                       <div className="flex items-center gap-1.5 text-[10px] font-bold">
+                          <Keyboard className="w-3 h-3" />
+                          <span>确认或下一题：Enter</span>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+
+      {/* 退出确认 Overlay */}
+      {isConfirmingStop && (
+        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-300">
+           <div className="w-full max-w-sm bg-card rounded-[2rem] border border-border/50 p-8 shadow-2xl text-center space-y-6">
+              <div className="inline-flex p-4 rounded-2xl bg-destructive/10 text-destructive">
+                <Info className="w-8 h-8" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold">停止训练？</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">停止后将直接进入结算页面，且无法恢复当前进度。</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Button variant="destructive" className="h-12 rounded-2xl font-bold" onClick={stopSession}>确认停止</Button>
+                <Button variant="ghost" className="h-12 rounded-2xl font-medium" onClick={() => setIsConfirmingStop(false)}>继续练习</Button>
+              </div>
+           </div>
+        </div>
+      )}
+
+      {/* 装饰性背景 */}
+      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute top-1/2 -right-24 w-64 h-64 bg-indigo-500/5 rounded-full blur-[80px] pointer-events-none"></div>
     </div>
   );
 }
