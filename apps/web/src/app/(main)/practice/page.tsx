@@ -5,12 +5,67 @@ import Link from 'next/link';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@latexia/ui/components/ui/select';
 import { useAuthStore } from '@/store/auth.store';
 import { useRouter } from 'next/navigation';
-import { Lock } from 'lucide-react';
-
+import { Lock, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { getProblems, getProblemMetadata, ProblemDifficulty, ProblemStatus } from '@/lib/problems';
+import { useState } from 'react';
 
 export default function PracticePage() {
   const { isAuthenticated } = useAuthStore();
   const router = useRouter();
+
+  // 状态管理
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [categoryId, setCategoryId] = useState<number | undefined>(undefined);
+  const [difficulty, setDifficulty] = useState<ProblemDifficulty | undefined>(undefined);
+  const [status, setStatus] = useState<string | undefined>(undefined);
+  const [search, setSearch] = useState('');
+
+  // 获取元数据 (分类和标签)
+  const { data: metadata } = useQuery({
+    queryKey: ['problemMetadata'],
+    queryFn: getProblemMetadata,
+  });
+
+  // 获取题目列表
+  const { data: problemsData, isLoading } = useQuery({
+    queryKey: ['problems', { categoryId, difficulty, status, search, page, pageSize }],
+    queryFn: () => getProblems({
+      categoryId,
+      difficulty,
+      search: search || undefined,
+      page,
+      pageSize,
+    }),
+  });
+
+  const difficulties: { value: ProblemDifficulty; label: string }[] = [
+    { value: 'easy', label: '简单' },
+    { value: 'medium', label: '中等' },
+    { value: 'hard', label: '困难' },
+    { value: 'hell', label: '地狱' },
+  ];
+
+  const statusMap: Record<string, string> = {
+    unstarted: '未开始',
+    solved: '已解决',
+    attempted: '尝试过',
+  };
+
+  const getDifficultyColor = (diff: string) => {
+    switch (diff) {
+      case 'easy': return 'bg-green-500/10 text-green-600';
+      case 'medium': return 'bg-yellow-500/10 text-yellow-600';
+      case 'hard': return 'bg-orange-500/10 text-orange-600';
+      case 'hell': return 'bg-red-500/10 text-red-600';
+      default: return 'bg-muted text-muted-foreground';
+    }
+  };
+
+  const getDifficultyLabel = (diff: string) => {
+    return difficulties.find(d => d.value === diff)?.label || diff;
+  };
 
   const handleSidebarClick = () => {
     if (!isAuthenticated) {
@@ -41,48 +96,66 @@ export default function PracticePage() {
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-heading font-bold">题库</h1>
               <div className="text-sm text-muted-foreground">
-                共 <span className="font-bold text-foreground">1234</span> 道题目
+                共 <span className="font-bold text-foreground">{problemsData?.total || 0}</span> 道题目
               </div>
             </div>
             
             <div className="flex flex-wrap gap-2">
-              {['全部', '基础排版', '数学公式', '表格制作', '图形绘制', '参考文献'].map((tag, i) => (
+              <button 
+                onClick={() => { setCategoryId(undefined); setPage(1); }}
+                className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
+                  categoryId === undefined 
+                    ? 'bg-primary text-primary-foreground font-medium' 
+                    : 'bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                }`}
+              >
+                全部
+              </button>
+              {metadata?.categories.filter(c => !c.parentId).map((cat) => (
                 <button 
-                  key={tag} 
+                  key={cat.id} 
+                  onClick={() => { setCategoryId(cat.id); setPage(1); }}
                   className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
-                    i === 0 
+                    categoryId === cat.id 
                       ? 'bg-primary text-primary-foreground font-medium' 
                       : 'bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
-                  {tag}
+                  {cat.name}
                 </button>
               ))}
             </div>
             
             <div className="flex gap-4 pt-2">
-               <input 
-                 type="text" 
-                 placeholder="搜索题目编号或名称..." 
-                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-sm"
-               />
-               <Select>
+               <div className="relative flex-1 max-w-sm">
+                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                 <input 
+                   type="text" 
+                   value={search}
+                   onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+                   placeholder="搜索题目名称..." 
+                   className="flex h-10 w-full rounded-md border border-input bg-background pl-9 pr-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                 />
+               </div>
+               <Select value={difficulty || 'all'} onValueChange={(v) => { setDifficulty(v === 'all' ? undefined : v as ProblemDifficulty); setPage(1); }}>
                  <SelectTrigger className="w-[100px]">
                     <SelectValue placeholder="难度" />
                  </SelectTrigger>
                  <SelectContent>
-                   <SelectItem value="easy">简单</SelectItem>
-                   <SelectItem value="medium">中等</SelectItem>
-                   <SelectItem value="hard">困难</SelectItem>
+                   <SelectItem value="all">全部难度</SelectItem>
+                   {difficulties.map(d => (
+                     <SelectItem key={d.value} value={d.value}>{d.label}</SelectItem>
+                   ))}
                  </SelectContent>
                </Select>
                
-               <Select>
+               <Select value={status || 'all'} onValueChange={(v) => { setStatus(v === 'all' ? undefined : v); setPage(1); }}>
                  <SelectTrigger className="w-[100px]">
                     <SelectValue placeholder="状态" />
                  </SelectTrigger>
                  <SelectContent>
-                   <SelectItem value="todo">未开始</SelectItem>
+                   <SelectItem value="all">全部状态</SelectItem>
+                   <SelectItem value="unstarted">未开始</SelectItem>
                    <SelectItem value="solved">已解决</SelectItem>
                    <SelectItem value="attempted">尝试过</SelectItem>
                  </SelectContent>
@@ -91,69 +164,118 @@ export default function PracticePage() {
           </div>
 
           {/* Problem Table */}
-          <div className="bg-card rounded-2xl border border-border/50 shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
+          <div className="bg-card rounded-2xl border border-border/50 shadow-sm overflow-hidden min-h-[400px] flex flex-col">
+            <div className="overflow-x-auto flex-1">
               <table className="w-full text-sm text-left">
                 <thead className="bg-muted/50 text-muted-foreground border-b border-border/50">
                   <tr>
                     <th className="px-6 py-4 font-medium w-16">状态</th>
                     <th className="px-6 py-4 font-medium">题目</th>
-                    <th className="px-6 py-4 font-medium w-24">通过率</th>
+                    <th className="px-6 py-4 font-medium w-32">通过率</th>
                     <th className="px-6 py-4 font-medium w-24">难度</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/50">
-                  {[
-                    // Basic Formatting
-                    { id: 1, title: '实现段落首行缩进', slug: 'paragraph-indent', rate: '85.2%', difficulty: '简单', status: 'solved', tag: '基础排版' },
-                    { id: 2, title: '设置字体颜色与大小', slug: 'font-styling', rate: '78.5%', difficulty: '简单', status: 'solved', tag: '基础排版' },
-                    // Math Formulas
-                    { id: 10, title: '勾股定理公式排版', slug: 'pythagorean-theorem', rate: '65.3%', difficulty: '简单', status: 'attempted', tag: '数学公式' },
-                    { id: 11, title: '二次方程求根公式', slug: 'quadratic-formula', rate: '58.1%', difficulty: '中等', status: 'todo', tag: '数学公式' },
-                    { id: 12, title: '麦克斯韦方程组', slug: 'maxwell-equations', rate: '42.7%', difficulty: '困难', status: 'todo', tag: '数学公式' },
-                    // Tables
-                    { id: 20, title: '创建一个三线表', slug: 'three-line-table', rate: '55.4%', difficulty: '中等', status: 'solved', tag: '表格制作' },
-                    { id: 21, title: '合并单元格与多行表头', slug: 'multirow-multicolumn', rate: '38.2%', difficulty: '困难', status: 'todo', tag: '表格制作' },
-                    // TikZ
-                    { id: 30, title: '绘制简单流程图节点', slug: 'tikz-flowchart-node', rate: '45.1%', difficulty: '中等', status: 'attempted', tag: '图形绘制' },
-                  ].map((problem) => (
-                    <tr key={problem.id} className="hover:bg-muted/30 transition-colors">
-                      <td className="px-6 py-4">
-                        {problem.status === 'solved' && <span className="text-green-500">✓</span>}
-                        {problem.status === 'attempted' && <span className="text-yellow-500">?</span>}
-                        {problem.status === 'todo' && <span className="text-muted-foreground/30"></span>}
-                      </td>
-                      <td className="px-6 py-4">
-                        <Link href={`/practice/${problem.id}`} className="font-medium hover:text-primary transition-colors block">
-                          {problem.id}. {problem.title}
-                        </Link>
-                        <span className="text-xs text-muted-foreground mt-0.5 block">{problem.tag}</span>
-                      </td>
-                      <td className="px-6 py-4 text-muted-foreground">{problem.rate}</td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-                          problem.difficulty === '简单' ? 'bg-green-500/10 text-green-600' :
-                          problem.difficulty === '中等' ? 'bg-yellow-500/10 text-yellow-600' :
-                          'bg-red-500/10 text-red-600'
-                        }`}>
-                          {problem.difficulty}
-                        </span>
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-8 text-center text-muted-foreground">
+                        <div className="flex items-center justify-center gap-2">
+                          <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                          正在加载题目...
+                        </div>
                       </td>
                     </tr>
-                  ))}
+                  ) : problemsData?.items.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-8 text-center text-muted-foreground">
+                        暂无符合条件的题目
+                      </td>
+                    </tr>
+                  ) : (
+                    problemsData?.items.map((problem, index) => (
+                      <tr key={problem.id} className="hover:bg-muted/30 transition-colors">
+                        <td className="px-6 py-4">
+                          {isAuthenticated ? (
+                            <>
+                              {problem.status === 'solved' && <span className="text-green-500 font-bold">✓</span>}
+                              {problem.status === 'attempted' && <span className="text-yellow-500 font-bold">?</span>}
+                              {problem.status === 'unstarted' && <span className="text-muted-foreground/20"></span>}
+                            </>
+                          ) : (
+                            <span className="text-muted-foreground/30">—</span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4">
+                          <Link href={`/practice/${problem.id}`} className="font-medium hover:text-primary transition-colors block">
+                            {(page - 1) * pageSize + index + 1}. {problem.title}
+                          </Link>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded text-muted-foreground">
+                              {problem.categoryName || '未分类'}
+                            </span>
+                            {problem.tags.map(t => (
+                              <span 
+                                key={t.id} 
+                                className="text-[10px] px-1.5 py-0.5 rounded"
+                                style={{ backgroundColor: `${t.color}20`, color: t.color || 'var(--muted-foreground)' }}
+                              >
+                                {t.name}
+                              </span>
+                            ))}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-muted-foreground">
+                          {problem.attemptCount ? `${((problem.correctCount || 0) / problem.attemptCount * 100).toFixed(1)}%` : '0.0%'}
+                          <span className="text-[10px] ml-1 opacity-50">({problem.attemptCount || 0} 次尝试)</span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getDifficultyColor(problem.difficulty)}`}>
+                            {getDifficultyLabel(problem.difficulty)}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
             
-            {/* Pagination Placeholder */}
-            <div className="flex items-center justify-between px-6 py-4 border-t border-border/50">
-              <span className="text-muted-foreground text-xs">显示 1-8 共 1234 条</span>
+            {/* Real Pagination */}
+            <div className="flex items-center justify-between px-6 py-4 border-t border-border/50 bg-card">
+              <span className="text-muted-foreground text-[10px]">
+                显示 {Math.min((page - 1) * pageSize + 1, problemsData?.total || 0)} - {Math.min(page * pageSize, problemsData?.total || 0)} 共 {problemsData?.total || 0} 条
+              </span>
               <div className="flex gap-1">
-                <button className="px-3 py-1 rounded border border-input bg-background hover:bg-accent text-xs">上一页</button>
-                <button className="px-3 py-1 rounded bg-primary text-primary-foreground text-xs">1</button>
-                <button className="px-3 py-1 rounded border border-input bg-background hover:bg-accent text-xs">2</button>
-                <button className="px-3 py-1 rounded border border-input bg-background hover:bg-accent text-xs">...</button>
-                <button className="px-3 py-1 rounded border border-input bg-background hover:bg-accent text-xs">下一页</button>
+                <button 
+                  disabled={page === 1}
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  className="p-1.5 rounded border border-border bg-background hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                {Array.from({ length: Math.min(5, Math.ceil((problemsData?.total || 0) / pageSize)) }).map((_, i) => {
+                  const p = i + 1; // Simplified pagination for now
+                  return (
+                    <button 
+                      key={p}
+                      onClick={() => setPage(p)}
+                      className={`min-w-[32px] h-8 rounded text-xs transition-colors ${
+                        page === p 
+                          ? 'bg-primary text-primary-foreground font-medium' 
+                          : 'border border-border bg-background hover:bg-accent'
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  );
+                })}
+                <button 
+                  disabled={page >= Math.ceil((problemsData?.total || 0) / pageSize)}
+                  onClick={() => setPage(p => p + 1)}
+                  className="p-1.5 rounded border border-border bg-background hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </div>

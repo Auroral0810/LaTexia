@@ -11,6 +11,7 @@ import { users } from './db/schema/users';
 import toolsOpenApiRouter from './modules/tools/tools.openapi';
 import symbolsOpenApiRouter from './modules/symbols/symbols.openapi';
 import authRouter from './modules/auth/auth.routes';
+import problemsRouter from './modules/problems/problems.routes';
 
 const app = new OpenAPIHono();
 
@@ -22,6 +23,7 @@ app.use('*', cors());
 app.route('/api/tools', toolsOpenApiRouter);
 app.route('/api/symbols', symbolsOpenApiRouter);
 app.route('/api/auth', authRouter);
+app.route('/api/problems', problemsRouter);
 
 // 根路径与健康检查（加入 OpenAPI 文档）
 const routeRoot = createRoute({
