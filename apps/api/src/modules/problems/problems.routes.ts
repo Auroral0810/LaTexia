@@ -188,4 +188,100 @@ problemsRouter.openapi(getCalendarRoute, async (c) => {
   return c.json({ success: true as const, data: result }, 200);
 });
 
+// ========== 题目详情 ==========
+
+const getProblemByIdRoute = createRoute({
+  method: 'get',
+  path: '/{id}',
+  summary: '获取题目详情',
+  description: '根据 ID 获取题目完整信息，包含内容、选项、解析等',
+  request: {
+    params: z.object({
+      id: z.string().uuid().openapi({ description: '题目 UUID' }),
+    }),
+  },
+  responses: {
+    200: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            success: z.literal(true),
+            data: z.any(),
+          }),
+        },
+      },
+      description: '获取成功',
+    },
+    404: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            success: z.literal(false),
+            message: z.string(),
+          }),
+        },
+      },
+      description: '题目不存在',
+    },
+  },
+});
+
+problemsRouter.openapi(getProblemByIdRoute, async (c) => {
+  const { id } = c.req.valid('param');
+  const userId = c.req.header('X-User-Id');
+
+  const result = await problemsService.getProblemById(id, userId);
+  if (!result) {
+    return c.json({ success: false as const, message: '题目不存在' }, 404);
+  }
+
+  return c.json({ success: true as const, data: result }, 200);
+});
+
+// ========== 记录答题结果 ==========
+
+const postAttemptRoute = createRoute({
+  method: 'post',
+  path: '/{id}/attempt',
+  summary: '提交答题结果',
+  description: '记录用户对某道题的答题结果',
+  request: {
+    params: z.object({
+      id: z.string().uuid().openapi({ description: '题目 UUID' }),
+    }),
+    body: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            isCorrect: z.boolean().openapi({ description: '是否答对' }),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            success: z.literal(true),
+          }),
+        },
+      },
+      description: '提交成功',
+    },
+  },
+});
+
+problemsRouter.openapi(postAttemptRoute, async (c) => {
+  const { id } = c.req.valid('param');
+  const userId = c.req.header('X-User-Id');
+  if (!userId) {
+    return c.json({ success: false as const, message: '请先登录' }, 401);
+  }
+  const { isCorrect } = c.req.valid('json');
+  await problemsService.recordAttempt(id, userId, isCorrect);
+  return c.json({ success: true as const }, 200);
+});
+
 export default problemsRouter;

@@ -11,7 +11,7 @@ import { getProblems, getProblemMetadata, getProblemStats, getCheckinCalendar, P
 import { useState } from 'react';
 
 export default function PracticePage() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const router = useRouter();
 
   // 状态管理
@@ -30,16 +30,16 @@ export default function PracticePage() {
 
   // 获取统计数据
   const { data: stats } = useQuery({
-    queryKey: ['problemStats'],
-    queryFn: getProblemStats,
-    enabled: isAuthenticated,
+    queryKey: ['problemStats', user?.id],
+    queryFn: () => getProblemStats(user!.id),
+    enabled: isAuthenticated && !!user?.id,
   });
 
   // 获取打卡日历
   const { data: calendar } = useQuery({
-    queryKey: ['checkinCalendar'],
-    queryFn: getCheckinCalendar,
-    enabled: isAuthenticated,
+    queryKey: ['checkinCalendar', user?.id],
+    queryFn: () => getCheckinCalendar(user!.id),
+    enabled: isAuthenticated && !!user?.id,
   });
 
   // 获取题目列表

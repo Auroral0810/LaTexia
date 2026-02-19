@@ -251,3 +251,90 @@ export async function getCheckinCalendar(userId: string) {
     total: records.length,
   };
 }
+
+/**
+ * 根据 ID 获取题目详情
+ */
+export async function getProblemById(id: string, userId?: string) {
+  const [problem] = await db
+    .select({
+      id: problems.id,
+      title: problems.title,
+      content: problems.content,
+      type: problems.type,
+      difficulty: problems.difficulty,
+      categoryId: problems.categoryId,
+      categoryName: problemCategories.name,
+      options: problems.options,
+      answer: problems.answer,
+      answerExplanation: problems.answerExplanation,
+      previewImageUrl: problems.previewImageUrl,
+      score: problems.score,
+      attemptCount: problems.attemptCount,
+      correctCount: problems.correctCount,
+      createdAt: problems.createdAt,
+    })
+    .from(problems)
+    .leftJoin(problemCategories, eq(problems.categoryId, problemCategories.id))
+    .where(eq(problems.id, id))
+    .limit(1);
+
+  if (!problem) return null;
+
+  // 获取标签
+  const problemTagsList = await db
+    .select({
+      tagId: tags.id,
+      tagName: tags.name,
+      tagColor: tags.color,
+    })
+    .from(problemTags)
+    .innerJoin(tags, eq(problemTags.tagId, tags.id))
+    .where(eq(problemTags.problemId, id));
+
+  // 获取用户答题状态
+  let userStatus: ProblemStatus = 'unknown';
+  if (userId) {
+    const userRecord = await db
+      .select({ isCorrect: practiceRecords.isCorrect })
+      .from(practiceRecords)
+      .where(and(eq(practiceRecords.userId, userId), eq(practiceRecords.problemId, id)))
+      .limit(1);
+    if (userRecord.length > 0) {
+      userStatus = userRecord[0].isCorrect ? 'solved' : 'attempted';
+    } else {
+      userStatus = 'unstarted';
+    }
+  }
+
+  return {
+    ...problem,
+    difficulty: problem.difficulty as ProblemDifficulty,
+    tags: problemTagsList.map(t => ({ id: t.tagId, name: t.tagName, color: t.tagColor })),
+    status: userStatus,
+  };
+}
+
+/**
+ * 记录用户答题结果
+ */
+export async function recordAttempt(problemId: string, userId: string, isCorrectAnswer: boolean) {
+  // 插入答题记录
+  await db.insert(practiceRecords).values({
+    userId,
+    problemId,
+    isCorrect: isCorrectAnswer,
+    source: 'practice',
+  });
+
+  // 更新题目统计
+  await db
+    .update(problems)
+    .set({
+      attemptCount: sql`COALESCE(${problems.attemptCount}, 0) + 1`,
+      ...(isCorrectAnswer ? { correctCount: sql`COALESCE(${problems.correctCount}, 0) + 1` } : {}),
+    })
+    .where(eq(problems.id, problemId));
+
+  return { success: true };
+}

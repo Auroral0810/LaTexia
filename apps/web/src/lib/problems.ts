@@ -75,6 +75,26 @@ export interface CheckinCalendarResponse {
   total: number;
 }
 
+export interface ProblemDetail {
+  id: string;
+  title: string;
+  content: string;
+  type: string;
+  difficulty: ProblemDifficulty;
+  categoryId: number | null;
+  categoryName: string | null;
+  options: { key: string; content: string; is_correct?: boolean }[] | null;
+  answer: string;
+  answerExplanation: string | null;
+  previewImageUrl: string | null;
+  score: number | null;
+  attemptCount: number | null;
+  correctCount: number | null;
+  tags: Tag[];
+  status: ProblemStatus;
+  createdAt: string;
+}
+
 /**
  * 获取题目列表
  */
@@ -106,18 +126,35 @@ export async function getProblemMetadata(): Promise<ProblemMetadataResponse> {
   return response.data;
 }
 
-export async function getProblemStats(): Promise<ProblemStatsResponse> {
-  const response = await api.get<ApiResponse<ProblemStatsResponse>>('/api/problems/stats');
+export async function getProblemStats(userId: string): Promise<ProblemStatsResponse> {
+  const response = await api.get<ApiResponse<ProblemStatsResponse>>('/api/problems/stats', {
+    headers: { 'X-User-Id': userId },
+  });
   if (!response.success) {
     throw new Error(response.message || '获取统计数据失败');
   }
   return response.data;
 }
 
-export async function getCheckinCalendar(): Promise<CheckinCalendarResponse> {
-  const response = await api.get<ApiResponse<CheckinCalendarResponse>>('/api/problems/calendar');
+export async function getCheckinCalendar(userId: string): Promise<CheckinCalendarResponse> {
+  const response = await api.get<ApiResponse<CheckinCalendarResponse>>('/api/problems/calendar', {
+    headers: { 'X-User-Id': userId },
+  });
   if (!response.success) {
     throw new Error(response.message || '获取打卡日历失败');
+  }
+  return response.data;
+}
+
+/**
+ * 获取题目详情
+ */
+export async function getProblemById(id: string, userId?: string): Promise<ProblemDetail> {
+  const headers: Record<string, string> = {};
+  if (userId) headers['X-User-Id'] = userId;
+  const response = await api.get<ApiResponse<ProblemDetail>>(`/api/problems/${id}`, { headers });
+  if (!response.success) {
+    throw new Error(response.message || '获取题目详情失败');
   }
   return response.data;
 }
