@@ -8,8 +8,14 @@ interface AuthResponse {
     user?: {
       id: string;
       username: string;
+      email?: string;
+      phone?: string;
       role: string;
       avatarUrl?: string;
+      bio?: string;
+      locale?: string;
+      theme?: string;
+      createdAt?: string;
     };
     accessToken?: string;
     refreshToken?: string;
@@ -95,5 +101,51 @@ export async function refreshAccessToken(refreshToken: string): Promise<AuthResp
     return await api.post<AuthResponse>('/api/auth/refresh', { refreshToken });
   } catch (err: any) {
     return { success: false, message: err.message || '刷新失败' };
+  }
+}
+
+// ========== 退出登录 ==========
+
+export async function logout(refreshToken: string): Promise<AuthResponse> {
+  try {
+    return await api.post<AuthResponse>('/api/auth/logout', { refreshToken });
+  } catch (err: any) {
+    return { success: false, message: err.message || '退出失败' };
+  }
+}
+
+// ========== 获取个人资料 ==========
+
+export async function getProfile(userId: string): Promise<AuthResponse> {
+  try {
+    return await api.get<AuthResponse>('/api/auth/profile', {
+      headers: { 'X-User-Id': userId }
+    });
+  } catch (err: any) {
+    return { success: false, message: err.message || '获取失败' };
+  }
+}
+
+// ========== 更新个人资料 ==========
+
+export async function updateProfile(userId: string, data: any): Promise<AuthResponse> {
+  try {
+    return await api.post<AuthResponse>('/api/auth/profile/update', data, {
+      headers: { 'X-User-Id': userId }
+    });
+  } catch (err: any) {
+    return { success: false, message: err.message || '更新失败' };
+  }
+}
+
+// ========== 修改密码 ==========
+
+export async function changePassword(userId: string, data: any): Promise<AuthResponse> {
+  try {
+    return await api.post<AuthResponse>('/api/auth/change-password', data, {
+      headers: { 'X-User-Id': userId }
+    });
+  } catch (err: any) {
+    return { success: false, message: err.message || '修改失败' };
   }
 }

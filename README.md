@@ -1,33 +1,26 @@
-<div align="center">
-
-  <!-- 顶部大 Logo 区域：现代化高级风格 -->
-  <div align="center" style="padding:48px 24px 32px;margin-bottom:8px;">
-    <a href="./README.md" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:20px;">
-      <img src="apps/web/public/images/logo1.png" alt="Latexia" width="160" style="vertical-align:middle;border:none;box-shadow:none;outline:none;display:inline-block;" />
-      <img src="apps/web/public/images/text.svg" alt="Latexia" height="72" style="vertical-align:middle;border:none;box-shadow:none;outline:none;display:inline-block;height:72px;width:auto;" />
-    </a>
-  </div>
-  <p align="center" style="margin-top:0;margin-bottom:24px;">
-    <a href="./README.md">中文文档</a> &nbsp;|&nbsp; <a href="./README_EN.md">English</a>
+<!-- Header：80% 宽度居中，左右留白对等 -->
+<div style="width:80%;max-width:960px;margin-left:auto;margin-right:auto;text-align:center;box-sizing:border-box;">
+  <img src="apps/web/public/images/header.svg" alt="Latexia" style="width:100%;height:auto;display:block;border:none;" />
+  <p style="margin:1.5em 0 0.5em;">
+    <strong><a href="./README.md">中文文档</a> · <a href="./README_EN.md">English</a></strong>
   </p>
-
+  <p style="margin:1em 0 0;">
+    <img src="https://img.shields.io/badge/Next.js-14.2-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" />
+    <img src="https://img.shields.io/badge/React-18.3-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
+    <img src="https://img.shields.io/badge/Hono-4.0-E36002?style=flat-square" alt="Hono" />
+    <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/PostgreSQL-8+-336791?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+    <img src="https://img.shields.io/badge/Redis-7.x-DC382D?style=flat-square&logo=redis&logoColor=white" alt="Redis" />
+    <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version" />
+    <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License" />
+    <img src="https://img.shields.io/github/issues-pr/Auroral0810/LaTexia?style=flat-square" alt="Pull Requests" />
+    <img src="https://img.shields.io/github/forks/Auroral0810/LaTexia?style=flat-square" alt="GitHub Forks" />
+    <img src="https://img.shields.io/github/watchers/Auroral0810/LaTexia?style=flat-square" alt="Watchers" />
+    <img src="https://img.shields.io/github/stars/Auroral0810/LaTexia?style=flat-square" alt="GitHub Stars" />
+    <img src="https://img.shields.io/github/issues/Auroral0810/LaTexia?style=flat-square" alt="Issues" />
+    <img src="https://img.shields.io/github/last-commit/Auroral0810/LaTexia?style=flat-square" alt="Last Commit" />
+  </p>
 </div>
-<p align="center">
-  <img src="https://img.shields.io/badge/Next.js-14.2-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" />
-  <img src="https://img.shields.io/badge/React-18.3-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
-  <img src="https://img.shields.io/badge/Hono-4.0-E36002?style=flat-square" alt="Hono" />
-  <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/PostgreSQL-8+-336791?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/Redis-7.x-DC382D?style=flat-square&logo=redis&logoColor=white" alt="Redis" />
-  <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version" />
-  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License" />
-  <img src="https://img.shields.io/github/issues-pr/Auroral0810/LaTexia?style=flat-square" alt="Pull Requests" />
-  <img src="https://img.shields.io/github/forks/Auroral0810/LaTexia?style=flat-square" alt="GitHub Forks" />
-  <img src="https://img.shields.io/github/watchers/Auroral0810/LaTexia?style=flat-square" alt="Watchers" />
-  <img src="https://img.shields.io/github/stars/Auroral0810/LaTexia?style=flat-square" alt="GitHub Stars" />
-  <img src="https://img.shields.io/github/issues/Auroral0810/LaTexia?style=flat-square" alt="Issues" />
-  <img src="https://img.shields.io/github/last-commit/Auroral0810/LaTexia?style=flat-square" alt="Last Commit" />
-</p>
 
 
 

@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import type { JwtPayload } from 'jsonwebtoken';
 import { eq, or } from 'drizzle-orm';
 import { db } from '../../db';
 import { users, type NewUser } from '../../db/schema/users';
@@ -334,10 +335,133 @@ export async function resetPassword(input: ResetPasswordInput): Promise<AuthResu
   const passwordHash = await bcrypt.hash(newPassword, 12);
   await db.update(users).set({ passwordHash, updatedAt: new Date() }).where(eq(users.id, user.id));
 
+  // 撤销该用户所有活跃会话（强制重新登录）
+  await revokeAllSessions(user.id);
+
   // 清除验证码
   await deleteVerifyCode('reset', target);
 
   return { success: true, data: { message: '密码重置成功' } };
+}
+
+// ========== 退出登录 ==========
+
+export async function logout(token: string): Promise<AuthResult> {
+  try {
+    const payload = jwt.verify(token, env.JWT_REFRESH_SECRET) as JwtPayload & { sessionId: string };
+    // 撤销该会话
+    await db.update(userSessions)
+      .set({ isRevoked: true })
+      .where(eq(userSessions.id, payload.sessionId));
+    return { success: true, data: { message: '退出成功' } };
+  } catch {
+    // 即使 token 无效也算退出成功（客户端已清理）
+    return { success: true, data: { message: '退出成功' } };
+  }
+}
+
+// ========== 撤销用户所有会话 ==========
+
+async function revokeAllSessions(userId: string): Promise<void> {
+  await db.update(userSessions)
+    .set({ isRevoked: true })
+    .where(eq(userSessions.userId, userId));
+}
+
+// ========== 获取用户信息 ==========
+
+export async function getUserProfile(userId: string): Promise<AuthResult> {
+  const [user] = await db
+    .select({
+      id: users.id,
+      username: users.username,
+      email: users.email,
+      phone: users.phone,
+      avatarUrl: users.avatarUrl,
+      bio: users.bio,
+      role: users.role,
+      locale: users.locale,
+      theme: users.theme,
+      createdAt: users.createdAt,
+    })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+
+  if (!user) {
+    return { success: false, message: '用户不存在' };
+  }
+
+  return { success: true, data: { user } };
+}
+
+// ========== 更新用户信息 ==========
+
+interface UpdateProfileInput {
+  userId: string;
+  username?: string;
+  bio?: string;
+  avatarUrl?: string;
+  locale?: string;
+  theme?: string;
+}
+
+export async function updateProfile(input: UpdateProfileInput): Promise<AuthResult> {
+  const { userId, ...updates } = input;
+
+  // 如果要更新用户名，检查唯一性
+  if (updates.username) {
+    const existing = await db.select({ id: users.id }).from(users)
+      .where(eq(users.username, updates.username)).limit(1);
+    if (existing.length > 0 && existing[0].id !== userId) {
+      return { success: false, message: '用户名已被占用' };
+    }
+  }
+
+  // 过滤掉 undefined 值
+  const cleanUpdates: Record<string, any> = {};
+  for (const [key, value] of Object.entries(updates)) {
+    if (value !== undefined) cleanUpdates[key] = value;
+  }
+  cleanUpdates.updatedAt = new Date();
+
+  await db.update(users).set(cleanUpdates).where(eq(users.id, userId));
+
+  // 返回更新后的用户信息
+  return getUserProfile(userId);
+}
+
+// ========== 修改密码 ==========
+
+interface ChangePasswordInput {
+  userId: string;
+  oldPassword: string;
+  newPassword: string;
+}
+
+export async function changePassword(input: ChangePasswordInput): Promise<AuthResult> {
+  const { userId, oldPassword, newPassword } = input;
+
+  if (!newPassword || newPassword.length < 8) {
+    return { success: false, message: '新密码长度不能少于 8 位' };
+  }
+
+  const [user] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+  if (!user) return { success: false, message: '用户不存在' };
+
+  if (!user.passwordHash) {
+    return { success: false, message: '该账户未设置密码' };
+  }
+
+  const valid = await bcrypt.compare(oldPassword, user.passwordHash);
+  if (!valid) {
+    return { success: false, message: '原密码错误' };
+  }
+
+  const passwordHash = await bcrypt.hash(newPassword, 12);
+  await db.update(users).set({ passwordHash, updatedAt: new Date() }).where(eq(users.id, userId));
+
+  return { success: true, data: { message: '密码修改成功' } };
 }
 
 // ========== 刷新 Token ==========

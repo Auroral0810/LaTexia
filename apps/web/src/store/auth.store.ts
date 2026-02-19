@@ -4,8 +4,14 @@ import { persist } from 'zustand/middleware';
 interface User {
   id: string;
   username: string;
+  email?: string;
+  phone?: string;
   avatarUrl?: string;
+  bio?: string;
   role: 'user' | 'admin' | 'super_admin';
+  locale?: string;
+  theme?: string;
+  createdAt?: string;
 }
 
 interface AuthState {
@@ -14,6 +20,7 @@ interface AuthState {
   isAuthenticated: boolean;
   login: (token: string, user: User) => void;
   logout: () => void;
+  setUserData: (user: Partial<User>) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -23,7 +30,14 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
       login: (token, user) => set({ token, user, isAuthenticated: true }),
-      logout: () => set({ token: null, user: null, isAuthenticated: false }),
+      logout: () => {
+        localStorage.removeItem('refreshToken');
+        set({ token: null, user: null, isAuthenticated: false });
+      },
+      setUserData: (userData) =>
+        set((state) => ({
+          user: state.user ? { ...state.user, ...userData } : null,
+        })),
     }),
     {
       name: 'auth-storage',

@@ -15,6 +15,19 @@ const ErrorResponseSchema = z.object({
   message: z.string(),
 });
 
+const UserProfileSchema = z.object({
+  id: z.string(),
+  username: z.string(),
+  email: z.string().optional().nullable(),
+  phone: z.string().optional().nullable(),
+  avatarUrl: z.string().optional().nullable(),
+  bio: z.string().optional().nullable(),
+  role: z.string(),
+  locale: z.string().optional().nullable(),
+  theme: z.string().optional().nullable(),
+  createdAt: z.date().or(z.string()),
+});
+
 // ========== 1. 发送验证码 ==========
 
 const sendCodeRoute = createRoute({
@@ -252,6 +265,127 @@ authRouter.openapi(refreshRoute, async (c) => {
     return c.json(result, 400);
   }
   return c.json(result, 200);
+});
+
+// ========== 8. 退出登录 ==========
+
+const logoutRoute = createRoute({
+  method: 'post',
+  path: '/logout',
+  summary: '退出登录',
+  description: '销毁当前会话',
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            refreshToken: z.string().min(1).openapi({ description: '要销毁的 Refresh Token' }),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: { content: { 'application/json': { schema: SuccessResponseSchema } }, description: '退出成功' },
+  },
+});
+
+authRouter.openapi(logoutRoute, async (c) => {
+  const body = c.req.valid('json');
+  const result = await authService.logout(body.refreshToken);
+  return c.json(result, 200);
+});
+
+// ========== 9. 获取个人资料 ==========
+
+const profileRoute = createRoute({
+  method: 'get',
+  path: '/profile',
+  summary: '获取个人资料',
+  description: '获取当前登录用户的基本信息',
+  responses: {
+    200: { content: { 'application/json': { schema: z.object({ success: z.literal(true), data: z.object({ user: UserProfileSchema }) }) } }, description: '获取成功' },
+    401: { content: { 'application/json': { schema: ErrorResponseSchema } }, description: '未授权' },
+  },
+});
+
+// 注意：这里后续需要加上 authMiddleware，目前先通过 service 自行处理或透传 userId
+authRouter.openapi(profileRoute, async (c) => {
+  // 临时：从 header 获取 userId (后续改为 JWT 解析)
+  const userId = c.req.header('X-User-Id');
+  if (!userId) return c.json({ success: false, message: '未登录' }, 401);
+  
+  const result = await authService.getUserProfile(userId);
+  return c.json(result, result.success ? 200 : 400);
+});
+
+// ========== 10. 更新个人资料 ==========
+
+const updateProfileRoute = createRoute({
+  method: 'post',
+  path: '/profile/update',
+  summary: '更新个人资料',
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            username: z.string().optional(),
+            bio: z.string().optional(),
+            avatarUrl: z.string().optional(),
+            locale: z.string().optional(),
+            theme: z.string().optional(),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: { content: { 'application/json': { schema: SuccessResponseSchema } }, description: '更新成功' },
+    400: { content: { 'application/json': { schema: ErrorResponseSchema } }, description: '更新失败' },
+  },
+});
+
+authRouter.openapi(updateProfileRoute, async (c) => {
+  const userId = c.req.header('X-User-Id');
+  if (!userId) return c.json({ success: false, message: '未登录' }, 401);
+  
+  const body = c.req.valid('json');
+  const result = await authService.updateProfile({ userId, ...body });
+  return c.json(result, result.success ? 200 : 400);
+});
+
+// ========== 11. 修改密码 ==========
+
+const changePasswordRoute = createRoute({
+  method: 'post',
+  path: '/change-password',
+  summary: '修改密码',
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            oldPassword: z.string().min(1),
+            newPassword: z.string().min(8),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: { content: { 'application/json': { schema: SuccessResponseSchema } }, description: '修改成功' },
+    400: { content: { 'application/json': { schema: ErrorResponseSchema } }, description: '修改失败' },
+  },
+});
+
+authRouter.openapi(changePasswordRoute, async (c) => {
+  const userId = c.req.header('X-User-Id');
+  if (!userId) return c.json({ success: false, message: '未登录' }, 401);
+  
+  const body = c.req.valid('json');
+  const result = await authService.changePassword({ userId, ...body });
+  return c.json(result, result.success ? 200 : 400);
 });
 
 export default authRouter;
