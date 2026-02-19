@@ -1,8 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuthStore } from '@/store/auth.store';
-import { getProfile, updateProfile, changePassword } from '@/lib/auth';
+import { 
+  getProfile, 
+  updateProfile, 
+  changePassword, 
+  sendBindCode, 
+  bindEmail, 
+  bindPhone 
+} from '@/lib/auth';
 import { 
   Input, 
   Label, 
@@ -18,7 +25,16 @@ import {
   SelectTrigger,
   SelectValue,
   Card,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
 } from "@latexia/ui";
+import { GraphicCaptcha } from "@latexia/ui/components/ui/graphic-captcha";
+import { AvatarUpload } from "@/components/common/AvatarUpload";
+
 import { 
   User, 
   Shield, 
@@ -68,6 +84,23 @@ export default function SettingsPage() {
     newPassword: '',
     confirmPassword: '',
   });
+
+  // 绑定弹窗状态
+  const [isBindModalOpen, setIsBindModalOpen] = useState(false);
+  const [bindType, setBindType] = useState<'email' | 'phone'>('email');
+  const [bindValue, setBindValue] = useState('');
+  const [bindCode, setBindCode] = useState('');
+  const [bindCountdown, setBindCountdown] = useState(0);
+
+  // 全局图形验证码状态 (用于敏感操作)
+  const [captchaInput, setCaptchaInput] = useState('');
+  const [captchaAnswer, setCaptchaAnswer] = useState('');
+
+
+  const handleCaptchaChange = useCallback((answer: string) => {
+    setCaptchaAnswer(answer);
+  }, []);
+
 
   // 初始加载真实数据
   useEffect(() => {
@@ -134,14 +167,24 @@ export default function SettingsPage() {
     setError('');
 
     try {
-      const res = await changePassword(user.id, {
+      } finally {
+      setLoading(false);
+    }
+  };
+
+
+
+  /** 真实的改密逻辑 */
+  const submitRealPasswordChange = async () => {
+    setLoading(true);
+    try {
+      const res = await changePassword(user!.id, {
         oldPassword: securityData.oldPassword,
         newPassword: securityData.newPassword,
       });
       if (res.success) {
-        setSuccess('密码已成功重置，请妥善保管');
+        setSuccess('密码已成功重置');
         setSecurityData({ oldPassword: '', newPassword: '', confirmPassword: '' });
-        setTimeout(() => setSuccess(''), 3000);
       } else {
         setError(res.message || '修改失败');
       }
@@ -151,6 +194,62 @@ export default function SettingsPage() {
       setLoading(false);
     }
   };
+
+  /** 真实的发送绑定验证码 */
+  const submitSendBindCode = async () => {
+    setLoading(true);
+    try {
+      const res = await sendBindCode(bindValue.trim());
+      if (res.success) {
+        setSuccess('验证码已发送');
+        setBindCountdown(60);
+        const timer = setInterval(() => {
+          setBindCountdown(p => {
+            if (p <= 1) { clearInterval(timer); return 0; }
+            return p - 1;
+          });
+        }, 1000);
+      } else {
+        setError(res.message || '发送失败');
+      }
+    } catch {
+      setError('网络连接异常');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /** 执行最后的绑定操作 */
+  const handleFinalBind = async () => {
+    if (!bindCode.trim()) {
+      setError('请输入验证码');
+      return;
+    }
+    setLoading(true);
+    try {
+      let res;
+      if (bindType === 'email') {
+        res = await bindEmail(user!.id, bindValue.trim(), bindCode);
+      } else {
+        res = await bindPhone(user!.id, bindValue.trim(), bindCode);
+      }
+      
+      if (res.success) {
+        setSuccess('绑定成功');
+        setIsBindModalOpen(false);
+        // 更新本地状态
+        setProfileData(p => ({ ...p, [bindType]: bindValue.trim() }));
+        setUserData({ ...user, [bindType === 'email' ? 'email' : 'phone']: bindValue.trim() } as any);
+      } else {
+        setError(res.message || '绑定失败');
+      }
+    } catch {
+      setError('网络连接异常');
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   if (!user || fetching) {
     return (
@@ -236,32 +335,21 @@ export default function SettingsPage() {
                 <form onSubmit={handleUpdateProfile} className="space-y-12">
                   {/* Avatar Section */}
                   <div className="flex flex-col sm:flex-row gap-10 items-center">
-                    <div className="relative group overflow-hidden shrink-0">
-                      <div className="w-32 h-32 rounded-[40px] overflow-hidden border-4 border-white dark:border-zinc-800 shadow-2xl transition-transform duration-500 group-hover:scale-105">
-                        <Image
-                          src={profileData.avatarUrl || '/images/default.jpg'}
-                          alt={user.username}
-                          width={128}
-                          height={128}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                      <button 
-                        type="button"
-                        className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm cursor-not-allowed"
-                      >
-                        <Camera className="w-8 h-8 text-white scale-90 group-hover:scale-100 transition-transform" />
-                      </button>
-                    </div>
+                    <AvatarUpload 
+                      currentAvatar={profileData.avatarUrl} 
+                      userId={user.id} 
+                      onSuccess={(url) => setProfileData(p => ({ ...p, avatarUrl: url }))}
+                    />
                     <div className="text-center sm:text-left space-y-3">
                       <h3 className="text-2xl font-black">自定义头像</h3>
                       <p className="text-muted-foreground leading-relaxed max-w-md">上传一张能代表您的独特头像。支持 JPG、PNG 格式，建议尺寸 512x512px。</p>
                       <div className="flex items-center justify-center sm:justify-start gap-2">
                         <span className="text-[10px] font-black bg-primary/10 text-primary px-3 py-1 rounded-full uppercase tracking-tighter">PREMIUM</span>
-                        <span className="text-[10px] font-bold text-muted-foreground/60 italic">当前由 Gravatar 提供服务</span>
+                        <span className="text-[10px] font-bold text-muted-foreground/60 italic">当前由 Aliyun OSS 提供服务</span>
                       </div>
                     </div>
                   </div>
+
 
                   {/* Form Grid */}
                   <div className="grid gap-10">
@@ -282,19 +370,40 @@ export default function SettingsPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="space-y-4">
                         <Label className="text-sm font-black uppercase tracking-widest text-muted-foreground/70 ml-1">密保邮箱</Label>
-                        <div className="relative">
-                          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
-                          <Input value={profileData.email || '尚未绑定'} disabled className="pl-12 h-14 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30 border-none opacity-60 font-medium italic" />
+                        <div className="flex gap-4">
+                          <div className="relative flex-1">
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
+                            <Input value={profileData.email || '尚未绑定'} disabled className="pl-12 h-14 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30 border-none opacity-60 font-medium italic" />
+                          </div>
+                          <Button 
+                            type="button" 
+                            variant="secondary" 
+                            className="h-14 px-6 rounded-2xl font-bold transition-all hover:bg-primary hover:text-white"
+                            onClick={() => { setBindType('email'); setBindValue(profileData.email); setIsBindModalOpen(true); }}
+                          >
+                            {profileData.email ? '更换' : '绑定'}
+                          </Button>
                         </div>
                       </div>
                       <div className="space-y-4">
                         <Label className="text-sm font-black uppercase tracking-widest text-muted-foreground/70 ml-1">联系电话</Label>
-                        <div className="relative">
-                          <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
-                          <Input value={profileData.phone || '尚未绑定'} disabled className="pl-12 h-14 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30 border-none opacity-60 font-medium italic" />
+                        <div className="flex gap-4">
+                          <div className="relative flex-1">
+                            <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/50" />
+                            <Input value={profileData.phone || '尚未绑定'} disabled className="pl-12 h-14 rounded-2xl bg-zinc-50 dark:bg-zinc-800/30 border-none opacity-60 font-medium italic" />
+                          </div>
+                          <Button 
+                            type="button" 
+                            variant="secondary" 
+                            className="h-14 px-6 rounded-2xl font-bold transition-all hover:bg-primary hover:text-white"
+                            onClick={() => { setBindType('phone'); setBindValue(profileData.phone); setIsBindModalOpen(true); }}
+                          >
+                            {profileData.phone ? '更换' : '绑定'}
+                          </Button>
                         </div>
                       </div>
                     </div>
+
 
                     <div className="space-y-4">
                       <Label htmlFor="bio" className="text-sm font-black uppercase tracking-widest text-muted-foreground/70 ml-1">个人简介</Label>
@@ -331,7 +440,26 @@ export default function SettingsPage() {
                   </div>
                 </div>
 
-                <form onSubmit={handleChangePassword} className="space-y-10 max-w-xl">
+                <form 
+                  onSubmit={(e) => { 
+                    e.preventDefault(); 
+                    if (!securityData.oldPassword || !securityData.newPassword) {
+                      setError('请填写密码');
+                      return;
+                    }
+                    if (securityData.newPassword !== securityData.confirmPassword) {
+                      setError('两次输入的密码不一致');
+                      return;
+                    }
+                    if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
+                      setError('图形验证码错误');
+                      return;
+                    }
+                    submitRealPasswordChange();
+                  }} 
+                  className="space-y-10 max-w-xl"
+                >
+
                   <div className="space-y-4">
                     <Label className="font-bold ml-1">当前访问密码</Label>
                     <Input 
@@ -363,7 +491,25 @@ export default function SettingsPage() {
                     />
                   </div>
 
+                  <div className="space-y-4 pt-4 border-t border-border/40">
+                    <Label className="font-black text-sm uppercase tracking-widest text-muted-foreground/70">安全验证</Label>
+                    <div className="flex flex-col sm:flex-row items-center gap-6 p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-800/40">
+                      <GraphicCaptcha onCaptchaChange={handleCaptchaChange} length={4} width={140} height={40} className="shrink-0" />
+                      <div className="flex-1 w-full space-y-2">
+                        <Input
+                          placeholder="输入上方验证码"
+                          value={captchaInput}
+                          autoComplete="off"
+                          onChange={(e) => setCaptchaInput(e.target.value)}
+                          className="h-12 rounded-xl bg-white dark:bg-zinc-800 border-none shadow-sm text-center font-bold tracking-[0.3em]"
+                        />
+                        <p className="text-[10px] text-center text-muted-foreground font-medium italic">点击图片可刷新验证码</p>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="pt-4">
+
                     <Button type="submit" size="lg" variant="destructive" disabled={loading} className="w-full sm:w-auto px-12 h-14 rounded-2xl font-black text-lg transition-transform hover:scale-[1.02]">
                       重置账户密码
                     </Button>
@@ -374,15 +520,11 @@ export default function SettingsPage() {
 
             {/* 账号绑定 */}
             <TabsContent value="binding" className="mt-0 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <Card className="p-8 md:p-10 rounded-[32px] border-none shadow-[0_8px_40px_rgba(0,0,0,0.03)] dark:bg-zinc-900/50">
+               <Card className="p-8 md:p-10 rounded-[32px] border-none shadow-[0_8px_40px_rgba(0,0,0,0.03)] dark:bg-zinc-900/50">
                 <div className="flex justify-between items-center mb-10">
                   <div className="space-y-1">
                     <h3 className="text-2xl font-black">第三方账号联通</h3>
                     <p className="text-muted-foreground font-medium">绑定第三方应用以便实现快速登录和社交同步</p>
-                  </div>
-                  <div className="text-right hidden sm:block">
-                    <div className="text-2xl font-black text-primary">{oauthPlatforms.filter(p => p.connected).length}/5</div>
-                    <div className="text-[10px] font-black uppercase text-muted-foreground/60 tracking-widest">已激活绑定</div>
                   </div>
                 </div>
 
@@ -473,16 +615,6 @@ export default function SettingsPage() {
                     ))}
                   </div>
                 </div>
-
-                <div className="pt-10 flex flex-col sm:flex-row sm:items-center justify-between gap-8 group">
-                  <div className="space-y-2">
-                    <h4 className="text-xl font-black">开发者模式</h4>
-                    <p className="text-sm text-muted-foreground font-medium text-amber-500/80">启用后将展示更多底层调试信息与实验性功能</p>
-                  </div>
-                  <div className="flex items-center h-14">
-                    <Zap className="w-8 h-8 text-amber-400 animate-pulse opacity-50 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                </div>
               </Card>
 
               <div className="flex justify-center pt-6 opacity-30 hover:opacity-100 transition-opacity">
@@ -495,6 +627,94 @@ export default function SettingsPage() {
           </div>
         </Tabs>
       </main>
+
+      {/* 绑定/更换 弹窗 */}
+      <Dialog open={isBindModalOpen} onOpenChange={setIsBindModalOpen}>
+        <DialogContent className="sm:max-w-md rounded-[32px] p-8 overflow-hidden">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-black">
+              {profileData[bindType] ? '更换' : '绑定'}{bindType === 'email' ? '邮箱' : '手机号'}
+            </DialogTitle>
+            <DialogDescription className="font-medium pt-2">
+              完成后，您可以使用该{bindType === 'email' ? '邮箱' : '手机号'}进行登录及找回密码。
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-6 py-4">
+            <div className="space-y-3">
+              <Label className="font-bold">{bindType === 'email' ? '新邮箱地址' : '新手机号码'}</Label>
+              <Input 
+                placeholder={`请输入有效的${bindType === 'email' ? '邮箱' : '手机号'}`} 
+                value={bindValue}
+                onChange={(e) => setBindValue(e.target.value)}
+                className="h-14 rounded-2xl bg-zinc-100 dark:bg-zinc-800 border-none font-medium"
+              />
+            </div>
+
+            <div className="space-y-4 pt-4 border-t border-border/10">
+              <Label className="font-bold text-sm text-muted-foreground">安全验证</Label>
+              <div className="flex items-center gap-4 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50">
+                <GraphicCaptcha onCaptchaChange={handleCaptchaChange} length={4} width={120} height={40} className="shrink-0" />
+                <Input
+                  placeholder="输入验证码"
+                  value={captchaInput}
+                  autoComplete="off"
+                  onChange={(e) => setCaptchaInput(e.target.value)}
+                  className="h-12 rounded-xl bg-white dark:bg-zinc-800 border-none shadow-sm text-center font-bold tracking-[0.2em]"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="font-bold">验证码</Label>
+              <div className="flex gap-3">
+                <Input 
+                  placeholder="6位数字" 
+                  value={bindCode}
+                  onChange={(e) => setBindCode(e.target.value)}
+                  className="h-14 rounded-2xl bg-zinc-100 dark:bg-zinc-800 border-none font-medium"
+                  maxLength={6}
+                />
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  disabled={bindCountdown > 0 || loading}
+                  className="h-14 px-6 rounded-2xl font-bold shrink-0"
+                  onClick={() => {
+                    if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
+                      setError('图形验证码错误');
+                      return;
+                    }
+                    submitSendBindCode();
+                  }}
+                >
+
+                  {bindCountdown > 0 ? `${bindCountdown}s` : '获取验证码'}
+                </Button>
+              </div>
+            </div>
+          </div>
+          <DialogFooter className="sm:justify-start gap-4">
+              <Button 
+                type="button" 
+                className="flex-1 h-14 rounded-2xl font-black text-[16px]"
+                onClick={() => {
+                  if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
+                    setError('图形验证码错误');
+                    return;
+                  }
+                  handleFinalBind();
+                }}
+                disabled={loading}
+              >
+
+              {loading && <Loader2 className="w-5 h-5 mr-3 animate-spin" />}
+              确认提交
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
+
+

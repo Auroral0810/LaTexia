@@ -298,7 +298,11 @@ const logoutRoute = createRoute({
 authRouter.openapi(logoutRoute, async (c) => {
   const body = c.req.valid('json');
   const result = await authService.logout(body.refreshToken);
-  return c.json(result, 200);
+  if (!result.success) {
+    // 即使失败也返回 200，或者按照 schema 要求的格式返回
+    return c.json({ success: true as const, data: { message: result.message } }, 200);
+  }
+  return c.json({ success: true as const, data: result.data }, 200);
 });
 
 // ========== 9. 获取个人资料 ==========
@@ -318,10 +322,13 @@ const profileRoute = createRoute({
 authRouter.openapi(profileRoute, async (c) => {
   // 临时：从 header 获取 userId (后续改为 JWT 解析)
   const userId = c.req.header('X-User-Id');
-  if (!userId) return c.json({ success: false, message: '未登录' }, 401);
+  if (!userId) return c.json({ success: false as const, message: '未登录' }, 401);
   
   const result = await authService.getUserProfile(userId);
-  return c.json(result, result.success ? 200 : 400);
+  if (!result.success) {
+    return c.json({ success: false as const, message: result.message }, 400);
+  }
+  return c.json({ success: true as const, data: result.data }, 200);
 });
 
 // ========== 10. 更新个人资料 ==========
@@ -353,11 +360,14 @@ const updateProfileRoute = createRoute({
 
 authRouter.openapi(updateProfileRoute, async (c) => {
   const userId = c.req.header('X-User-Id');
-  if (!userId) return c.json({ success: false, message: '未登录' }, 401);
+  if (!userId) return c.json({ success: false as const, message: '未登录' }, 401);
   
   const body = c.req.valid('json');
   const result = await authService.updateProfile({ userId, ...body });
-  return c.json(result, result.success ? 200 : 400);
+  if (!result.success) {
+    return c.json({ success: false as const, message: result.message }, 400);
+  }
+  return c.json({ success: true as const, data: result.data }, 200);
 });
 
 // ========== 11. 修改密码 ==========
@@ -386,11 +396,166 @@ const changePasswordRoute = createRoute({
 
 authRouter.openapi(changePasswordRoute, async (c) => {
   const userId = c.req.header('X-User-Id');
-  if (!userId) return c.json({ success: false, message: '未登录' }, 401);
+  if (!userId) return c.json({ success: false as const, message: '未登录' }, 401);
   
   const body = c.req.valid('json');
   const result = await authService.changePassword({ userId, ...body });
-  return c.json(result, result.success ? 200 : 400);
+  if (!result.success) {
+    return c.json({ success: false as const, message: result.message }, 400);
+  }
+  return c.json({ success: true as const, data: result.data }, 200);
+});
+
+// ========== 12. 发送绑定验证码 ==========
+
+const sendBindCodeRoute = createRoute({
+  method: 'post',
+  path: '/send-bind-code',
+  summary: '发送绑定验证码',
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            target: z.string().min(1).openapi({ description: '邮箱或手机号' }),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: { content: { 'application/json': { schema: SuccessResponseSchema } }, description: '发送成功' },
+    400: { content: { 'application/json': { schema: ErrorResponseSchema } }, description: '发送失败' },
+  },
+});
+
+authRouter.openapi(sendBindCodeRoute, async (c) => {
+  const body = c.req.valid('json');
+  const result = await authService.sendCode({ ...body, type: 'bind' });
+  if (!result.success) {
+    return c.json({ success: false as const, message: result.message }, 400);
+  }
+  return c.json({ success: true as const, data: result.data }, 200);
+});
+
+// ========== 13. 绑定邮箱 ==========
+
+const bindEmailRoute = createRoute({
+  method: 'post',
+  path: '/bind-email',
+  summary: '绑定邮箱',
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            email: z.string().email(),
+            code: z.string().length(6),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: { content: { 'application/json': { schema: SuccessResponseSchema } }, description: '绑定成功' },
+    400: { content: { 'application/json': { schema: ErrorResponseSchema } }, description: '绑定失败' },
+  },
+});
+
+authRouter.openapi(bindEmailRoute, async (c) => {
+  const userId = c.req.header('X-User-Id');
+  if (!userId) return c.json({ success: false as const, message: '未登录' }, 401);
+  
+  const body = c.req.valid('json');
+  const result = await authService.bindEmail({ userId, ...body });
+  if (!result.success) {
+    return c.json({ success: false as const, message: result.message }, 400);
+  }
+  return c.json({ success: true as const, data: result.data }, 200);
+});
+
+// ========== 14. 绑定手机号 ==========
+
+const bindPhoneRoute = createRoute({
+  method: 'post',
+  path: '/bind-phone',
+  summary: '绑定手机号',
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            phone: z.string().min(1),
+            code: z.string().length(6),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: { content: { 'application/json': { schema: SuccessResponseSchema } }, description: '绑定成功' },
+    400: { content: { 'application/json': { schema: ErrorResponseSchema } }, description: '绑定失败' },
+  },
+});
+
+authRouter.openapi(bindPhoneRoute, async (c) => {
+  const userId = c.req.header('X-User-Id');
+  if (!userId) return c.json({ success: false as const, message: '未登录' }, 401);
+  
+  const body = c.req.valid('json');
+  const result = await authService.bindPhone({ userId, ...body });
+  if (!result.success) {
+    return c.json({ success: false as const, message: result.message }, 400);
+  }
+  return c.json({ success: true as const, data: result.data }, 200);
+});
+
+// ========== 15. 上传预览头像 ==========
+
+const uploadAvatarRoute = createRoute({
+  method: 'post',
+  path: '/profile/avatar',
+  summary: '上传头像',
+  request: {
+    body: {
+      content: {
+        'multipart/form-data': {
+          schema: z.object({
+            file: z.any().openapi({ type: 'string', format: 'binary', description: '图片文件' }),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: { content: { 'application/json': { schema: SuccessResponseSchema } }, description: '上传成功' },
+    400: { content: { 'application/json': { schema: ErrorResponseSchema } }, description: '上传失败' },
+  },
+});
+
+authRouter.openapi(uploadAvatarRoute, async (c) => {
+  const userId = c.req.header('X-User-Id');
+  if (!userId) return c.json({ success: false as const, message: '未登录' }, 401);
+  
+  const body = await c.req.parseBody();
+  const file = body.file;
+
+  // 在 Node 环境中，File 可能未定义或行为由于 Hono 版本而异，使用属性检查
+  if (!file || typeof file === 'string' || !(file as any).arrayBuffer) {
+    return c.json({ success: false as const, message: '请选择正确的图片文件' }, 400);
+  }
+
+
+  const buffer = await file.arrayBuffer();
+  const result = await authService.uploadAvatarToOss({
+    name: file.name,
+    buffer: Buffer.from(buffer),
+  });
+
+  if (!result.success) {
+    return c.json({ success: false as const, message: result.message }, 400);
+  }
+  return c.json({ success: true as const, data: result.data }, 200);
 });
 
 export default authRouter;

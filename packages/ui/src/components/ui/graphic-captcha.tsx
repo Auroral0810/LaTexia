@@ -51,15 +51,11 @@ const GraphicCaptcha = React.forwardRef<HTMLCanvasElement, GraphicCaptchaProps>(
     }
 
     // 绘制验证码
-    const draw = React.useCallback(() => {
+    const draw = React.useCallback((code: string) => {
       const canvas = canvasRef.current
       if (!canvas) return
       const ctx = canvas.getContext("2d")
       if (!ctx) return
-
-      const code = generateCode()
-      setAnswer(code)
-      onCaptchaChange?.(code)
 
       // 背景
       ctx.fillStyle = randomColor(220, 255)
@@ -99,21 +95,35 @@ const GraphicCaptcha = React.forwardRef<HTMLCanvasElement, GraphicCaptchaProps>(
         ctx.arc(Math.random() * width, Math.random() * height, 1, 0, 2 * Math.PI)
         ctx.fill()
       }
-    }, [generateCode, width, height, length, onCaptchaChange])
+    }, [width, height, length])
+
+    const refresh = React.useCallback(() => {
+      const newCode = generateCode()
+      setAnswer(newCode)
+      onCaptchaChange?.(newCode)
+      draw(newCode)
+    }, [generateCode, onCaptchaChange, draw])
 
     // 初始绘制
     React.useEffect(() => {
-      draw()
-    }, [draw])
+      const initialCode = generateCode()
+      setAnswer(initialCode)
+      onCaptchaChange?.(initialCode)
+      draw(initialCode)
+      // 注意：这里我们确实希望只在载入时运行一次
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
 
     return (
       <canvas
         ref={canvasRef}
         width={width}
         height={height}
-        onClick={draw}
+        onClick={() => refresh()}
         title="点击刷新验证码"
-        className={cn("cursor-pointer rounded-md border border-input select-none", className)}
+        className={cn("cursor-pointer rounded-md border border-input select-none bg-white", className)}
+
       />
     )
   }

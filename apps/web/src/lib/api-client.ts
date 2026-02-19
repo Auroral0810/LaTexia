@@ -5,14 +5,19 @@ type RequestOptions = RequestInit & {
 };
 
 async function fetcher<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
-  const { token, headers, ...rest } = options;
+  const { token, headers, body, ...rest } = options;
   
+  const isFormData = body instanceof FormData || (body && typeof body === 'object' && body.toString().includes('FormData'));
+  
+  const actualHeaders: Record<string, string> = {
+    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(headers as Record<string, string>),
+  };
+
   const res = await fetch(`${API_URL}${endpoint}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...headers,
-    },
+    headers: actualHeaders,
+    body: isFormData ? (body as FormData) : (body ? JSON.stringify(body) : undefined),
     ...rest,
   });
 
@@ -26,7 +31,8 @@ async function fetcher<T>(endpoint: string, options: RequestOptions = {}): Promi
 
 export const api = {
   get: <T>(endpoint: string, options?: RequestOptions) => fetcher<T>(endpoint, { ...options, method: 'GET' }),
-  post: <T>(endpoint: string, body: any, options?: RequestOptions) => fetcher<T>(endpoint, { ...options, method: 'POST', body: JSON.stringify(body) }),
-  put: <T>(endpoint: string, body: any, options?: RequestOptions) => fetcher<T>(endpoint, { ...options, method: 'PUT', body: JSON.stringify(body) }),
+  post: <T>(endpoint: string, body: any, options?: RequestOptions) => fetcher<T>(endpoint, { ...options, method: 'POST', body }),
+  put: <T>(endpoint: string, body: any, options?: RequestOptions) => fetcher<T>(endpoint, { ...options, method: 'PUT', body }),
   delete: <T>(endpoint: string, options?: RequestOptions) => fetcher<T>(endpoint, { ...options, method: 'DELETE' }),
 };
+

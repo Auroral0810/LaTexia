@@ -15,6 +15,8 @@ import {
 } from '../../config/redis';
 import { sendVerificationEmail, sendPasswordResetEmail } from '../../mail/mail.service';
 import { sendSmsCode } from '../../sms/sms.service';
+import { ossService } from '../oss/oss.service';
+
 
 // ========== 工具函数 ==========
 
@@ -45,7 +47,7 @@ type AuthResult<T = any> = { success: true; data: T } | { success: false; messag
 
 interface SendCodeInput {
   target: string;       // 邮箱或手机号
-  type: 'register' | 'login' | 'reset';
+  type: 'register' | 'login' | 'reset' | 'bind';
 }
 
 export async function sendCode(input: SendCodeInput): Promise<AuthResult> {
@@ -435,6 +437,124 @@ export async function updateProfile(input: UpdateProfileInput): Promise<AuthResu
   // 返回更新后的用户信息
   return getUserProfile(userId);
 }
+
+// ========== 绑定/更换邮箱 ==========
+
+interface BindEmailInput {
+  userId: string;
+  email: string;
+  code: string;
+}
+
+export async function bindEmail(input: BindEmailInput): Promise<AuthResult> {
+  const { userId, email, code } = input;
+
+  // 校验格式
+  if (!isEmail(email)) {
+    return { success: false, message: '无效的邮箱格式' };
+  }
+
+  // 校验验证码
+  const storedCode = await getVerifyCode('bind', email);
+  if (!storedCode || storedCode !== code) {
+    return { success: false, message: '验证码错误或已过期' };
+  }
+
+  // 检查邮箱是否已被其他账号占用
+  const existing = await db.select({ id: users.id }).from(users)
+    .where(eq(users.email, email)).limit(1);
+  if (existing.length > 0 && existing[0].id !== userId) {
+    return { success: false, message: '该邮箱已被其他账号绑定' };
+  }
+
+  // 执行更新
+  await db.update(users).set({ email, updatedAt: new Date() }).where(eq(users.id, userId));
+  
+  // 清除验证码
+  await deleteVerifyCode('bind', email);
+
+  return { success: true, data: { message: '邮箱绑定成功' } };
+}
+
+// ========== 绑定/更换手机号 ==========
+
+interface BindPhoneInput {
+  userId: string;
+  phone: string;
+  code: string;
+}
+
+export async function bindPhone(input: BindPhoneInput): Promise<AuthResult> {
+  const { userId, phone, code } = input;
+
+  // 校验格式
+  if (!isPhone(phone)) {
+    return { success: false, message: '无效的手机号格式' };
+  }
+
+  // 校验验证码
+  const storedCode = await getVerifyCode('bind', phone);
+  if (!storedCode || storedCode !== code) {
+    return { success: false, message: '验证码错误或已过期' };
+  }
+
+  // 检查手机号是否已被其他账号占用
+  const existing = await db.select({ id: users.id }).from(users)
+    .where(eq(users.phone, phone)).limit(1);
+  if (existing.length > 0 && existing[0].id !== userId) {
+    return { success: false, message: '该手机号已被其他账号绑定' };
+  }
+
+  // 执行更新
+  await db.update(users).set({ phone, updatedAt: new Date() }).where(eq(users.id, userId));
+  
+  // 清除验证码
+  await deleteVerifyCode('bind', phone);
+
+  return { success: true, data: { message: '手机号绑定成功' } };
+}
+
+/**
+ * 仅上传头像到 OSS，不更新数据库
+ */
+export async function uploadAvatarToOss(file: { name: string; buffer: Buffer }): Promise<AuthResult> {
+  try {
+    const avatarUrl = await ossService.uploadFile('avatars', file.name, file.buffer);
+    return { success: true, data: { avatarUrl } };
+  } catch (err: any) {
+    return { success: false, message: err.message || '头像上传失败' };
+  }
+}
+
+// ========== 更新头像 (OSS + DB) ==========
+
+export async function updateAvatar(userId: string, file: { name: string; buffer: Buffer }): Promise<AuthResult> {
+  try {
+    // 1. 上传新头像到 OSS
+    const avatarUrl = await ossService.uploadFile('avatars', file.name, file.buffer);
+
+    // 2. 获取旧头像（如果需要删除旧文件，这里可以先查出旧 URL）
+    const [user] = await db.select({ avatarUrl: users.avatarUrl }).from(users).where(eq(users.id, userId)).limit(1);
+
+    // 3. 更新数据库
+    await db.update(users).set({ avatarUrl, updatedAt: new Date() }).where(eq(users.id, userId));
+
+    // 4. (可选) 删除旧头像，注意如果是默认头像或他人头像不建议删除
+    if (user?.avatarUrl && user.avatarUrl.includes(env.OSS_BUCKET_NAME)) {
+      try {
+        const oldKey = user.avatarUrl.split('.com/')[1];
+        if (oldKey) await ossService.deleteFile(oldKey);
+      } catch (err) {
+        console.warn('[Avatar] Failed to delete old avatar:', err);
+      }
+    }
+
+    return { success: true, data: { avatarUrl } };
+  } catch (err: any) {
+    return { success: false, message: err.message || '头像上传失败' };
+  }
+}
+
 
 // ========== 修改密码 ==========
 

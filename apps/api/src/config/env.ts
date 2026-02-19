@@ -35,4 +35,11 @@ export const env = {
 
   // 短信（暂为模拟）
   SMS_PROVIDER: process.env.SMS_PROVIDER || 'mock',
+
+  // 阿里云 OSS
+  OSS_ACCESS_KEY_ID: process.env.OSS_ACCESS_KEY_ID || '',
+  OSS_ACCESS_KEY_SECRET: process.env.OSS_ACCESS_KEY_SECRET || '',
+  OSS_ENDPOINT: process.env.OSS_ENDPOINT || 'oss-cn-beijing.aliyuncs.com',
+  OSS_BUCKET_NAME: process.env.OSS_BUCKET_NAME || 'lucky-yyf',
+  OSS_URL: process.env.OSS_URL || 'https://lucky-yyf.oss-cn-beijing.aliyuncs.com',
 } as const;

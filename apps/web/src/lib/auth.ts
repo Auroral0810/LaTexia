@@ -25,6 +25,7 @@ interface AuthResponse {
     accessToken?: string;
     refreshToken?: string;
     message?: string;
+    avatarUrl?: string;
   };
   message?: string;
 }
@@ -154,3 +155,54 @@ export async function changePassword(userId: string, data: any): Promise<AuthRes
     return { success: false, message: err.message || '修改失败' };
   }
 }
+
+// ========== 发送绑定验证码 ==========
+
+export async function sendBindCode(target: string): Promise<AuthResponse> {
+  try {
+    return await api.post<AuthResponse>('/api/auth/send-bind-code', { target });
+  } catch (err: any) {
+    return { success: false, message: err.message || '发送失败' };
+  }
+}
+
+// ========== 绑定邮箱 ==========
+
+export async function bindEmail(userId: string, email: string, code: string): Promise<AuthResponse> {
+  try {
+    return await api.post<AuthResponse>('/api/auth/bind-email', { email, code }, {
+      headers: { 'X-User-Id': userId }
+    });
+  } catch (err: any) {
+    return { success: false, message: err.message || '绑定失败' };
+  }
+}
+
+// ========== 绑定手机号 ==========
+
+export async function bindPhone(userId: string, phone: string, code: string): Promise<AuthResponse> {
+  try {
+    return await api.post<AuthResponse>('/api/auth/bind-phone', { phone, code }, {
+      headers: { 'X-User-Id': userId }
+    });
+  } catch (err: any) {
+    return { success: false, message: err.message || '绑定失败' };
+  }
+}
+
+// ========== 上传头像 ==========
+
+export async function uploadAvatar(userId: string, file: File): Promise<AuthResponse> {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    return await api.post<AuthResponse>('/api/auth/profile/avatar', formData, {
+      headers: { 
+        'X-User-Id': userId
+      }
+    });
+  } catch (err: any) {
+    return { success: false, message: err.message || '上传失败' };
+  }
+}
+
