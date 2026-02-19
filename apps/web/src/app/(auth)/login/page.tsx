@@ -2,18 +2,161 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@latexia/ui/components/ui/tabs";
 import { Input } from "@latexia/ui/components/ui/input";
 import { Label } from "@latexia/ui/components/ui/label";
 import { Button } from "@latexia/ui/components/ui/button";
+import { GraphicCaptcha } from "@latexia/ui/components/ui/graphic-captcha";
 import { AuthLogo } from "@latexia/ui/components/ui/auth-logo";
+import { useAuthStore } from '@/store/auth.store';
+import { loginByPassword, loginByCode, sendCode } from '@/lib/auth';
 
 export default function LoginPage() {
+  const router = useRouter();
+  const login = useAuthStore((s) => s.login);
+
+  // 密码登录
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+
+  // 验证码登录
   const [phoneOrEmail, setPhoneOrEmail] = useState('');
   const [code, setCode] = useState('');
+  const [countdown, setCountdown] = useState(0);
+
+  // 通用状态
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState('password');
+
+  // 图形验证码
+  const [showCaptcha, setShowCaptcha] = useState(false);
+  const [captchaInput, setCaptchaInput] = useState('');
+  const [captchaAnswer, setCaptchaAnswer] = useState('');
+
+  const handleCaptchaChange = useCallback((answer: string) => {
+    setCaptchaAnswer(answer);
+  }, []);
+
+  // 开始倒计时
+  const startCountdown = () => {
+    setCountdown(60);
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) { clearInterval(timer); return 0; }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  // 发送验证码（先弹出图形验证码）
+  const handleRequestCode = () => {
+    if (!phoneOrEmail.trim()) {
+      setError('请输入手机号或邮箱');
+      return;
+    }
+    setError('');
+    setCaptchaInput('');
+    setShowCaptcha(true);
+  };
+
+  // 校验图形验证码后发送登录验证码
+  const handleCaptchaSubmit = async () => {
+    if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
+      setError('图形验证码错误');
+      return;
+    }
+    setShowCaptcha(false);
+    setError('');
+    setLoading(true);
+    try {
+      const res = await sendCode(phoneOrEmail.trim(), 'login');
+      if (res.success) {
+        startCountdown();
+      } else {
+        setError(res.message || '发送失败');
+      }
+    } catch {
+      setError('网络错误，请检查连接');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 密码登录提交
+  const handlePasswordLogin = async () => {
+    if (!identifier.trim() || !password) {
+      setError('请填写账号和密码');
+      return;
+    }
+    setError('');
+    setLoading(true);
+    try {
+      const res = await loginByPassword(identifier.trim(), password);
+      if (res.success && res.data?.user && res.data.accessToken) {
+        login(res.data.accessToken, {
+          id: res.data.user.id,
+          username: res.data.user.username,
+          role: res.data.user.role as any,
+          avatarUrl: res.data.user.avatarUrl,
+        });
+        // 存储 refreshToken
+        if (res.data.refreshToken) {
+          localStorage.setItem('refreshToken', res.data.refreshToken);
+        }
+        router.push('/');
+      } else {
+        setError(res.message || '登录失败');
+      }
+    } catch {
+      setError('网络错误，请检查连接');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 验证码登录提交
+  const handleCodeLogin = async () => {
+    if (!phoneOrEmail.trim() || !code.trim()) {
+      setError('请填写手机号/邮箱和验证码');
+      return;
+    }
+    setError('');
+    setLoading(true);
+    try {
+      const res = await loginByCode(phoneOrEmail.trim(), code.trim());
+      if (res.success && res.data?.user && res.data.accessToken) {
+        login(res.data.accessToken, {
+          id: res.data.user.id,
+          username: res.data.user.username,
+          role: res.data.user.role as any,
+          avatarUrl: res.data.user.avatarUrl,
+        });
+        if (res.data.refreshToken) {
+          localStorage.setItem('refreshToken', res.data.refreshToken);
+        }
+        router.push('/');
+      } else {
+        setError(res.message || '登录失败');
+      }
+    } catch {
+      setError('网络错误，请检查连接');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 表单提交
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (activeTab === 'password') {
+      handlePasswordLogin();
+    } else {
+      handleCodeLogin();
+    }
+  };
 
   return (
     <div className="w-full flex h-screen">
@@ -71,13 +214,20 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <Tabs defaultValue="password" className="w-full">
+          {/* 错误提示 */}
+          {error && (
+            <div className="bg-destructive/10 text-destructive text-sm px-4 py-3 rounded-lg border border-destructive/20">
+              {error}
+            </div>
+          )}
+
+          <Tabs defaultValue="password" onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="password">密码登录</TabsTrigger>
               <TabsTrigger value="code">验证码登录</TabsTrigger>
             </TabsList>
             
-            <form className="mt-6 space-y-5" onSubmit={(e) => e.preventDefault()}>
+            <form className="mt-6 space-y-5" onSubmit={handleSubmit}>
               <TabsContent value="password" className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="identifier">账号</Label>
@@ -86,6 +236,7 @@ export default function LoginPage() {
                     placeholder="用户名 / 邮箱 / 手机号" 
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
+                    disabled={loading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -101,6 +252,7 @@ export default function LoginPage() {
                     placeholder="••••••••" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    disabled={loading}
                   />
                 </div>
               </TabsContent>
@@ -113,6 +265,7 @@ export default function LoginPage() {
                     placeholder="请输入手机号或邮箱" 
                     value={phoneOrEmail}
                     onChange={(e) => setPhoneOrEmail(e.target.value)}
+                    disabled={loading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -123,16 +276,24 @@ export default function LoginPage() {
                       placeholder="6位数字验证码" 
                       value={code}
                       onChange={(e) => setCode(e.target.value)}
+                      disabled={loading}
+                      maxLength={6}
                     />
-                    <Button type="button" variant="outline" className="w-32 shrink-0">
-                      获取验证码
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      className="w-32 shrink-0"
+                      disabled={countdown > 0 || loading}
+                      onClick={handleRequestCode}
+                    >
+                      {countdown > 0 ? `${countdown}s` : '获取验证码'}
                     </Button>
                   </div>
                 </div>
               </TabsContent>
 
-              <Button type="submit" className="w-full mt-2">
-                登 录
+              <Button type="submit" className="w-full mt-2" disabled={loading}>
+                {loading ? '登录中...' : '登 录'}
               </Button>
             </form>
           </Tabs>
@@ -174,6 +335,37 @@ export default function LoginPage() {
           </p>
         </div>
       </div>
+
+      {/* 图形验证码弹窗 */}
+      {showCaptcha && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-background border rounded-xl p-6 w-full max-w-sm space-y-4 shadow-2xl animate-in zoom-in-95">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold">安全验证</h3>
+              <p className="text-sm text-muted-foreground mt-1">请输入下方图形验证码后发送验证码</p>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <GraphicCaptcha onCaptchaChange={handleCaptchaChange} width={140} height={44} />
+              <span className="text-xs text-muted-foreground">点击图片刷新</span>
+            </div>
+            <Input
+              placeholder="请输入图形验证码"
+              value={captchaInput}
+              onChange={(e) => setCaptchaInput(e.target.value)}
+              className="text-center"
+              autoFocus
+            />
+            <div className="flex gap-3">
+              <Button variant="outline" className="flex-1" onClick={() => setShowCaptcha(false)}>
+                取消
+              </Button>
+              <Button className="flex-1" onClick={handleCaptchaSubmit} disabled={loading}>
+                {loading ? '发送中...' : '确认发送'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

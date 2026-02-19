@@ -10,6 +10,7 @@ import { users } from './db/schema/users';
 
 import toolsOpenApiRouter from './modules/tools/tools.openapi';
 import symbolsOpenApiRouter from './modules/symbols/symbols.openapi';
+import authRouter from './modules/auth/auth.routes';
 
 const app = new OpenAPIHono();
 
@@ -20,6 +21,7 @@ app.use('*', cors());
 // 路由注册（OpenAPI 文档会自动包含这些接口）
 app.route('/api/tools', toolsOpenApiRouter);
 app.route('/api/symbols', symbolsOpenApiRouter);
+app.route('/api/auth', authRouter);
 
 // 根路径与健康检查（加入 OpenAPI 文档）
 const routeRoot = createRoute({

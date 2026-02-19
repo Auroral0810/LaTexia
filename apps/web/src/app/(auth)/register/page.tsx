@@ -2,15 +2,21 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@latexia/ui/components/ui/tabs";
 import { Input } from "@latexia/ui/components/ui/input";
 import { Label } from "@latexia/ui/components/ui/label";
 import { Button } from "@latexia/ui/components/ui/button";
 import { GraphicCaptcha } from "@latexia/ui/components/ui/graphic-captcha";
 import { AuthLogo } from "@latexia/ui/components/ui/auth-logo";
+import { useAuthStore } from '@/store/auth.store';
+import { register as registerApi, sendCode } from '@/lib/auth';
 
 export default function RegisterPage() {
+  const router = useRouter();
+  const login = useAuthStore((s) => s.login);
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -19,52 +25,112 @@ export default function RegisterPage() {
   const [phoneCode, setPhoneCode] = useState('');
   const [registerMethod, setRegisterMethod] = useState<'email' | 'phone'>('email');
 
-  // 图形验证码相关
+  // 图形验证码
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [captchaInput, setCaptchaInput] = useState('');
   const [captchaAnswer, setCaptchaAnswer] = useState('');
   const [captchaTarget, setCaptchaTarget] = useState<'email' | 'phone'>('email');
 
-  // 验证码倒计时
+  // 倒计时
   const [emailCountdown, setEmailCountdown] = useState(0);
   const [phoneCountdown, setPhoneCountdown] = useState(0);
 
-  // 处理图形验证码回调
+  // 通用状态
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
   const handleCaptchaChange = useCallback((answer: string) => {
     setCaptchaAnswer(answer);
   }, []);
 
-  // 发起获取验证码流程（先弹出图形验证码）
+  // 开始倒计时
+  const startCountdown = (target: 'email' | 'phone') => {
+    const setter = target === 'email' ? setEmailCountdown : setPhoneCountdown;
+    setter(60);
+    const timer = setInterval(() => {
+      setter((prev) => {
+        if (prev <= 1) { clearInterval(timer); return 0; }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  // 发起获取验证码流程
   const handleRequestCode = (target: 'email' | 'phone') => {
+    const value = target === 'email' ? email.trim() : phone.trim();
+    if (!value) {
+      setError(target === 'email' ? '请输入邮箱地址' : '请输入手机号码');
+      return;
+    }
+    setError('');
     setCaptchaTarget(target);
     setCaptchaInput('');
     setShowCaptcha(true);
   };
 
   // 校验图形验证码后发送验证码
-  const handleCaptchaSubmit = () => {
+  const handleCaptchaSubmit = async () => {
     if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
-      alert('验证码错误，请重试');
+      setError('图形验证码错误');
       return;
     }
     setShowCaptcha(false);
-    // 模拟发送验证码
-    if (captchaTarget === 'email') {
-      setEmailCountdown(60);
-      const timer = setInterval(() => {
-        setEmailCountdown((prev) => {
-          if (prev <= 1) { clearInterval(timer); return 0; }
-          return prev - 1;
+    setError('');
+    setLoading(true);
+
+    const target = captchaTarget === 'email' ? email.trim() : phone.trim();
+    try {
+      const res = await sendCode(target, 'register');
+      if (res.success) {
+        startCountdown(captchaTarget);
+      } else {
+        setError(res.message || '发送失败');
+      }
+    } catch {
+      setError('网络错误，请检查连接');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 注册提交
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    // 表单校验
+    if (!username.trim()) { setError('请输入用户名'); return; }
+    if (username.length < 2) { setError('用户名至少 2 个字符'); return; }
+    if (!password) { setError('请输入密码'); return; }
+    if (password.length < 8) { setError('密码至少 8 个字符'); return; }
+
+    const target = registerMethod === 'email' ? email.trim() : phone.trim();
+    const code = registerMethod === 'email' ? emailCode.trim() : phoneCode.trim();
+
+    if (!target) { setError(registerMethod === 'email' ? '请输入邮箱' : '请输入手机号'); return; }
+    if (!code) { setError('请输入验证码'); return; }
+
+    setLoading(true);
+    try {
+      const res = await registerApi(username.trim(), target, code, password);
+      if (res.success && res.data?.user && res.data.accessToken) {
+        login(res.data.accessToken, {
+          id: res.data.user.id,
+          username: res.data.user.username,
+          role: res.data.user.role as any,
+          avatarUrl: res.data.user.avatarUrl,
         });
-      }, 1000);
-    } else {
-      setPhoneCountdown(60);
-      const timer = setInterval(() => {
-        setPhoneCountdown((prev) => {
-          if (prev <= 1) { clearInterval(timer); return 0; }
-          return prev - 1;
-        });
-      }, 1000);
+        if (res.data.refreshToken) {
+          localStorage.setItem('refreshToken', res.data.refreshToken);
+        }
+        router.push('/');
+      } else {
+        setError(res.message || '注册失败');
+      }
+    } catch {
+      setError('网络错误，请检查连接');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,13 +192,20 @@ export default function RegisterPage() {
             </p>
           </div>
 
+          {/* 错误提示 */}
+          {error && (
+            <div className="bg-destructive/10 text-destructive text-sm px-4 py-3 rounded-lg border border-destructive/20">
+              {error}
+            </div>
+          )}
+
           <Tabs defaultValue="email" onValueChange={(v) => setRegisterMethod(v as any)} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="email">邮箱注册</TabsTrigger>
               <TabsTrigger value="phone">手机注册</TabsTrigger>
             </TabsList>
 
-            <form className="mt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="mt-6 space-y-4" onSubmit={handleRegister}>
               {/* 用户名（公共） */}
               <div className="space-y-2">
                 <Label htmlFor="username">用户名</Label>
@@ -141,6 +214,7 @@ export default function RegisterPage() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="latex_master"
+                  disabled={loading}
                 />
               </div>
 
@@ -153,6 +227,7 @@ export default function RegisterPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
+                    disabled={loading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -163,12 +238,14 @@ export default function RegisterPage() {
                       placeholder="6位数字验证码"
                       value={emailCode}
                       onChange={(e) => setEmailCode(e.target.value)}
+                      disabled={loading}
+                      maxLength={6}
                     />
                     <Button 
                       type="button" 
                       variant="outline" 
                       className="w-32 shrink-0"
-                      disabled={emailCountdown > 0}
+                      disabled={emailCountdown > 0 || loading}
                       onClick={() => handleRequestCode('email')}
                     >
                       {emailCountdown > 0 ? `${emailCountdown}s` : '获取验证码'}
@@ -186,6 +263,7 @@ export default function RegisterPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="13800000000"
+                    disabled={loading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -196,12 +274,14 @@ export default function RegisterPage() {
                       placeholder="6位数字验证码"
                       value={phoneCode}
                       onChange={(e) => setPhoneCode(e.target.value)}
+                      disabled={loading}
+                      maxLength={6}
                     />
                     <Button 
                       type="button" 
                       variant="outline" 
                       className="w-32 shrink-0"
-                      disabled={phoneCountdown > 0}
+                      disabled={phoneCountdown > 0 || loading}
                       onClick={() => handleRequestCode('phone')}
                     >
                       {phoneCountdown > 0 ? `${phoneCountdown}s` : '获取验证码'}
@@ -219,6 +299,7 @@ export default function RegisterPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="至少 8 个字符"
+                  disabled={loading}
                 />
               </div>
 
@@ -236,8 +317,8 @@ export default function RegisterPage() {
                 </label>
               </div>
 
-              <Button type="submit" className="w-full">
-                注 册
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? '注册中...' : '注 册'}
               </Button>
             </form>
           </Tabs>
@@ -303,8 +384,8 @@ export default function RegisterPage() {
               <Button variant="outline" className="flex-1" onClick={() => setShowCaptcha(false)}>
                 取消
               </Button>
-              <Button className="flex-1" onClick={handleCaptchaSubmit}>
-                确认发送
+              <Button className="flex-1" onClick={handleCaptchaSubmit} disabled={loading}>
+                {loading ? '发送中...' : '确认发送'}
               </Button>
             </div>
           </div>

@@ -9,6 +9,7 @@ import { Button } from "@latexia/ui/components/ui/button";
 import { GraphicCaptcha } from "@latexia/ui/components/ui/graphic-captcha";
 import { AuthLogo } from "@latexia/ui/components/ui/auth-logo";
 import { CheckCircle2 } from 'lucide-react';
+import { forgotPassword, resetPassword } from '@/lib/auth';
 
 type Step = 'input' | 'verify' | 'reset' | 'success';
 
@@ -19,30 +20,22 @@ export default function ForgotPasswordPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // 图形验证码相关
+  // 图形验证码
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [captchaInput, setCaptchaInput] = useState('');
   const [captchaAnswer, setCaptchaAnswer] = useState('');
   const [countdown, setCountdown] = useState(0);
 
+  // 通用状态
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
   const handleCaptchaChange = useCallback((answer: string) => {
     setCaptchaAnswer(answer);
   }, []);
 
-  // 先弹出图形验证码
-  const handleSendCode = () => {
-    setCaptchaInput('');
-    setShowCaptcha(true);
-  };
-
-  // 校验图形验证码后发送
-  const handleCaptchaSubmit = () => {
-    if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
-      alert('验证码错误，请重试');
-      return;
-    }
-    setShowCaptcha(false);
-    setStep('verify');
+  // 开始倒计时
+  const startCountdown = () => {
     setCountdown(60);
     const timer = setInterval(() => {
       setCountdown((prev) => {
@@ -52,12 +45,77 @@ export default function ForgotPasswordPage() {
     }, 1000);
   };
 
+  // 先弹出图形验证码
+  const handleSendCode = () => {
+    if (!identifier.trim()) {
+      setError('请输入手机号或邮箱');
+      return;
+    }
+    setError('');
+    setCaptchaInput('');
+    setShowCaptcha(true);
+  };
+
+  // 校验图形验证码后发送重置验证码
+  const handleCaptchaSubmit = async () => {
+    if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
+      setError('图形验证码错误');
+      return;
+    }
+    setShowCaptcha(false);
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await forgotPassword(identifier.trim());
+      if (res.success) {
+        setStep('verify');
+        startCountdown();
+      } else {
+        setError(res.message || '发送失败');
+      }
+    } catch {
+      setError('网络错误，请检查连接');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 验证码校验 → 进入重置步骤
   const handleVerifyCode = () => {
+    if (!code.trim() || code.length !== 6) {
+      setError('请输入 6 位验证码');
+      return;
+    }
+    setError('');
     setStep('reset');
   };
 
-  const handleResetPassword = () => {
-    setStep('success');
+  // 重置密码
+  const handleResetPassword = async () => {
+    if (!password || password.length < 8) {
+      setError('密码长度不能少于 8 位');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('两次输入的密码不一致');
+      return;
+    }
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await resetPassword(identifier.trim(), code.trim(), password);
+      if (res.success) {
+        setStep('success');
+      } else {
+        setError(res.message || '重置失败');
+      }
+    } catch {
+      setError('网络错误，请检查连接');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -141,6 +199,13 @@ export default function ForgotPasswordPage() {
             </p>
           </div>
 
+          {/* 错误提示 */}
+          {error && (
+            <div className="bg-destructive/10 text-destructive text-sm px-4 py-3 rounded-lg border border-destructive/20">
+              {error}
+            </div>
+          )}
+
           <div className="space-y-4">
             {step === 'input' && (
               <form onSubmit={(e) => { e.preventDefault(); handleSendCode(); }} className="space-y-4">
@@ -153,10 +218,11 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => setIdentifier(e.target.value)}
                     required
                     autoFocus
+                    disabled={loading}
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  发送验证码
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? '发送中...' : '发送验证码'}
                 </Button>
               </form>
             )}
@@ -174,16 +240,17 @@ export default function ForgotPasswordPage() {
                     maxLength={6}
                     required
                     autoFocus
+                    disabled={loading}
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" disabled={loading}>
                   验证
                 </Button>
                 <div className="text-center">
                   <button 
                     type="button" 
                     onClick={handleSendCode}
-                    disabled={countdown > 0}
+                    disabled={countdown > 0 || loading}
                     className="text-sm text-primary hover:underline disabled:text-muted-foreground disabled:no-underline"
                   >
                     {countdown > 0 ? `${countdown}s 后重新发送` : '重新发送验证码'}
@@ -204,6 +271,7 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     autoFocus
+                    disabled={loading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -215,10 +283,11 @@ export default function ForgotPasswordPage() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
+                    disabled={loading}
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  重置密码
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? '重置中...' : '重置密码'}
                 </Button>
               </form>
             )}
@@ -274,8 +343,8 @@ export default function ForgotPasswordPage() {
               <Button variant="outline" className="flex-1" onClick={() => setShowCaptcha(false)}>
                 取消
               </Button>
-              <Button className="flex-1" onClick={handleCaptchaSubmit}>
-                确认发送
+              <Button className="flex-1" onClick={handleCaptchaSubmit} disabled={loading}>
+                {loading ? '发送中...' : '确认发送'}
               </Button>
             </div>
           </div>
