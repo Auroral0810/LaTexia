@@ -57,40 +57,45 @@ export default function LeaderboardPage() {
 
   return (
     <div className="min-h-screen bg-background pb-12">
-      {/* Header Section */}
-      <div className="relative bg-card border-b border-border/40 py-12 mb-8 overflow-hidden">
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+      {/* Compact & Refined Header */}
+      <div className="relative bg-card border-b border-border/40 py-8 mb-8 overflow-hidden">
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl opacity-60" />
+        <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 bg-primary/5 rounded-full blur-3xl opacity-60" />
         
-        <div className="container relative z-10 flex flex-col items-center text-center">
-          <div className="w-16 h-16 bg-primary/10 rounded-3xl flex items-center justify-center mb-4 ring-1 ring-primary/20 animate-bounce-slow">
-            <Trophy className="w-8 h-8 text-primary" />
+        <div className="container relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div className="flex items-center gap-5">
+            <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0 ring-1 ring-primary/20">
+              <Trophy className="w-6 h-6 text-primary" />
+            </div>
+            <div className="space-y-1">
+              <h1 className="text-2xl font-heading font-black tracking-tight text-foreground">LaTexia 荣耀榜</h1>
+              <p className="text-xs text-muted-foreground font-medium max-w-md">
+                见证 LaTeX 排版大师的成长之路。每一份坚持，都在这里熠熠生辉。
+              </p>
+            </div>
           </div>
-          <h1 className="text-4xl font-heading font-black tracking-tight mb-3">LaTexia 荣耀榜</h1>
-          <p className="text-muted-foreground max-w-lg text-lg leading-relaxed">
-            见证 LaTeX 排版大师的成长之路。每一份坚持，都在这里熠熠生辉。
-          </p>
+
+          {/* Tab Switcher Integrated in Header Row */}
+          <div className="flex p-1 bg-muted/40 rounded-xl border border-border/40 w-fit">
+            {tabs.map((tab) => (
+              <button
+                key={tab.value}
+                onClick={() => setPeriod(tab.value)}
+                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+                  period === tab.value 
+                    ? 'bg-card text-foreground shadow-sm ring-1 ring-border/50' 
+                    : 'text-muted-foreground hover:text-foreground hover:bg-black/5'
+                }`}
+              >
+                <tab.icon className={`w-3.5 h-3.5 ${period === tab.value ? 'text-primary' : ''}`} />
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       <div className="container max-w-5xl">
-        {/* Tab Switcher */}
-        <div className="flex justify-center mb-8 p-1.5 bg-muted/50 rounded-2xl border border-border/40 w-fit mx-auto">
-          {tabs.map((tab) => (
-            <button
-              key={tab.value}
-              onClick={() => setPeriod(tab.value)}
-              className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${
-                period === tab.value 
-                  ? 'bg-card text-foreground shadow-lg shadow-black/5 ring-1 ring-border/50 translate-y-[-1px]' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-black/5'
-              }`}
-            >
-              <tab.icon className={`w-4 h-4 ${period === tab.value ? 'text-primary' : ''}`} />
-              {tab.label}
-            </button>
-          ))}
-        </div>
 
         {/* Content Section */}
         <div className="space-y-4">

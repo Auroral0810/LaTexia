@@ -18,8 +18,12 @@ import feedbacksRouter from './modules/feedbacks/feedbacks.routes';
 import bookmarksRouter from './modules/bookmarks/bookmarks.routes';
 import dailyRouter from './modules/daily/daily.routes';
 import leaderboardRouter from './modules/leaderboard/leaderboard.routes';
+import { startLeaderboardWorker } from './modules/leaderboard/leaderboard.worker';
 
 const app = new OpenAPIHono();
+
+// 启动后台任务
+startLeaderboardWorker();
 
 // 中间件
 app.use('*', logger());
