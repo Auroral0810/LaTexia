@@ -8,3 +8,4 @@ export * from './practice';    // 2.2.7~2.2.11 练习/收藏/复习/每日精选
 export * from './contests';    // 2.2.13~2.2.14 比赛表
 export * from './learn';       // 2.2.19~2.2.20 教学章节 + 学习进度
 export * from './system';      // 2.2.12, 2.2.15~2.2.18, 2.2.21 排行榜/反馈/工具/配置/审计/符号
+export * from './formula-exercises'; // 公式训练题目表

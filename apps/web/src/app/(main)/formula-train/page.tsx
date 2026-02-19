@@ -1,27 +1,24 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
 import { Button } from '@latexia/ui/components/ui/button';
 import { Input } from '@latexia/ui/components/ui/input';
 import { Label } from '@latexia/ui/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@latexia/ui/components/ui/select';
-import { CheckCircle2, XCircle, SkipForward, Timer } from 'lucide-react';
+import { CheckCircle2, XCircle, SkipForward, Timer, Loader2 } from 'lucide-react';
 
-// 模拟题目数据（后续接入数据库）
-const MOCK_FORMULAS: { id: string; latex: string; difficulty: 'easy' | 'medium' | 'hard' }[] = [
-  { id: '1', latex: 'E = mc^2', difficulty: 'easy' },
-  { id: '2', latex: '\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}', difficulty: 'easy' },
-  { id: '3', latex: '\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}', difficulty: 'medium' },
-  { id: '4', latex: '\\sum_{n=1}^{\\infty} \\frac{1}{n^2} = \\frac{\\pi^2}{6}', difficulty: 'medium' },
-  { id: '5', latex: '\\nabla \\times \\vec{E} = -\\frac{\\partial \\vec{B}}{\\partial t}', difficulty: 'hard' },
-  { id: '6', latex: '\\alpha + \\beta = \\gamma', difficulty: 'easy' },
-  { id: '7', latex: '\\binom{n}{k} = \\frac{n!}{k!(n-k)!}', difficulty: 'medium' },
-  { id: '8', latex: '\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1', difficulty: 'medium' },
-  { id: '9', latex: 'x = \\frac{-b}{2a}', difficulty: 'easy' },
-  { id: '10', latex: '\\vec{F} = m\\vec{a}', difficulty: 'easy' },
-];
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+interface FormulaExercise {
+  id: number;
+  title: string;
+  latex: string;
+  difficulty: string;
+  category: string;
+  hint?: string | null;
+}
 
 function normalizeLatex(s: string): string {
   return s
@@ -56,8 +53,10 @@ export default function FormulaTrainPage() {
   const [timeLimitEnabled, setTimeLimitEnabled] = useState(false);
   const [timeLimitSeconds, setTimeLimitSeconds] = useState(60);
   const [questionCount, setQuestionCount] = useState(10);
+  const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState('');
 
-  const [pool, setPool] = useState<typeof MOCK_FORMULAS>([]);
+  const [pool, setPool] = useState<FormulaExercise[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userInput, setUserInput] = useState('');
   const [result, setResult] = useState<'correct' | 'wrong' | null>(null);
@@ -68,22 +67,31 @@ export default function FormulaTrainPage() {
   const totalQuestions = pool.length;
   const isLastQuestion = totalQuestions > 0 && currentIndex >= totalQuestions - 1;
 
-  // 根据难度筛选并打乱题目
-  const startSession = () => {
-    let list = [...MOCK_FORMULAS];
-    if (difficulty !== 'all') {
-      list = list.filter((f) => f.difficulty === difficulty);
+  const startSession = async () => {
+    setLoading(true);
+    setFetchError('');
+    try {
+      const params = new URLSearchParams({ limit: String(questionCount) });
+      if (difficulty !== 'all') params.set('difficulty', difficulty);
+      const res = await fetch(`${API_URL}/api/formula-exercises/random?${params.toString()}`);
+      const json = await res.json();
+      if (!json.success || !json.data?.length) {
+        setFetchError('暂无题目数据，请稍后再试');
+        setLoading(false);
+        return;
+      }
+      setPool(json.data);
+      setCurrentIndex(0);
+      setUserInput('');
+      setResult(null);
+      setErrorHint('');
+      setRemainingSeconds(timeLimitEnabled ? timeLimitSeconds : null);
+      setStarted(true);
+    } catch {
+      setFetchError('获取题目失败，请检查网络或稍后再试');
+    } finally {
+      setLoading(false);
     }
-    if (list.length === 0) list = [...MOCK_FORMULAS];
-    const count = Math.min(questionCount, list.length);
-    const shuffled = list.sort(() => Math.random() - 0.5).slice(0, count);
-    setPool(shuffled);
-    setCurrentIndex(0);
-    setUserInput('');
-    setResult(null);
-    setErrorHint('');
-    setRemainingSeconds(timeLimitEnabled ? timeLimitSeconds : null);
-    setStarted(true);
   };
 
   // 倒计时
@@ -95,11 +103,12 @@ export default function FormulaTrainPage() {
     return () => clearInterval(t);
   }, [remainingSeconds, currentIndex]);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (!currentQuestion) return;
     const expected = normalizeLatex(currentQuestion.latex);
     const actual = normalizeLatex(userInput);
-    if (expected === actual) {
+    const isCorrect = expected === actual;
+    if (isCorrect) {
       setResult('correct');
       setErrorHint('');
     } else {
@@ -112,9 +121,14 @@ export default function FormulaTrainPage() {
         setErrorHint(`正确答案：${expected}`);
       }
     }
-  };
+    fetch(`${API_URL}/api/formula-exercises/${currentQuestion.id}/attempt`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ correct: isCorrect }),
+    }).catch(() => {});
+  }, [currentQuestion, userInput]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((i) => i + 1);
       setUserInput('');
@@ -125,12 +139,12 @@ export default function FormulaTrainPage() {
       setStarted(false);
       setPool([]);
     }
-  };
+  }, [currentIndex, totalQuestions, timeLimitEnabled, timeLimitSeconds]);
 
-  const handleSkip = () => {
+  const handleSkip = useCallback(() => {
     setErrorHint(`正确答案：${currentQuestion?.latex ?? ''}`);
     setResult('wrong');
-  };
+  }, [currentQuestion]);
 
   // 快捷键：⌘/Ctrl+Enter 提交，提交后 Enter 下一题，⌥/Alt+Enter 跳过
   useEffect(() => {
@@ -218,8 +232,13 @@ export default function FormulaTrainPage() {
               </SelectContent>
             </Select>
           </div>
-          <Button onClick={startSession} className="w-full" size="lg">
-            开始练习
+          {fetchError && (
+            <div className="rounded-lg border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+              {fetchError}
+            </div>
+          )}
+          <Button onClick={startSession} className="w-full" size="lg" disabled={loading}>
+            {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />加载中…</> : '开始练习'}
           </Button>
         </div>
       </div>
@@ -245,6 +264,7 @@ export default function FormulaTrainPage() {
           {currentQuestion.difficulty === 'easy' && ' · 简单'}
           {currentQuestion.difficulty === 'medium' && ' · 中等'}
           {currentQuestion.difficulty === 'hard' && ' · 困难'}
+          {currentQuestion.title && ` · ${currentQuestion.title}`}
         </span>
         {remainingSeconds !== null && (
           <span className={`flex items-center gap-1 text-sm ${remainingSeconds <= 10 ? 'text-destructive' : 'text-muted-foreground'}`}>

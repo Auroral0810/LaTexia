@@ -37,6 +37,7 @@ export interface GetProblemsParams {
   categoryId?: number;
   tagId?: number;
   difficulty?: ProblemDifficulty;
+  status?: string;
   search?: string;
   page?: number;
   pageSize?: number;
@@ -58,6 +59,22 @@ export interface ProblemMetadataResponse {
   tags: Tag[];
 }
 
+export interface ProblemStatsResponse {
+  totalMastered: number;
+  categories: {
+    categoryId: number;
+    categoryName: string;
+    total: number;
+    solved: number;
+  }[];
+}
+
+export interface CheckinCalendarResponse {
+  dates: string[];
+  streak: number;
+  total: number;
+}
+
 /**
  * 获取题目列表
  */
@@ -66,6 +83,7 @@ export async function getProblems(params: GetProblemsParams): Promise<ProblemLis
   if (params.categoryId) queryParams.append('categoryId', params.categoryId.toString());
   if (params.tagId) queryParams.append('tagId', params.tagId.toString());
   if (params.difficulty) queryParams.append('difficulty', params.difficulty);
+  if (params.status) queryParams.append('status', params.status);
   if (params.search) queryParams.append('search', params.search);
   if (params.page) queryParams.append('page', params.page.toString());
   if (params.pageSize) queryParams.append('pageSize', params.pageSize.toString());
@@ -84,6 +102,22 @@ export async function getProblemMetadata(): Promise<ProblemMetadataResponse> {
   const response = await api.get<ApiResponse<ProblemMetadataResponse>>('/api/problems/metadata');
   if (!response.success) {
     throw new Error(response.message || '获取元数据失败');
+  }
+  return response.data;
+}
+
+export async function getProblemStats(): Promise<ProblemStatsResponse> {
+  const response = await api.get<ApiResponse<ProblemStatsResponse>>('/api/problems/stats');
+  if (!response.success) {
+    throw new Error(response.message || '获取统计数据失败');
+  }
+  return response.data;
+}
+
+export async function getCheckinCalendar(): Promise<CheckinCalendarResponse> {
+  const response = await api.get<ApiResponse<CheckinCalendarResponse>>('/api/problems/calendar');
+  if (!response.success) {
+    throw new Error(response.message || '获取打卡日历失败');
   }
   return response.data;
 }

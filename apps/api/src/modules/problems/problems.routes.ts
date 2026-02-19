@@ -47,6 +47,7 @@ const getProblemsRoute = createRoute({
       categoryId: z.string().optional().openapi({ description: '分类 ID' }),
       tagId: z.string().optional().openapi({ description: '标签 ID' }),
       difficulty: z.enum(['easy', 'medium', 'hard', 'hell']).optional().openapi({ description: '难度' }),
+      status: z.enum(['unstarted', 'attempted', 'solved']).optional().openapi({ description: '状态过滤' }),
       search: z.string().optional().openapi({ description: '关键字搜索' }),
       page: z.string().optional().default('1').openapi({ description: '页码' }),
       pageSize: z.string().optional().default('10').openapi({ description: '每页数量' }),
@@ -72,12 +73,13 @@ const getProblemsRoute = createRoute({
 
 problemsRouter.openapi(getProblemsRoute, async (c) => {
   const query = c.req.valid('query');
-  const userId = c.req.header('X-User-Id'); // 临时方案
+  const userId = c.req.header('X-User-Id'); 
 
   const result = await problemsService.getProblems({
     categoryId: query.categoryId ? parseInt(query.categoryId) : undefined,
     tagId: query.tagId ? parseInt(query.tagId) : undefined,
     difficulty: query.difficulty,
+    status: query.status as any,
     search: query.search,
     page: parseInt(query.page),
     pageSize: parseInt(query.pageSize),
@@ -112,6 +114,77 @@ const getMetadataRoute = createRoute({
 
 problemsRouter.openapi(getMetadataRoute, async (c) => {
   const result = await problemsService.getMetadata();
+  return c.json({ success: true as const, data: result }, 200);
+});
+
+// ========== 新增：统计和日历 ==========
+
+const getStatsRoute = createRoute({
+  method: 'get',
+  path: '/stats',
+  summary: '获取用户题目统计数据',
+  description: '用于技能树展示等',
+  responses: {
+    200: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            success: z.literal(true),
+            data: z.object({
+              totalMastered: z.number(),
+              categories: z.array(z.object({
+                categoryId: z.number(),
+                categoryName: z.string(),
+                total: z.number(),
+                solved: z.number(),
+              })),
+            }),
+          }),
+        },
+      },
+      description: '获取成功',
+    },
+  },
+});
+
+problemsRouter.openapi(getStatsRoute, async (c) => {
+  const userId = c.req.header('X-User-Id');
+  if (!userId) {
+    return c.json({ success: false as const, message: '请先登录' }, 401);
+  }
+  const result = await problemsService.getUserStats(userId);
+  return c.json({ success: true as const, data: result }, 200);
+});
+
+const getCalendarRoute = createRoute({
+  method: 'get',
+  path: '/calendar',
+  summary: '获取用户打卡日历数据',
+  responses: {
+    200: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            success: z.literal(true),
+            data: z.object({
+              dates: z.array(z.string()),
+              streak: z.number(),
+              total: z.number(),
+            }),
+          }),
+        },
+      },
+      description: '获取成功',
+    },
+  },
+});
+
+problemsRouter.openapi(getCalendarRoute, async (c) => {
+  const userId = c.req.header('X-User-Id');
+  if (!userId) {
+    return c.json({ success: false as const, message: '请先登录' }, 401);
+  }
+  const result = await problemsService.getCheckinCalendar(userId);
   return c.json({ success: true as const, data: result }, 200);
 });
 

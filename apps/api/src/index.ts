@@ -10,6 +10,7 @@ import { users } from './db/schema/users';
 
 import toolsOpenApiRouter from './modules/tools/tools.openapi';
 import symbolsOpenApiRouter from './modules/symbols/symbols.openapi';
+import formulaExercisesRouter from './modules/formula-exercises/formula-exercises.openapi';
 import authRouter from './modules/auth/auth.routes';
 import problemsRouter from './modules/problems/problems.routes';
 
@@ -22,6 +23,7 @@ app.use('*', cors());
 // 路由注册（OpenAPI 文档会自动包含这些接口）
 app.route('/api/tools', toolsOpenApiRouter);
 app.route('/api/symbols', symbolsOpenApiRouter);
+app.route('/api/formula-exercises', formulaExercisesRouter);
 app.route('/api/auth', authRouter);
 app.route('/api/problems', problemsRouter);
 

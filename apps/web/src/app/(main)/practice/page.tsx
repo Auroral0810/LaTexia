@@ -7,7 +7,7 @@ import { useAuthStore } from '@/store/auth.store';
 import { useRouter } from 'next/navigation';
 import { Lock, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { getProblems, getProblemMetadata, ProblemDifficulty, ProblemStatus } from '@/lib/problems';
+import { getProblems, getProblemMetadata, getProblemStats, getCheckinCalendar, ProblemDifficulty, ProblemStatus } from '@/lib/problems';
 import { useState } from 'react';
 
 export default function PracticePage() {
@@ -16,7 +16,7 @@ export default function PracticePage() {
 
   // 状态管理
   const [page, setPage] = useState(1);
-  const [pageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(10);
   const [categoryId, setCategoryId] = useState<number | undefined>(undefined);
   const [difficulty, setDifficulty] = useState<ProblemDifficulty | undefined>(undefined);
   const [status, setStatus] = useState<string | undefined>(undefined);
@@ -28,12 +28,27 @@ export default function PracticePage() {
     queryFn: getProblemMetadata,
   });
 
+  // 获取统计数据
+  const { data: stats } = useQuery({
+    queryKey: ['problemStats'],
+    queryFn: getProblemStats,
+    enabled: isAuthenticated,
+  });
+
+  // 获取打卡日历
+  const { data: calendar } = useQuery({
+    queryKey: ['checkinCalendar'],
+    queryFn: getCheckinCalendar,
+    enabled: isAuthenticated,
+  });
+
   // 获取题目列表
   const { data: problemsData, isLoading } = useQuery({
     queryKey: ['problems', { categoryId, difficulty, status, search, page, pageSize }],
     queryFn: () => getProblems({
       categoryId,
       difficulty,
+      status,
       search: search || undefined,
       page,
       pageSize,
@@ -47,12 +62,6 @@ export default function PracticePage() {
     { value: 'hell', label: '地狱' },
   ];
 
-  const statusMap: Record<string, string> = {
-    unstarted: '未开始',
-    solved: '已解决',
-    attempted: '尝试过',
-  };
-
   const getDifficultyColor = (diff: string) => {
     switch (diff) {
       case 'easy': return 'bg-green-500/10 text-green-600';
@@ -65,6 +74,20 @@ export default function PracticePage() {
 
   const getDifficultyLabel = (diff: string) => {
     return difficulties.find(d => d.value === diff)?.label || diff;
+  };
+
+  const highlightText = (text: string, highlight: string) => {
+    if (!highlight.trim()) return text;
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+    return (
+      <>
+        {parts.map((part, i) => 
+          part.toLowerCase() === highlight.toLowerCase() 
+            ? <span key={i} className="text-primary font-bold bg-primary/10 px-0.5 rounded">{part}</span> 
+            : part
+        )}
+      </>
+    );
   };
 
   const handleSidebarClick = () => {
@@ -85,6 +108,42 @@ export default function PracticePage() {
       <p className="text-[10px] text-muted-foreground mt-1">点击前往登录页</p>
     </div>
   );
+
+  // 分页展示逻辑
+  const totalPages = Math.ceil((problemsData?.total || 0) / pageSize);
+  const renderPagination = () => {
+    const pages = [];
+    const maxVisible = 5;
+    
+    if (totalPages <= maxVisible) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      if (page <= 3) {
+        pages.push(1, 2, 3, 4, '...', totalPages);
+      } else if (page >= totalPages - 2) {
+        pages.push(1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+      } else {
+        pages.push(1, '...', page - 1, page, page + 1, '...', totalPages);
+      }
+    }
+
+    return pages.map((p, i) => (
+      <button 
+        key={i}
+        disabled={p === '...'}
+        onClick={() => typeof p === 'number' && setPage(p)}
+        className={`min-w-[32px] h-8 rounded text-xs transition-colors ${
+          page === p 
+            ? 'bg-primary text-primary-foreground font-medium' 
+            : p === '...' 
+              ? 'cursor-default text-muted-foreground'
+              : 'border border-border bg-background hover:bg-accent'
+        }`}
+      >
+        {p}
+      </button>
+    ));
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -111,7 +170,7 @@ export default function PracticePage() {
               >
                 全部
               </button>
-              {metadata?.categories.filter(c => !c.parentId).map((cat) => (
+              {metadata?.categories.map((cat) => (
                 <button 
                   key={cat.id} 
                   onClick={() => { setCategoryId(cat.id); setPage(1); }}
@@ -126,8 +185,8 @@ export default function PracticePage() {
               ))}
             </div>
             
-            <div className="flex gap-4 pt-2">
-               <div className="relative flex-1 max-w-sm">
+            <div className="flex flex-wrap gap-4 pt-2">
+               <div className="relative flex-1 min-w-[200px] max-w-sm">
                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                  <input 
                    type="text" 
@@ -138,7 +197,7 @@ export default function PracticePage() {
                  />
                </div>
                <Select value={difficulty || 'all'} onValueChange={(v) => { setDifficulty(v === 'all' ? undefined : v as ProblemDifficulty); setPage(1); }}>
-                 <SelectTrigger className="w-[100px]">
+                 <SelectTrigger className="w-[120px]">
                     <SelectValue placeholder="难度" />
                  </SelectTrigger>
                  <SelectContent>
@@ -150,7 +209,7 @@ export default function PracticePage() {
                </Select>
                
                <Select value={status || 'all'} onValueChange={(v) => { setStatus(v === 'all' ? undefined : v); setPage(1); }}>
-                 <SelectTrigger className="w-[100px]">
+                 <SelectTrigger className="w-[120px]">
                     <SelectValue placeholder="状态" />
                  </SelectTrigger>
                  <SelectContent>
@@ -158,6 +217,20 @@ export default function PracticePage() {
                    <SelectItem value="unstarted">未开始</SelectItem>
                    <SelectItem value="solved">已解决</SelectItem>
                    <SelectItem value="attempted">尝试过</SelectItem>
+                 </SelectContent>
+               </Select>
+
+               <Select value={String(pageSize)} onValueChange={(v) => { setPageSize(Number(v)); setPage(1); }}>
+                 <SelectTrigger className="w-[120px]">
+                    <div className="flex items-center gap-1">
+                      <span className="text-muted-foreground">每页</span>
+                      <SelectValue />
+                    </div>
+                 </SelectTrigger>
+                 <SelectContent>
+                   <SelectItem value="10">10 条</SelectItem>
+                   <SelectItem value="20">20 条</SelectItem>
+                   <SelectItem value="50">50 条</SelectItem>
                  </SelectContent>
                </Select>
             </div>
@@ -207,7 +280,7 @@ export default function PracticePage() {
                         </td>
                         <td className="px-6 py-4">
                           <Link href={`/practice/${problem.id}`} className="font-medium hover:text-primary transition-colors block">
-                            {(page - 1) * pageSize + index + 1}. {problem.title}
+                            {(page - 1) * pageSize + index + 1}. {highlightText(problem.title, search)}
                           </Link>
                           <div className="flex flex-wrap gap-1 mt-1">
                             <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded text-muted-foreground">
@@ -245,7 +318,7 @@ export default function PracticePage() {
               <span className="text-muted-foreground text-[10px]">
                 显示 {Math.min((page - 1) * pageSize + 1, problemsData?.total || 0)} - {Math.min(page * pageSize, problemsData?.total || 0)} 共 {problemsData?.total || 0} 条
               </span>
-              <div className="flex gap-1">
+              <div className="flex items-center gap-1">
                 <button 
                   disabled={page === 1}
                   onClick={() => setPage(p => Math.max(1, p - 1))}
@@ -253,24 +326,9 @@ export default function PracticePage() {
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                {Array.from({ length: Math.min(5, Math.ceil((problemsData?.total || 0) / pageSize)) }).map((_, i) => {
-                  const p = i + 1; // Simplified pagination for now
-                  return (
-                    <button 
-                      key={p}
-                      onClick={() => setPage(p)}
-                      className={`min-w-[32px] h-8 rounded text-xs transition-colors ${
-                        page === p 
-                          ? 'bg-primary text-primary-foreground font-medium' 
-                          : 'border border-border bg-background hover:bg-accent'
-                      }`}
-                    >
-                      {p}
-                    </button>
-                  );
-                })}
+                {renderPagination()}
                 <button 
-                  disabled={page >= Math.ceil((problemsData?.total || 0) / pageSize)}
+                  disabled={page >= totalPages}
                   onClick={() => setPage(p => p + 1)}
                   className="p-1.5 rounded border border-border bg-background hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -286,49 +344,39 @@ export default function PracticePage() {
           {/* Progress Card */}
           <div className="relative group/card">
             {!isAuthenticated && <SidebarOverlay />}
-            <div className="bg-card rounded-2xl border border-border/50 p-6 shadow-sm">
+            <div className={`bg-card rounded-2xl border border-border/50 p-6 shadow-sm ${!isAuthenticated && 'opacity-50 blur-[2px]'}`}>
               <h3 className="font-bold text-lg mb-4">LaTeX 技能树</h3>
               <div className="flex items-center justify-between mb-2">
                 <div className="relative w-24 h-24 flex items-center justify-center">
-                   <svg className="hidden">
-                     {/* Placeholder for chart lib if needed, using generic ring */}
-                   </svg>
                    <div className="w-20 h-20 rounded-full border-8 border-muted flex items-center justify-center relative">
-                      <div className="absolute inset-0 rounded-full border-8 border-transparent border-t-green-500 rotate-45"></div>
+                      <div 
+                        className="absolute inset-0 rounded-full border-8 border-transparent border-t-primary transition-all duration-1000" 
+                        style={{ transform: `rotate(${Math.min(360, ((stats?.totalMastered || 0) / 100) * 360)}deg)` }}
+                      ></div>
                       <div className="text-center">
-                        <span className="block text-xl font-bold">42</span>
+                        <span className="block text-xl font-bold">{stats?.totalMastered || 0}</span>
                         <span className="text-[10px] text-muted-foreground">已掌握</span>
                       </div>
                    </div>
                 </div>
                 <div className="flex-1 pl-4 space-y-3">
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>基础排版</span>
-                      <span>20/50</span>
+                  {(stats?.categories || []).slice(0, 3).map((sc, i) => (
+                    <div key={sc.categoryId} className="space-y-1">
+                      <div className="flex justify-between text-xs text-muted-foreground">
+                        <span className="truncate max-w-[80px]">{sc.categoryName}</span>
+                        <span>{sc.solved}/{sc.total}</span>
+                      </div>
+                      <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full transition-all duration-1000 ${i === 0 ? 'bg-green-500' : i === 1 ? 'bg-yellow-500' : 'bg-red-500'}`} 
+                          style={{ width: `${(sc.solved / (sc.total || 1)) * 100}%` }}
+                        ></div>
+                      </div>
                     </div>
-                    <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
-                      <div className="h-full bg-green-500 w-[40%]"></div>
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>数学公式</span>
-                      <span>15/120</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
-                      <div className="h-full bg-yellow-500 w-[12.5%]"></div>
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>图形绘制</span>
-                      <span>7/80</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
-                      <div className="h-full bg-red-500 w-[8.75%]"></div>
-                    </div>
-                  </div>
+                  ))}
+                  {(!stats?.categories || stats.categories.length === 0) && (
+                    <p className="text-xs text-muted-foreground text-center py-4">暂无数据</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -337,38 +385,50 @@ export default function PracticePage() {
           {/* Calendar Card */}
           <div className="relative group/card">
             {!isAuthenticated && <SidebarOverlay />}
-            <div className="bg-card rounded-2xl border border-border/50 p-6 shadow-sm">
+            <div className={`bg-card rounded-2xl border border-border/50 p-6 shadow-sm ${!isAuthenticated && 'opacity-50 blur-[2px]'}`}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-bold text-lg">打卡日历</h3>
-                <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">2026年 2月</span>
+                <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
+                  {new Date().getFullYear()}年 {new Date().getMonth() + 1}月
+                </span>
               </div>
               <div className="grid grid-cols-7 gap-1 text-center text-xs mb-2 text-muted-foreground">
                 <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
               </div>
               <div className="grid grid-cols-7 gap-1 text-center text-sm font-medium">
-                <span className="text-muted-foreground/30">1</span>
-                <span className="text-muted-foreground/30">2</span>
-                <span className="text-muted-foreground/30">3</span>
-                {[...Array(28)].map((_, i) => (
-                   <div key={i} className={`h-8 w-8 flex items-center justify-center rounded-full mx-auto ${
-                     i === 18 ? 'bg-primary text-primary-foreground' : 
-                     i % 3 === 0 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 relative' : 
-                     'hover:bg-muted text-foreground'
-                   }`}>
-                     {i + 1}
-                     {i % 3 === 0 && <span className="absolute bottom-0.5 w-1 h-1 bg-current rounded-full"></span>}
-                   </div>
+                {/* 填充月首空白 */}
+                {Array.from({ length: new Date(new Date().getFullYear(), new Date().getMonth(), 1).getDay() }).map((_, i) => (
+                   <span key={`empty-${i}`} className="text-muted-foreground/10 text-[10px]">—</span>
                 ))}
+                
+                {/* 填充日期 */}
+                {Array.from({ length: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate() }).map((_, i) => {
+                   const day = i + 1;
+                   const dateStr = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                   const isMastered = calendar?.dates.includes(dateStr);
+                   const isToday = day === new Date().getDate();
+                   
+                   return (
+                     <div key={day} className={`h-8 w-8 flex items-center justify-center rounded-full mx-auto relative transition-all ${
+                       isToday ? 'bg-primary/20 text-primary font-bold border border-primary/30' : 
+                       isMastered ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 
+                       'hover:bg-muted text-foreground'
+                     }`}>
+                       {day}
+                       {isMastered && <span className="absolute bottom-1 w-1 h-1 bg-current rounded-full"></span>}
+                     </div>
+                   );
+                })}
               </div>
               <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground bg-muted/30 p-3 rounded-lg">
                 <div className="flex flex-col items-center">
-                  <span className="font-bold text-foreground text-base">42</span>
+                  <span className="font-bold text-foreground text-base">{calendar?.streak || 0}</span>
                   <span>连续打卡</span>
                 </div>
                 <div className="w-px h-8 bg-border"></div>
                 <div className="flex flex-col items-center">
-                  <span className="font-bold text-foreground text-base">365</span>
-                  <span>历史最高</span>
+                  <span className="font-bold text-foreground text-base">{calendar?.total || 0}</span>
+                  <span>本月总计</span>
                 </div>
               </div>
             </div>
