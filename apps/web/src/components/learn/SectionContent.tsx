@@ -8,6 +8,9 @@ import { toast } from '@/hooks/use-toast';
 import { Chapter, Section } from '@/data/chapters';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 
 interface SectionContentProps {
     chapter: Chapter;
@@ -101,7 +104,8 @@ export default function SectionContent({
 
             <div className="prose prose-slate dark:prose-invert max-w-none mb-16">
               <ReactMarkdown 
-                remarkPlugins={[remarkGfm]}
+                remarkPlugins={[remarkGfm, remarkMath]}
+                rehypePlugins={[rehypeKatex]}
                 components={{
                   // Optional: Customize specific elements if needed
                   a: ({node, ...props}: any) => <a {...props} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer" />,
