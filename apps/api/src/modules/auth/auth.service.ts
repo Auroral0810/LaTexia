@@ -382,6 +382,11 @@ export async function getUserProfile(userId: string): Promise<AuthResult> {
       role: users.role,
       locale: users.locale,
       theme: users.theme,
+      githubId: users.githubId,
+      googleId: users.googleId,
+      appleId: users.appleId,
+      qqId: users.qqId,
+      wechatId: users.wechatId,
       createdAt: users.createdAt,
     })
     .from(users)

@@ -15,6 +15,11 @@ interface AuthResponse {
       bio?: string;
       locale?: string;
       theme?: string;
+      githubId?: string | null;
+      googleId?: string | null;
+      appleId?: string | null;
+      qqId?: string | null;
+      wechatId?: string | null;
       createdAt?: string;
     };
     accessToken?: string;

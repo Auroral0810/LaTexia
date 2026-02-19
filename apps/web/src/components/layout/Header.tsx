@@ -140,7 +140,7 @@ export function Header() {
                   className="fixed inset-0 z-40" 
                   onClick={() => setLangMenuOpen(false)} 
                 />
-                <div className="absolute right-0 mt-2 w-48 rounded-2xl border border-border/50 bg-card p-2 shadow-2xl z-50 animate-in fade-in zoom-in duration-200 glass">
+                <div className="absolute right-0 mt-2 w-48 rounded-2xl border border-border/50 bg-card p-2 shadow-2xl z-50 animate-in fade-in zoom-in duration-200">
                   <div className="grid grid-cols-1 gap-1">
                     {languages.map((lang) => (
                       <button
@@ -200,7 +200,7 @@ export function Header() {
                     </div>
                   </button>
 
-                  <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-border/50 bg-card p-2 shadow-2xl invisible group-hover:visible opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-200 z-50 glass">
+                  <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-border/50 bg-card p-2 shadow-2xl invisible group-hover:visible opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-200 z-50">
                     <div className="px-3 py-2 mb-2 border-b border-border/50">
                       <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">个人中心</p>
                     </div>

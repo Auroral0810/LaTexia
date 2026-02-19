@@ -11,6 +11,11 @@ interface User {
   role: 'user' | 'admin' | 'super_admin';
   locale?: string;
   theme?: string;
+  githubId?: string | null;
+  googleId?: string | null;
+  appleId?: string | null;
+  qqId?: string | null;
+  wechatId?: string | null;
   createdAt?: string;
 }
 

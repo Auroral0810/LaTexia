@@ -25,6 +25,11 @@ const UserProfileSchema = z.object({
   role: z.string(),
   locale: z.string().optional().nullable(),
   theme: z.string().optional().nullable(),
+  githubId: z.string().optional().nullable(),
+  googleId: z.string().optional().nullable(),
+  appleId: z.string().optional().nullable(),
+  qqId: z.string().optional().nullable(),
+  wechatId: z.string().optional().nullable(),
   createdAt: z.date().or(z.string()),
 });
 
