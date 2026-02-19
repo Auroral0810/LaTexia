@@ -57,14 +57,24 @@ export async function sendVerificationEmail(to: string, code: string): Promise<v
     expireMinutes: '5',
   });
 
+  const timestamp = new Date().toLocaleTimeString();
+  console.log('');
+  console.log('╔══════════════════════════════════════════╗');
+  console.log('║           📧 邮件验证码（模拟/发送）       ║');
+  console.log('╠══════════════════════════════════════════╣');
+  console.log(`║  时间: ${timestamp.padEnd(31)}║`);
+  console.log(`║  目标: ${to.padEnd(31)}║`);
+  console.log(`║  验证码: ${code.padEnd(30)}║`);
+  console.log(`║  类型: 注册/登录验证码${' '.repeat(17)}║`);
+  console.log('╚══════════════════════════════════════════╝');
+  console.log('');
+
   await transporter.sendMail({
     from: `"${env.MAIL_FROM_NAME}" <${env.MAIL_FROM}>`,
     to,
     subject: `【Latexia】您的验证码：${code}`,
     html,
   });
-
-  console.log(`[Mail] 验证码邮件已发送至 ${to}`);
 }
 
 /**
@@ -78,12 +88,22 @@ export async function sendPasswordResetEmail(to: string, code: string): Promise<
     expireMinutes: '5',
   });
 
+  const timestamp = new Date().toLocaleTimeString();
+  console.log('');
+  console.log('╔══════════════════════════════════════════╗');
+  console.log('║           📧 邮件验证码（模拟/发送）       ║');
+  console.log('╠══════════════════════════════════════════╣');
+  console.log(`║  时间: ${timestamp.padEnd(31)}║`);
+  console.log(`║  目标: ${to.padEnd(31)}║`);
+  console.log(`║  验证码: ${code.padEnd(30)}║`);
+  console.log(`║  类型: 密码重置验证码${' '.repeat(17)}║`);
+  console.log('╚══════════════════════════════════════════╝');
+  console.log('');
+
   await transporter.sendMail({
     from: `"${env.MAIL_FROM_NAME}" <${env.MAIL_FROM}>`,
     to,
     subject: `【Latexia】密码重置验证码：${code}`,
     html,
   });
-
-  console.log(`[Mail] 密码重置邮件已发送至 ${to}`);
 }

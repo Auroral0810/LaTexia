@@ -12,10 +12,13 @@ export async function sendSmsCode(phone: string, code: string): Promise<void> {
   // 模拟发送延迟
   await new Promise((resolve) => setTimeout(resolve, 100));
 
+  const timestamp = new Date().toLocaleTimeString();
+  
   console.log('');
   console.log('╔══════════════════════════════════════════╗');
   console.log('║           📱 短信验证码（模拟）            ║');
   console.log('╠══════════════════════════════════════════╣');
+  console.log(`║  时间: ${timestamp.padEnd(31)}║`);
   console.log(`║  手机号: ${phone.padEnd(30)}║`);
   console.log(`║  验证码: ${code.padEnd(30)}║`);
   console.log(`║  有效期: 5 分钟${' '.repeat(24)}║`);

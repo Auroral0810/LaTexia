@@ -92,13 +92,20 @@ export default function SettingsPage() {
   const [bindCode, setBindCode] = useState('');
   const [bindCountdown, setBindCountdown] = useState(0);
 
-  // 全局图形验证码状态 (用于敏感操作)
-  const [captchaInput, setCaptchaInput] = useState('');
-  const [captchaAnswer, setCaptchaAnswer] = useState('');
+  // 安全操作图形验证码状态 (用于修改密码)
+  const [securityCaptchaInput, setSecurityCaptchaInput] = useState('');
+  const [securityCaptchaAnswer, setSecurityCaptchaAnswer] = useState('');
 
+  const handleSecurityCaptchaChange = useCallback((answer: string) => {
+    setSecurityCaptchaAnswer(answer);
+  }, []);
 
-  const handleCaptchaChange = useCallback((answer: string) => {
-    setCaptchaAnswer(answer);
+  // 绑定操作图形验证码状态 (用于手机/邮箱绑定)
+  const [bindCaptchaInput, setBindCaptchaInput] = useState('');
+  const [bindCaptchaAnswer, setBindCaptchaAnswer] = useState('');
+
+  const handleBindCaptchaChange = useCallback((answer: string) => {
+    setBindCaptchaAnswer(answer);
   }, []);
 
 
@@ -451,7 +458,7 @@ export default function SettingsPage() {
                       setError('两次输入的密码不一致');
                       return;
                     }
-                    if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
+                    if (securityCaptchaInput.toLowerCase() !== securityCaptchaAnswer.toLowerCase()) {
                       setError('图形验证码错误');
                       return;
                     }
@@ -494,13 +501,13 @@ export default function SettingsPage() {
                   <div className="space-y-4 pt-4 border-t border-border/40">
                     <Label className="font-black text-sm uppercase tracking-widest text-muted-foreground/70">安全验证</Label>
                     <div className="flex flex-col sm:flex-row items-center gap-6 p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-800/40">
-                      <GraphicCaptcha onCaptchaChange={handleCaptchaChange} length={4} width={140} height={40} className="shrink-0" />
+                      <GraphicCaptcha onCaptchaChange={handleSecurityCaptchaChange} length={4} width={140} height={40} className="shrink-0" />
                       <div className="flex-1 w-full space-y-2">
                         <Input
                           placeholder="输入上方验证码"
-                          value={captchaInput}
+                          value={securityCaptchaInput}
                           autoComplete="off"
-                          onChange={(e) => setCaptchaInput(e.target.value)}
+                          onChange={(e) => setSecurityCaptchaInput(e.target.value)}
                           className="h-12 rounded-xl bg-white dark:bg-zinc-800 border-none shadow-sm text-center font-bold tracking-[0.3em]"
                         />
                         <p className="text-[10px] text-center text-muted-foreground font-medium italic">点击图片可刷新验证码</p>
@@ -653,12 +660,12 @@ export default function SettingsPage() {
             <div className="space-y-4 pt-4 border-t border-border/10">
               <Label className="font-bold text-sm text-muted-foreground">安全验证</Label>
               <div className="flex items-center gap-4 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50">
-                <GraphicCaptcha onCaptchaChange={handleCaptchaChange} length={4} width={120} height={40} className="shrink-0" />
+                <GraphicCaptcha onCaptchaChange={handleBindCaptchaChange} length={4} width={120} height={40} className="shrink-0" />
                 <Input
                   placeholder="输入验证码"
-                  value={captchaInput}
+                  value={bindCaptchaInput}
                   autoComplete="off"
-                  onChange={(e) => setCaptchaInput(e.target.value)}
+                  onChange={(e) => setBindCaptchaInput(e.target.value)}
                   className="h-12 rounded-xl bg-white dark:bg-zinc-800 border-none shadow-sm text-center font-bold tracking-[0.2em]"
                 />
               </div>
@@ -680,7 +687,7 @@ export default function SettingsPage() {
                   disabled={bindCountdown > 0 || loading}
                   className="h-14 px-6 rounded-2xl font-bold shrink-0"
                   onClick={() => {
-                    if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
+                    if (bindCaptchaInput.toLowerCase() !== bindCaptchaAnswer.toLowerCase()) {
                       setError('图形验证码错误');
                       return;
                     }
@@ -698,7 +705,7 @@ export default function SettingsPage() {
                 type="button" 
                 className="flex-1 h-14 rounded-2xl font-black text-[16px]"
                 onClick={() => {
-                  if (captchaInput.toLowerCase() !== captchaAnswer.toLowerCase()) {
+                  if (bindCaptchaInput.toLowerCase() !== bindCaptchaAnswer.toLowerCase()) {
                     setError('图形验证码错误');
                     return;
                   }
