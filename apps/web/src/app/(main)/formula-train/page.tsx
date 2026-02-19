@@ -95,31 +95,6 @@ export default function FormulaTrainPage() {
     return () => clearInterval(t);
   }, [remainingSeconds, currentIndex]);
 
-  // 快捷键：⌘/Ctrl+Enter 提交，提交后 Enter 下一题，⌥/Alt+Enter 跳过
-  useEffect(() => {
-    if (!started || !currentQuestion) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Enter') return;
-      const submitMod = e.metaKey || e.ctrlKey;
-      if (submitMod) {
-        e.preventDefault();
-        if (result === null) handleSubmit();
-        return;
-      }
-      if (e.altKey) {
-        e.preventDefault();
-        if (result === null) handleSkip();
-        return;
-      }
-      if (!e.altKey && result !== null) {
-        e.preventDefault();
-        handleNext();
-      }
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [started, currentQuestion, result, handleSubmit, handleSkip, handleNext]);
-
   const handleSubmit = () => {
     if (!currentQuestion) return;
     const expected = normalizeLatex(currentQuestion.latex);
@@ -156,6 +131,31 @@ export default function FormulaTrainPage() {
     setErrorHint(`正确答案：${currentQuestion?.latex ?? ''}`);
     setResult('wrong');
   };
+
+  // 快捷键：⌘/Ctrl+Enter 提交，提交后 Enter 下一题，⌥/Alt+Enter 跳过
+  useEffect(() => {
+    if (!started || !currentQuestion) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Enter') return;
+      const submitMod = e.metaKey || e.ctrlKey;
+      if (submitMod) {
+        e.preventDefault();
+        if (result === null) handleSubmit();
+        return;
+      }
+      if (e.altKey) {
+        e.preventDefault();
+        if (result === null) handleSkip();
+        return;
+      }
+      if (!e.altKey && result !== null) {
+        e.preventDefault();
+        handleNext();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [started, currentQuestion, result, handleSubmit, handleSkip, handleNext]);
 
   if (!started) {
     return (
@@ -298,21 +298,30 @@ export default function FormulaTrainPage() {
             </div>
           )}
 
-          <div className="flex flex-wrap gap-2 pt-2">
-            {result === null && (
-              <>
-                <Button onClick={handleSubmit}>提交</Button>
-                <Button variant="outline" onClick={handleSkip}>
-                  <SkipForward className="w-4 h-4 mr-1" />
-                  跳过
+          <div className="space-y-2 pt-2">
+            <div className="flex flex-wrap gap-2">
+              {result === null && (
+                <>
+                  <Button onClick={handleSubmit}>提交</Button>
+                  <Button variant="outline" onClick={handleSkip}>
+                    <SkipForward className="w-4 h-4 mr-1" />
+                    跳过
+                  </Button>
+                </>
+              )}
+              {(result === 'correct' || result === 'wrong') && (
+                <Button onClick={handleNext}>
+                  {isLastQuestion ? '完成练习' : '下一题'}
                 </Button>
-              </>
-            )}
-            {(result === 'correct' || result === 'wrong') && (
-              <Button onClick={handleNext}>
-                {isLastQuestion ? '完成练习' : '下一题'}
-              </Button>
-            )}
+              )}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">⌘</kbd>/<kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">Ctrl</kbd>+<kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">Enter</kbd> 提交
+              {' · '}
+              <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">Enter</kbd> 下一题
+              {' · '}
+              <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">⌥</kbd>/<kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">Alt</kbd>+<kbd className="px-1.5 py-0.5 rounded bg-muted border border-border/50 font-mono text-[10px]">Enter</kbd> 跳过
+            </p>
           </div>
         </div>
       </div>
