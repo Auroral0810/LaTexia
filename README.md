@@ -35,10 +35,7 @@
 ### 🎥 运行视频演示
 
 <div align="center">
-  <p align="center">
-    <em>（此处为演示视频占位符，可上传 Demo 视频至 static 并在此引用）</em>
-  </p>
-  <!-- [!TIP] 建议替换为 <video src="static/demo.mp4" controls width="80%"></video> -->
+  <video src="https://github.com/user-attachments/assets/55d4b47d-e9c1-4131-8dc7-a5d24fb8b238" controls width="100%"></video>
 </div>
 
 ---
