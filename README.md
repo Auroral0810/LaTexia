@@ -1,4 +1,5 @@
 <!-- Header：80% 宽度居中，左右留白对等 -->
+
 <div style="width:80%;max-width:960px;margin-left:auto;margin-right:auto;text-align:center;box-sizing:border-box;">
   <img src="apps/web/public/images/header.svg" alt="Latexia" style="width:100%;height:auto;display:block;border:none;" />
   <p style="margin:1.5em 0 0.5em;">
@@ -81,7 +82,7 @@
 
 ### 1️⃣ 首页
 
-- 产品 Slogan、核心功能入口、数据来源与「为什么选择我们」等模块（占位截图可放 `static/首页-门面.png` 等）。
+- 与「为什么选择我们」等模块（占位截图可放 `static/首页-门面.png` 等）。
 
 ---
 
@@ -265,11 +266,11 @@ pnpm dev:web
 
 ### 六、常见问题
 
-| 问题                       | 可能原因                  | 处理建议                               |
-| :------------------------- | :------------------------ | :------------------------------------- |
+| 问题                       | 可能原因                  | 处理建议                                   |
+| :------------------------- | :------------------------ | :----------------------------------------- |
 | 前端 404（localhost:3000） | 未启动 Web 应用           | 执行 `pnpm dev:web` 或 `pnpm dev`      |
-| API 无法访问               | 未启动 API                | 执行 `pnpm dev:api`                    |
-| Swagger UI 报错或空白      | 未启动 API 或端口不对     | 确认 http://localhost:3001/doc 可访问  |
+| API 无法访问               | 未启动 API                | 执行 `pnpm dev:api`                      |
+| Swagger UI 报错或空白      | 未启动 API 或端口不对     | 确认 http://localhost:3001/doc 可访问      |
 | 数据库连接失败             | 未配置或未启动 PostgreSQL | 检查 `apps/api/.env` 中 `DATABASE_URL` |
 
 ---
@@ -297,11 +298,11 @@ pnpm dev:web
 
 ## 📞 联系
 
-| 方式     | 说明                                                   |
-| :------- | :----------------------------------------------------- |
-| 📧 Email | 15968588744@163.com                                    |
-| QQ       | 1957689514                                             |
-| 微信     | Luckff0810                                             |
+| 方式     | 说明                                                |
+| :------- | :-------------------------------------------------- |
+| 📧 Email | 15968588744@163.com                                 |
+| QQ       | 1957689514                                          |
+| 微信     | Luckff0810                                          |
 | 博客     | [fishblog.yyf040810.cn](https://fishblog.yyf040810.cn) |
 
 ---
