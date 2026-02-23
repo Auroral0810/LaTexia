@@ -55,3 +55,4 @@ apps/api/src/db/migrations/*.sql
 
 0*.md
 ch*.md
+*.mp4
