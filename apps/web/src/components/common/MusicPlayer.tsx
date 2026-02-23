@@ -1,348 +1,301 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import ReactPlayer from 'react-player';
+import React, { useState, useEffect } from 'react';
 import { 
-  Play, 
-  Pause, 
-  SkipForward, 
-  SkipBack, 
-  Volume2, 
-  Music, 
-  ListMusic, 
-  Minimize2, 
-  Plus, 
-  Trash2,
+  ChevronDown,
+  Search,
+  Check,
   Disc,
-  ExternalLink,
-  ChevronDown
+  Music,
+  ListVideo
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@latexia/ui';
 import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
 
-interface Track {
-  id: string;
-  title: string;
-  url: string;
-}
-
-const DEFAULT_PLAYLIST: Track[] = [
-  { id: '1', title: 'Lofi Girl - Chill Beats', url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk' },
-  { id: '2', title: 'Relaxing Jazz', url: 'https://www.youtube.com/watch?v=5WnB9o_q7Gg' },
-  { id: '3', title: 'Deep Focus Ambient', url: 'https://www.youtube.com/watch?v=S0Q4gqBUs7c' },
+const PRESETS = [
+  { name: '方大同', id: '13532313680' },
+  { name: '林俊杰', id: '6627049290' },
+  { name: '周杰伦', id: '11860849' },
+  { name: '张杰', id: '530928958' },
+  { name: '邓紫棋', id: '5279377564' },
+  { name: '中文说唱', id: '2240792884' },
+  { name: 'R&B', id: '6703233707' },
+  { name: '流行', id: '12740998746' },
+  { name: '古风', id: '2357742963' },
+  { name: '民谣', id: '2770902965' },
+  { name: '英文', id: '2256615030' },
 ];
 
 export function MusicPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [volume, setVolume] = useState(0.5);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [showPlaylist, setShowPlaylist] = useState(false);
-  const [playlist, setPlaylist] = useState<Track[]>(DEFAULT_PLAYLIST);
-  const [newTrackUrl, setNewTrackUrl] = useState('');
+  const { theme, systemTheme } = useTheme();
+  const currentTheme = theme === 'system' ? systemTheme : theme;
+  
   const [mounted, setMounted] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [showLyrics, setShowLyrics] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const [neteaseId, setNeteaseId] = useState(PRESETS[0].id);
+  const [inputUrl, setInputUrl] = useState('');
 
   useEffect(() => {
     setMounted(true);
-    const saved = localStorage.getItem('latexia-playlist');
+    const saved = localStorage.getItem('latexia-netease-id');
+    const savedLyrics = localStorage.getItem('latexia-netease-lyrics');
     if (saved) {
-      try {
-        setPlaylist(JSON.parse(saved));
-      } catch (e) {
-        console.error('Failed to parse saved playlist');
-      }
+        setNeteaseId(saved);
+    }
+    if (savedLyrics !== null) {
+        setShowLyrics(savedLyrics === 'true');
     }
   }, []);
 
+  // Poll for APlayer's play state to animate our floating disc
   useEffect(() => {
-    if (mounted) {
-      localStorage.setItem('latexia-playlist', JSON.stringify(playlist));
+    if (!mounted) return;
+    const interval = setInterval(() => {
+      const aplayer = document.querySelector('.custom-aplayer-theme .aplayer');
+      if (aplayer) {
+        setIsPlaying(aplayer.classList.contains('aplayer-playing'));
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [mounted]);
+
+  const handleUpdateId = () => {
+    if (!inputUrl.trim()) return;
+    
+    let newId = inputUrl.trim();
+    const match = newId.match(/id=(\d+)/);
+    if (match) {
+      newId = match[1];
     }
-  }, [playlist, mounted]);
+    
+    if (/^\d+$/.test(newId)) {
+        setNeteaseId(newId);
+        localStorage.setItem('latexia-netease-id', newId);
+        setInputUrl('');
+    } else {
+        alert("请输入有效的网易云歌单 ID 或链接");
+    }
+  };
+
+  const handleSelectPreset = (id: string) => {
+    setNeteaseId(id);
+    localStorage.setItem('latexia-netease-id', id);
+  };
+
+  const toggleLyrics = () => {
+    const newVal = !showLyrics;
+    setShowLyrics(newVal);
+    localStorage.setItem('latexia-netease-lyrics', String(newVal));
+  };
 
   if (!mounted) return null;
 
-  const currentTrack = playlist[currentTrackIndex];
-
-  const togglePlay = () => setIsPlaying(!isPlaying);
-  
-  const handleNext = () => {
-    setCurrentTrackIndex((prev) => (prev + 1) % playlist.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentTrackIndex((prev) => (prev - 1 + playlist.length) % playlist.length);
-  };
-
-  const addTrack = () => {
-    if (!newTrackUrl.trim()) return;
-    const newTrack: Track = {
-      id: Math.random().toString(36).substr(2, 9),
-      title: 'Custom Track ' + (playlist.length + 1),
-      url: newTrackUrl.trim()
-    };
-    setPlaylist([...playlist, newTrack]);
-    setNewTrackUrl('');
-  };
-
-  const removeTrack = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (playlist.length <= 1) return;
-    const newList = playlist.filter(t => t.id !== id);
-    setPlaylist(newList);
-    if (currentTrackIndex >= newList.length) {
-      setCurrentTrackIndex(0);
-    }
-  };
-
   return (
-    <div className="fixed bottom-6 left-6 z-[100] font-sans">
-      <AnimatePresence>
-        {!isExpanded ? (
-          <motion.div
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -20, opacity: 0 }}
-            whileHover={{ scale: 1.05 }}
-            className="group relative"
-          >
-            <button
-              onClick={() => setIsExpanded(true)}
-              className="flex items-center gap-3 px-4 py-2.5 rounded-full bg-zinc-900/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all hover:bg-zinc-800/90"
-            >
-              <div className="relative">
-                <Disc className={cn(
-                  "w-5 h-5 text-primary transition-transform duration-[3000ms] linear infinite",
-                  isPlaying ? "animate-spin" : ""
-                )} />
-                <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full animate-pulse" />
-              </div>
-              <div className="flex flex-col items-start overflow-hidden w-24">
-                <span className="text-[10px] font-bold text-primary/80 uppercase tracking-widest leading-none mb-1">Focus Radio</span>
-                <span className="text-[11px] text-white/70 truncate w-full text-left">
-                  {isPlaying ? currentTrack?.title : 'Idle...'}
-                </span>
-              </div>
-            </button>
-          </motion.div>
-        ) : (
-          <motion.div
-            initial={{ scale: 0.95, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.95, opacity: 0, y: 20 }}
-            className="w-[320px] rounded-[2rem] bg-zinc-950/90 backdrop-blur-3xl border border-white/10 shadow-[0_32px_64px_rgba(0,0,0,0.6)] overflow-hidden"
-          >
-            {/* Header / Artwork Area */}
-            <div className="relative h-40 bg-gradient-to-br from-primary/20 via-zinc-900 to-zinc-950 p-6 flex flex-col justify-between">
-              <div className="flex items-center justify-between">
-                <div className="p-2 rounded-xl bg-white/5 border border-white/10">
-                  <Music className="w-4 h-4 text-primary" />
+    <div className={cn("fixed bottom-6 left-6 z-[100] font-sans", currentTheme === 'dark' ? "dark" : "")}>
+      
+      {/* Floating Toggle Button */}
+      <button 
+         onClick={() => setIsExpanded(!isExpanded)}
+         className="relative w-12 h-12 rounded-full bg-background/90 backdrop-blur-md border border-border shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex items-center justify-center text-primary group transition-all hover:scale-110"
+      >
+         <Disc className={cn("w-6 h-6 transition-transform", isPlaying ? "animate-spin" : "")} style={{ animationDuration: '3s' }} />
+         {!isExpanded && (
+           <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-primary animate-pulse" />
+         )}
+      </button>
+
+      {/* 
+          Unified Card 
+          We use strictly CSS width/height/padding transitions WITHOUT transform or opacity.
+          This ensures fixed positioning of the lyrics breaks out of this container securely
+          even when collapsed. 
+      */}
+      <div 
+         className={cn(
+            "absolute bottom-16 left-0 bg-background rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.2)] border flex flex-col transition-[max-width,max-height,padding] duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] custom-aplayer-theme",
+            isExpanded ? "max-w-[360px] max-h-[800px] p-4 border-border" : "max-w-0 max-h-0 p-0 border-transparent",
+            showLyrics ? "lrc-enabled" : "lrc-disabled"
+         )}
+      >
+         {/* Fixed width container prevents APlayer from jumping during card stretch */}
+         <div className="w-[326px] flex flex-col gap-4">
+             {/* Header */}
+             <div className="flex items-center justify-between pb-2 border-b border-border/50">
+                <div className="flex items-center gap-2">
+                    <Music className="w-4 h-4 text-primary" />
+                    <span className="text-sm font-bold tracking-tight text-foreground uppercase">Audio Station</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button 
-                    onClick={() => setShowPlaylist(!showPlaylist)}
-                    className={cn(
-                      "p-2 rounded-xl border border-white/10 transition-all",
-                      showPlaylist ? "bg-primary/20 text-primary border-primary/30" : "bg-white/5 text-white/40 hover:text-white"
-                    )}
-                  >
-                    <ListMusic className="w-4 h-4" />
-                  </button>
-                  <button 
-                    onClick={() => setIsExpanded(false)}
-                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white transition-all"
-                  >
-                    <ChevronDown className="w-4 h-4" />
-                  </button>
+                   <button 
+                      onClick={toggleLyrics} 
+                      className={cn(
+                        "text-[11px] px-2.5 py-1 rounded-full font-semibold transition-colors flex items-center gap-1", 
+                        showLyrics ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"
+                      )}
+                   >
+                      歌词 {showLyrics ? 'ON' : 'OFF'}
+                   </button>
+                   <button 
+                      onClick={() => setIsExpanded(false)} 
+                      className="p-1 rounded-full hover:bg-muted text-muted-foreground transition-colors"
+                   >
+                      <ChevronDown className="w-5 h-5"/>
+                   </button>
                 </div>
-              </div>
-              
-              {!showPlaylist && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="space-y-1"
-                >
-                  <h3 className="text-lg font-bold text-white truncate drop-shadow-md">
-                    {currentTrack?.title}
-                  </h3>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-full">
-                      Live
-                    </span>
-                    <span className="text-xs text-white/40 italic">LaTexia Focus Session</span>
-                  </div>
-                </motion.div>
-              )}
-            </div>
+             </div>
 
-            {/* Main Interface */}
-            <div className="p-6 pt-2">
-              <AnimatePresence mode="wait">
-                {showPlaylist ? (
-                  <motion.div 
-                    key="playlist"
-                    initial={{ opacity: 0, x: 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    className="space-y-4"
-                  >
-                    <div className="flex gap-2">
-                      <div className="relative flex-1 group">
-                        <input 
-                          type="text" 
-                          placeholder="Paste URL (YouTube/Soundcloud/...)"
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-xs text-white outline-none focus:border-primary/50 transition-all placeholder:text-white/20"
-                          value={newTrackUrl}
-                          onChange={(e) => setNewTrackUrl(e.target.value)}
-                          onKeyDown={(e) => e.key === 'Enter' && addTrack()}
-                        />
-                        <ExternalLink className="absolute right-3 top-2.5 w-3 h-3 text-white/10 group-focus-within:text-primary/40" />
-                      </div>
-                      <button 
-                        onClick={addTrack}
-                        className="p-2 bg-primary/20 text-primary rounded-xl hover:bg-primary/30 transition-all border border-primary/20"
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
-                    </div>
-                    
-                    <div className="space-y-1 max-h-[160px] overflow-y-auto custom-scrollbar pr-1">
-                      {playlist.map((track, idx) => (
-                        <div 
-                          key={track.id}
+             {/* Presets (Scrollable pill list) */}
+             <div className="space-y-2">
+                 <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-1">精选歌单</div>
+                 <div className="flex flex-wrap gap-1.5 max-h-[110px] overflow-y-auto custom-scrollbar pr-1 pb-1">
+                     {PRESETS.map(p => (
+                        <button 
+                          key={p.id} 
+                          onClick={() => handleSelectPreset(p.id)}
                           className={cn(
-                            "group flex items-center justify-between p-2.5 rounded-xl transition-all cursor-pointer",
-                            idx === currentTrackIndex ? "bg-primary/10 border border-primary/20" : "hover:bg-white/5 border border-transparent"
+                             "text-[11px] px-3 py-1.5 rounded-full border transition-all duration-200", 
+                             neteaseId === p.id 
+                               ? "bg-primary text-primary-foreground border-primary shadow-sm scale-105" 
+                               : "bg-muted/50 text-muted-foreground border-transparent hover:bg-muted hover:text-primary"
                           )}
-                          onClick={() => setCurrentTrackIndex(idx)}
                         >
-                          <div className="flex items-center gap-3 overflow-hidden">
-                            <div className={cn(
-                              "w-1.5 h-1.5 rounded-full",
-                              idx === currentTrackIndex ? "bg-primary animate-pulse" : "bg-white/10"
-                            )} />
-                            <span className={cn(
-                              "text-[11px] truncate",
-                              idx === currentTrackIndex ? "text-primary font-bold" : "text-white/60"
-                            )}>
-                              {track.title}
-                            </span>
-                          </div>
-                          <button 
-                            onClick={(e) => removeTrack(track.id, e)}
-                            className="p-1 text-white/0 group-hover:text-white/20 hover:!text-destructive transition-all"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                ) : (
-                  <motion.div 
-                    key="controls"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 10 }}
-                    className="space-y-8"
-                  >
-                    {/* Progress Bar (Visual only for now) */}
-                    <div className="space-y-2">
-                       <div className="flex justify-between text-[10px] text-white/20 font-mono">
-                         <span>Focusing...</span>
-                         <span>No Interruption</span>
-                       </div>
-                       <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                          <motion.div 
-                            animate={{ x: isPlaying ? ["-100%", "100%"] : "0%" }}
-                            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                            className="h-full w-1/3 bg-gradient-to-r from-transparent via-primary to-transparent"
-                          />
-                       </div>
-                    </div>
+                          {p.name}
+                        </button>
+                     ))}
+                 </div>
+             </div>
 
-                    {/* Controls */}
-                    <div className="flex items-center justify-center gap-8">
-                      <button onClick={handlePrev} className="text-white/30 hover:text-white transition-all transform hover:scale-110 active:scale-90">
-                        <SkipBack className="w-6 h-6" />
-                      </button>
-                      <button 
-                        onClick={togglePlay}
-                        className="w-16 h-16 rounded-full bg-primary text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(var(--primary-rgb),0.3)] group"
-                      >
-                        {isPlaying ? (
-                          <Pause className="w-7 h-7 fill-current" />
-                        ) : (
-                          <Play className="w-7 h-7 fill-current ml-1" />
-                        )}
-                      </button>
-                      <button onClick={handleNext} className="text-white/30 hover:text-white transition-all transform hover:scale-110 active:scale-90">
-                        <SkipForward className="w-6 h-6" />
-                      </button>
-                    </div>
+             {/* Input for Custom ID */}
+             <div className="flex gap-2 items-center">
+                 <div className="relative flex-1">
+                     <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-muted-foreground" />
+                     <input 
+                        type="text"
+                        placeholder="或输入网易云歌单ID..."
+                        className="w-full bg-muted/60 border-none rounded-xl pl-9 pr-4 py-2 text-xs text-foreground focus:ring-1 ring-primary transition-all outline-none"
+                        value={inputUrl}
+                        onChange={(e) => setInputUrl(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleUpdateId()}
+                     />
+                 </div>
+                 <button 
+                    onClick={handleUpdateId}
+                    className="w-8 h-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors shrink-0"
+                 >
+                     <Check className="w-4 h-4" />
+                 </button>
+             </div>
 
-                    {/* Volume */}
-                    <div className="flex items-center gap-4 bg-white/5 py-3 px-5 rounded-2xl border border-white/5">
-                      <Volume2 className="w-4 h-4 text-white/20" />
-                      <div className="flex-1 h-1 bg-white/10 rounded-full relative group">
-                        <input 
-                          type="range" 
-                          min="0" 
-                          max="1" 
-                          step="0.01" 
-                          value={volume}
-                          onChange={(e) => setVolume(parseFloat(e.target.value))}
-                          className="absolute inset-0 w-full opacity-0 cursor-pointer z-10"
-                        />
-                        <div 
-                          className="absolute top-0 left-0 h-full bg-primary/60 group-hover:bg-primary transition-all duration-100"
-                          style={{ width: `${volume * 100}%` }}
-                        />
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+             {/* MetingJS player block */}
+             <div className="rounded-2xl overflow-hidden shadow-inner border border-border/40 [&_.aplayer]:!m-0 [&_.aplayer]:!shadow-none [&_.aplayer]:!border-none" key={neteaseId}>
+                 <meting-js 
+                    server="netease" 
+                    type="playlist" 
+                    id={neteaseId} 
+                    auto="auto" 
+                    list-folded="true" 
+                    theme={currentTheme === 'dark' ? '#10b981' : '#059669'} 
+                    suppressHydrationWarning
+                 ></meting-js>
+             </div>
+         </div>
+      </div>
 
-            {/* Hidden Player */}
-            <div className="hidden">
-              <ReactPlayer
-                url={currentTrack?.url}
-                playing={isPlaying}
-                volume={volume}
-                onEnded={handleNext}
-                config={{
-                  youtube: {
-                    playerVars: { showinfo: 0, controls: 0 }
-                  }
-                }}
-              />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <style jsx global>{`
-        :root {
-          --primary-rgb: 0, 255, 127; /* Updated to match a vibrant lofi vibe if needed */
+      {/* Global CSS to override MetingJS & APlayer */}
+      <style dangerouslySetInnerHTML={{__html: `
+        /* Hidden lyrics state */
+        .lrc-disabled .aplayer-lrc {
+            display: none !important;
         }
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
+
+        /* Modern Flat Lyrics Container */
+        .lrc-enabled .aplayer-lrc {
+            display: block !important;
+            position: fixed !important;
+            bottom: 40px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: 100vw !important;
+            height: 60px !important;
+            z-index: 9999 !important;
+            pointer-events: none !important;
+            background: transparent !important;
+            overflow: visible !important;
+            margin: 0 !important;
+            text-align: center !important;
+            /* Remove bad gradient masks and shadows added by APlayer */
+            mask-image: none !important;
+            -webkit-mask-image: none !important;
+            text-shadow: none !important;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.02);
-          border-radius: 10px;
+
+        .lrc-enabled .aplayer-lrc::before,
+        .lrc-enabled .aplayer-lrc::after {
+            display: none !important;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 10px;
+
+        .lrc-enabled .aplayer-lrc-contents {
+            transform: none !important;
+            width: 100% !important;
+            height: 100% !important;
+            position: relative !important;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.1);
+
+        .lrc-enabled .aplayer-lrc p {
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: max-content !important;
+            max-width: 90vw !important;
+            font-size: 16px !important;
+            font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;
+            color: transparent !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transition: opacity 0.4s ease !important;
+            line-height: 1.5 !important;
+            margin: 0 !important;
+            padding: 8px 24px !important;
+            white-space: normal !important;
         }
-      `}</style>
+
+        .lrc-enabled .aplayer-lrc p.aplayer-lrc-current {
+            visibility: visible !important;
+            opacity: 1 !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            color: hsl(var(--foreground)) !important;
+            
+            /* Sleek Modern Pill Background */
+            background: hsl(var(--background) / 0.85) !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            border: 1px solid hsl(var(--border) / 0.6) !important;
+            border-radius: 9999px !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08) !important;
+            letter-spacing: 0.5px !important;
+        }
+
+        /* Dark mode overrides for the internal player within the card */
+        .dark .custom-aplayer-theme .aplayer {
+            background: #18181b !important;
+            color: #fff !important;
+        }
+        .dark .custom-aplayer-theme .aplayer .aplayer-info .aplayer-controller .aplayer-time { color: #a1a1aa !important; }
+        .dark .custom-aplayer-theme .aplayer .aplayer-info .aplayer-music .aplayer-title { color: #f4f4f5 !important; }
+        .dark .custom-aplayer-theme .aplayer .aplayer-info .aplayer-music .aplayer-author { color: #a1a1aa !important; }
+        .dark .custom-aplayer-theme .aplayer .aplayer-list { background: #18181b !important; border-color: #27272a !important; }
+        .dark .custom-aplayer-theme .aplayer .aplayer-list ol li { border-top: 1px solid #27272a !important; }
+        .dark .custom-aplayer-theme .aplayer .aplayer-list ol li:hover { background: #27272a !important; }
+        .dark .custom-aplayer-theme .aplayer .aplayer-list ol li.aplayer-list-light { background: #3f3f46 !important; }
+        .dark .custom-aplayer-theme .aplayer .aplayer-list ol li .aplayer-list-author { color: #a1a1aa !important; }
+        .dark .custom-aplayer-theme .aplayer .aplayer-list ol li .aplayer-list-title { color: #e4e4e7 !important; }
+        .dark .custom-aplayer-theme .aplayer .aplayer-list ol li .aplayer-list-index { color: #52525b !important; }
+      `}} />
     </div>
   );
 }

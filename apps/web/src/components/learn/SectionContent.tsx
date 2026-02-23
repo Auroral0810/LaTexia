@@ -71,10 +71,12 @@ export default function SectionContent({
       const match = line.match(/^(#{2,3})\s+(.+)$/);
       if (match) {
         const level = match[1].length;
-        const text = match[2].trim();
+        let text = match[2].trim();
+        // 如果标题带有多余的 markdown 符号，清理它以与渲染后生成的 ID 对齐
+        const cleanText = text.replace(/[*_`]/g, '');
         // 生成简单的 ID
-        const id = text.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-');
-        items.push({ id, text, level });
+        const id = cleanText.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-');
+        items.push({ id, text: cleanText, level });
       }
     });
     
@@ -112,8 +114,9 @@ export default function SectionContent({
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({
-        top: element.offsetTop - 100,
+        top: y,
         behavior: 'smooth'
       });
     }
@@ -204,11 +207,26 @@ export default function SectionContent({
               components={{
                 // 处理标题以添加 ID
                 h2: ({ node, children, ...props }: any) => {
-                  const id = String(children[0]).toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-');
+                  // A robust way to extract text from ReactNode children
+                  const extractText = (child: any): string => {
+                    if (typeof child === 'string' || typeof child === 'number') return String(child);
+                    if (Array.isArray(child)) return child.map(extractText).join('');
+                    if (child?.props?.children) return extractText(child.props.children);
+                    return '';
+                  };
+                  const text = extractText(children);
+                  const id = text.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-');
                   return <h2 id={id} {...props}>{children}</h2>;
                 },
                 h3: ({ node, children, ...props }: any) => {
-                  const id = String(children[0]).toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-');
+                  const extractText = (child: any): string => {
+                    if (typeof child === 'string' || typeof child === 'number') return String(child);
+                    if (Array.isArray(child)) return child.map(extractText).join('');
+                    if (child?.props?.children) return extractText(child.props.children);
+                    return '';
+                  };
+                  const text = extractText(children);
+                  const id = text.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-');
                   return <h3 id={id} {...props}>{children}</h3>;
                 },
                 // 自定义链接：新标签页打开

@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes';
 import QueryProvider from '@/components/providers/query-provider';
 import '@/styles/globals.css';
 import { ToastContainer } from '@/components/ui/ToastContainer';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +28,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN" suppressHydrationWarning>
+      <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" />
+      </head>
       <body>
+        <Script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js" strategy="beforeInteractive" />
+        <Script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js" strategy="beforeInteractive" />
         <QueryProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}

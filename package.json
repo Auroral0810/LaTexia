@@ -14,8 +14,7 @@
     "build:web": "turbo build --filter=@latexia/web",
     "build:api": "turbo build --filter=@latexia/api",
     "db:generate": "turbo db:generate --filter=@latexia/api",
-    "db:migrate": "turbo db:migrate --filter=@latexia/api",
-    "db:seed": "turbo db:seed --filter=@latexia/api"
+    "db:migrate": "turbo db:migrate --filter=@latexia/api"
   },
   "packageManager": "pnpm@9.15.0",
   "engines": {
