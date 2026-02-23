@@ -12,9 +12,11 @@ export const learnChapters = pgTable('learn_chapters', {
   // 英文标题
   titleEn: varchar('title_en', { length: 200 }),
   // URL 标识
-  slug: varchar('slug', { length: 100 }).unique(),
-  // 内容（MDX）
-  content: text('content').notNull(),
+  slug: varchar('slug', { length: 100 }).unique().notNull(),
+  // 内容（MDX/Markdown）- 只有节（Lesson）才有内容，章（Chapter）可为空
+  content: text('content'),
+  // 父级 ID（实现章-节二级结构）
+  parentId: integer('parent_id').references((): any => learnChapters.id),
   // 排序
   sortOrder: integer('sort_order').default(0),
   // 是否发布
@@ -22,6 +24,7 @@ export const learnChapters = pgTable('learn_chapters', {
   // 更新时间
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
 });
+
 
 /**
  * 2.2.20 学习进度表 user_learn_progress

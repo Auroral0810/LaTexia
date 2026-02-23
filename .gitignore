@@ -52,3 +52,6 @@ minio-data/
 # Drizzle
 apps/api/src/db/migrations/*.sql
 !apps/api/src/db/migrations/.gitkeep
+
+0*.md
+ch*.md

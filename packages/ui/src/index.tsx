@@ -10,3 +10,5 @@ export * from "./components/ui/sheet"
 export * from "./components/ui/dialog"
 export * from "./components/ui/graphic-captcha"
 export * from "./components/ui/auth-logo"
+export * from "./components/ui/skeleton"
+
