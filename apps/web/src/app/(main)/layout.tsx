@@ -1,6 +1,7 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { LatexScratchpad } from '@/components/common/LatexScratchpad';
+import { MusicPlayer } from '@/components/common/MusicPlayer';
 
 export default function MainLayout({
   children,
@@ -16,6 +17,8 @@ export default function MainLayout({
       <Footer />
       {/* 全局悬浮 LaTeX 草稿本 */}
       <LatexScratchpad />
+      {/* 全局悬浮音乐播放器 */}
+      <MusicPlayer />
     </div>
   );
 }
