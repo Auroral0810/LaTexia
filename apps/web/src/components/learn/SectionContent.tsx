@@ -132,7 +132,10 @@ export default function SectionContent({
         ">
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkMath]}
-            rehypePlugins={[rehypeKatex, rehypeRaw]}
+            rehypePlugins={[
+              [rehypeKatex, { throwOnError: false, strict: false, output: 'htmlAndMathml' }],
+              rehypeRaw
+            ]}
             components={{
               // 自定义链接：新标签页打开
               a: ({ node, ...props }: any) => (

@@ -54,7 +54,7 @@ async function sync() {
       
       // 生成 Section Slug (如 01-what-is-latex)
       const sectionSlug = file.replace('.md', '');
-      const sortOrderMatch = file.match(/^(\d+)-/);
+      const sortOrderMatch = file.match(/(?:ch\d+-)?(\d+)-/);
       const sortOrder = sortOrderMatch ? parseInt(sortOrderMatch[1]) : 0;
 
       console.log(`  -> Syncing Section: ${title} (${sectionSlug})...`);
